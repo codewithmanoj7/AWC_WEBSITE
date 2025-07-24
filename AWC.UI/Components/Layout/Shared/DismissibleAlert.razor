@@ -1,0 +1,80 @@
+﻿@inject IJSRuntime jsRuntime
+
+@* @if (message?.Length > 0)
+{
+    <div @attributes="InputAttributes" class="@($"alert {alertType} alert-dismissible")" role="alert">
+        @message
+        <button type="button" @onclick="@Hide" class="btn-close"></button>
+    </div>
+} *@
+
+@code {
+    private const string AlertSuccess = "alert-success";
+    private const string AlertWarning = "alert-warning";
+    private const string AlertError = "alert-danger";
+
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? InputAttributes { get; set; }
+
+    public async Task ShowSuccess(string message)
+    {
+        // this.alertType = AlertSuccess;
+        // this.message = message;
+
+        await ShowSweetAlert("Success", message, "success");
+
+        StateHasChanged();
+    }
+
+    public async Task ShowWarning(string message)
+    {
+        // this.alertType = AlertWarning;
+        // this.message = message;
+
+        await ShowSweetAlert("Warning", message, "warning");
+
+        StateHasChanged();
+    }
+
+    public async Task ShowError(string message)
+    {
+        // this.alertType = AlertError;
+        // this.message = message;
+
+        await ShowSweetAlert("Error", message, "error");
+
+        StateHasChanged();
+    }
+
+    public async Task ShowAlert(string alertType, string message)
+    {
+        switch (alertType)
+        {
+            case "success":
+                await ShowSuccess(message);
+                break;
+            case "warning":
+                await ShowWarning(message);
+                break;
+            case "error":
+                await ShowError(message);
+                break;
+            default:
+                throw new ArgumentException("Invalid alert type", nameof(alertType));
+        }
+    }
+
+    public void Hide()
+    {
+        StateHasChanged();
+    }
+
+    private async Task ShowSweetAlert(string title, string content, string icon = "info")
+    {
+        await jsRuntime.InvokeVoidAsync("Swal.fire", new
+        {
+            title = title,
+            text = content,
+            icon = icon
+        });
+    }
+}

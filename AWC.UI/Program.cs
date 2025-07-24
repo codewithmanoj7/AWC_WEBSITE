@@ -15,8 +15,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuthenticationStateService, AuthenticationStateService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<INavigationService, NavigationService>();
 builder.Services.AddScoped<IPermissionStylingService, PermissionStylingService>();
 
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
