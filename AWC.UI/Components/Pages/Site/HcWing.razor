@@ -1,0 +1,681 @@
+﻿@page "/hcwing"
+@layout EmptyLayout
+
+
+    <title>Higher Command Wing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .awc-logo {
+            width: 120px;
+            height: 80px;
+            background-color: #dc3545;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        .college-building {
+            flex: 1;
+            text-align: center;
+            margin: 0 40px;
+        }
+
+        .building-image {
+            background-color: #e9ecef;
+            height: 120px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .building-placeholder {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .college-title {
+            background-color: #17a2b8;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .crest {
+            width: 80px;
+            height: 100px;
+            background-color: #dc3545;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-section {
+            color: white;
+            padding: 40px 0;
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 0px 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-section {
+            width: 100%;
+            max-width: 1600px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+
+        .welcome-text {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .welcome-line {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .welcome-subtitle {
+            font-size: 24px;
+            color: #ffc107;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: black;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+            .btn:hover {
+                opacity: 0.9;
+            }
+
+        .btn-primary {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .btn-tertiary {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        /* Content Section */
+        .content-section {
+            background-color: #fff;
+            padding: 40px 0;
+        }
+
+        .content-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .content-text {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .content-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .content-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .profile-card {
+            background-color: #17a2b8;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 18px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            width: 100%; /* makes button fill its column */
+        }
+
+            .btn:hover {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+
+
+        .profile-image {
+            width: 100%;
+            height: 350px; /* increased from 200px */
+            background-color: #138496;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+
+        .profile-content {
+            padding: 20px;
+        }
+
+        .profile-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #e9ecef;
+        }
+
+
+        .commander-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-bottom: 2px solid #e9ecef;
+        }
+    </style>
+
+    <header class="position-relative header-banner">
+        <img src="assets/images/hc_banner.png" alt="Header Image" class="img-fluid w-100">
+    </header>
+
+<nav class="site-header">
+    <div class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-sm-12">
+                <nav id="site-navigation" class="navbar text-left">
+                    <div class="navbar-header">
+                        <!-- Responsive toggle button -->
+                        <button type="button" class="navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <!-- ✅ ADD THIS WRAPPER AROUND YOUR MENU -->
+                    <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-right" id="js-bootstrap-offcanvas">
+                        <ul class="nav navbar-nav mainmenu">
+
+                            <li>
+                                <a href="/">
+                                    <i class="fa fa-home" style="color: #4CAF50;"></i>
+                                    <span></span>
+                                </a>
+                            </li>
+
+
+
+                            <li class="dropdown">
+                                <a href="#"><i class="fa fa-info-circle"></i> ABOUT US</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/about-college"><i class="fa fa-sitemap"></i> About</a></li>
+                                    <li><a href="/origin"><i class="fa fa-history"></i> Origin</a></li>
+                                    <li><a href="/role-vision"><i class="fa fa-book"></i> History</a></li>
+                                    <li><a href="/armywarcollege/campus"><i class="fa fa-university"></i> Our Campus</a></li>
+                                    <li><a href="/mhow-awc"><i class="fa fa-map-marker"></i> Mhow as a City</a></li>
+                                    <li><a href="/underconstruction"><i class="fa fa-clock-o"></i> Over the Years</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#"><i class="fa fa-users"></i> TEAM</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/hcwing"><i class="fa fa-user"></i> HC Wing</a></li>
+                                    <li><a href="/scwing"><i class="fa fa-user"></i> SC Wing</a></li>
+                                    <li><a href="/jcwing"><i class="fa fa-user"></i> JC Wing</a></li>
+                                    <li><a href="/underconstruction"><i class="fa fa-briefcase"></i> FOS & L</a></li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-cogs"></i> GS Branch</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="gsbranchroleandvision.html"><i class="fa fa-eye"></i> Role & Vision</a></li>
+                                            <li><a href="deptofadm.html"><i class="fa fa-building"></i> Dept of Administration</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-home"></i> DoA</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="studentofficeraccomadation.html"><i class="fa fa-bed"></i> Accommodation</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#"><i class="fa fa-book"></i> COURSES</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-graduation-cap"></i> HC Courses</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="hcoutcome.html"><i class="fa fa-check-circle"></i> Outcome</a></li>
+                                            <li><a href="hceligibility.html"><i class="fa fa-filter"></i> Eligibility</a></li>
+                                            <li><a href="hcseminars.html"><i class="fa fa-comments"></i> Seminars</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-graduation-cap"></i> SC Courses</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="hcoutcome.html"><i class="fa fa-check-circle"></i> Outcome</a></li>
+                                            <li><a href="hceligibility.html"><i class="fa fa-filter"></i> Eligibility</a></li>
+                                            <li><a href="hcseminars.html"><i class="fa fa-comments"></i> Seminars</a></li>
+                                            <li><a href="sccurriculam.html"><i class="fa fa-file-text"></i> Curriculum</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-graduation-cap"></i> JC Courses</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="hcoutcome.html"><i class="fa fa-check-circle"></i> Outcome</a></li>
+                                            <li><a href="hceligibility.html"><i class="fa fa-filter"></i> Eligibility</a></li>
+                                            <li><a href="hcseminars.html"><i class="fa fa-comments"></i> Seminars</a></li>
+                                            <li><a href="sccurriculam.html"><i class="fa fa-file-text"></i> Curriculum</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="#"><i class="fa fa-graduation-cap"></i> IW Courses</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="hcoutcome.html"><i class="fa fa-check-circle"></i> Outcome</a></li>
+                                            <li><a href="hceligibility.html"><i class="fa fa-filter"></i> Eligibility</a></li>
+                                            <li><a href="hcseminars.html"><i class="fa fa-comments"></i> Seminars</a></li>
+                                            <li><a href="sccurriculam.html"><i class="fa fa-file-text"></i> Broad Curriculum</a></li>
+                                            <li><a href="iwcalendar.html"><i class="fa fa-calendar"></i> Calendar</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="underconstruction.html"><i class="fa fa-bookmark"></i> HDOC</a></li>
+                                    <li><a href="underconstruction.html"><i class="fa fa-bookmark"></i> JOCAP</a></li>
+                                    <li><a href="underconstruction.html"><i class="fa fa-bookmark"></i> SFCC</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#"><i class="fa fa-flask"></i> RESEARCH</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="role-vision.html"><i class="fa fa-eye"></i> Role & Vision</a></li>
+                                    <li><a href="underconstruction.html"><i class="fa fa-rocket"></i> FOS</a></li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="events.html"><i class="fa fa-external-link"></i> External Links</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="https://igotkarmayogi.gov.in/#/" target="_blank"><i class="fa fa-university"></i> iGot Karmayogi</a></li>
+                                            <li><a href="https://indianarmy.nic.in/" target="_blank"><i class="fa fa-shield"></i> Indian Army</a></li>
+                                            <li><a href="https://ids.nic.in/" target="_blank"><i class="fa fa-sitemap"></i> IDS</a></li>
+                                            <li><a href="https://www.joinindiannavy.gov.in/" target="_blank"><i class="fa fa-ship"></i> Navy</a></li>
+                                            <li><a href="https://www.drdo.gov.in/drdo/" target="_blank"><i class="fa fa-cogs"></i> DRDO</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown-submenu">
+                                        <a href="events.html"><i class="fa fa-rss"></i> Follow Us On</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#"><i class="fa fa-youtube-play"></i> YouTube</a></li>
+                                            <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+                                            <li><a href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
+                                            <li><a href="#"><i class="fa fa-facebook"></i> Facebook</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#"><i class="fa fa-cube"></i> AMENITIES</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="mepta.html"><i class="fa fa-building-o"></i> MEPTA</a></li>
+                                    <li><a href="hub.html"><i class="fa fa-plug"></i> HUB</a></li>
+                                    <li><a href="underconstruction.html"><i class="fa fa-cubes"></i> BWTA</a></li>
+                                    <li><a href="studentofficermess.html"><i class="fa fa-cutlery"></i> Mess</a></li>
+                                    <li><a href="combatmess.html"><i class="fa fa-trophy"></i> Combat Mess</a></li>
+                                    <li><a href="sportscomplex.html"><i class="fa fa-futbol-o"></i> Sports Complex</a></li>
+                                    <li><a href="swimming.html"><i class="fa fa-tint"></i> Swimming</a></li>
+                                    <li><a href="medicals.html"><i class="fa fa-medkit"></i> Medicals</a></li>
+                                    <li><a href="underconstruction.html"><i class="fa fa-archive"></i> URC</a></li>
+                                    <li><a href="kalyanishop.html"><i class="fa fa-shopping-cart"></i> Kalyani Shop</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="contact.html"><i class="fa fa-envelope"></i> CONTACT US</a></li>
+                            <li><a href="gallery.html"><i class="fa fa-picture-o"></i> Galleries</a></li>
+                            <li><a href="news.html"><i class="fa fa-globe"></i> VIRTUAL TOUR</a></li>
+
+                            <li class="login-item">
+                                <a href="login.html">
+                                    <i class="fa fa-lock"></i> &nbsp; <span>Login</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+    <!--<header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="awc-logo">AWC</div>
+                <div class="tagline">
+                    Training Leaders to Win<br>
+                    The Nation's Wars
+                </div>
+            </div>
+
+            <div class="college-building">
+                <div class="building-image">
+                    <div class="building-placeholder">College Building View</div>
+                </div>
+                <div class="college-title">Army War College</div>
+            </div>
+
+            <div class="crest">
+                Military<br>
+                Crest
+            </div>
+        </div>
+    </header>-->
+
+    <section class="main-section">
+        <div class="main-content">
+            <div class="hero-section">
+                <div class="welcome-line">
+                    <h1 class="welcome-text">Welcome to</h1>
+                    <h1 class="welcome-subtitle">Higher Command Wing, Army War College, Mhow</h1>
+                </div>
+
+                <p class="description">
+                    The Army War College, Mhow (AWC) is the Indian Army's premier institution for strategic leadership education and operational doctrine development. Located in Mhow, Madhya Pradesh, it functions as a centre of excellence in military training, research, and education. Originally established as the College of Combat in 1971, the institution was renamed in 2003 and has since evolved into a hub for developing senior leadership across the Indian Armed Forces.
+                </p>
+
+                <p class="description">
+                    Each year, the college trains approximately 2500–3000 officers from the Indian Army, paramilitary forces, and friendly foreign nations. Its core mission is to prepare military leaders to operate in complex strategic environments, develop modern warfare doctrines, and synchronize joint operations with other services. The Higher Command Course offered here is affiliated with Devi Ahilya Vishwavidyalaya (Indore University) and is part of an M.Phil. in Defence Management.
+                </p>
+
+                <p class="description">
+                    The college is led by the Commandant, a three-star general officer. It also publishes the <em>War College Journal</em> and was honored with the GOC-in-C ARTRAC Unit Citation in 2014. With modern infrastructure, wargaming facilities, and a dedicated faculty, the Army War College continues to shape the future of military leadership and doctrine for India and its allies.
+                </p>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Student Events</button>
+                    <button class="btn btn-secondary">Classroom Stories</button>
+                    <button class="btn btn-tertiary">Faculty Profiles</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="content-section">
+        <div class="content-grid">
+            <div class="content-text">
+                <h3 class="content-title">About the Institution</h3>
+                <p class="content-description">
+                    Established to provide the highest level of military education, the Army War College
+                    serves as the capstone of an officer's professional military journey. Located in a secure and academically rigorous environment,
+                    the College prepares senior military leaders to meet complex operational and strategic challenges through advanced learning, critical analysis, and leadership development.
+                </p>
+                <p class="content-description">
+                    Our curriculum focuses on strategic thinking, joint and combined operations, national security policy, defense management, and international relations.
+                    Officers undergo an intensive academic program designed to build their capacity to lead in dynamic, multi-domain environments.
+                </p>
+                <p class="content-description">
+                    The institution is known for fostering intellectual growth, encouraging professional discourse, and integrating practical experiences through simulations, war games,
+                    and faculty-led seminars. Renowned military scholars, veterans, and global security experts contribute to a rich and thought-provoking academic experience.
+                </p>
+                <p class="content-description">
+                    The Army War College continues to uphold its legacy of excellence while evolving to meet the demands of 21st-century warfare and geopolitics.
+                    Our graduates go on to serve in pivotal command and staff positions, both nationally and internationally, shaping the future of defense strategy and security cooperation.
+                </p>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-image">
+                <img src="assets/images/2x2.jpg" alt="Maj Gen Gaurav Gautam" class="commander-photo" />
+                </div>
+
+                <div class="profile-content">
+                    <h3 class="profile-title">Maj Gen Gaurav Gautam, VSM<br></h3>
+                    <p class="profile-text">
+                        Commander of the Higher Command Wing, Army War College. A distinguished military leader with
+                        extensive operational experience and academic credentials. Responsible for
+                        overseeing strategic military education and institutional development.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="colophon" class="site-footer">
+        <div class="footer-info">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-logo col-md-3">
+                        <a href="#" title="Army War College" rel="home" class="branding-link" style="margin-left:-36px;">
+                        </a>
+                    </div>
+
+                    <div class="footer-menu col-md-9">
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-info-circle"></i> About</a></li>
+                                <li><a href="#"><i class="fa fa-envelope"></i> Contact Us</a></li>
+                                <li><a href="#"><i class="fa fa-map-marker"></i> Location</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                                <li><a href="#"><i class="fa fa-users"></i> Students</a></li>
+                                <li><a href="#"><i class="fa fa-user"></i> Teachers</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-pencil"></i> Blog</a></li>
+                                <li><a href="#"><i class="fa fa-newspaper-o"></i> Latest News</a></li>
+                                <li><a href="#"><i class="fa fa-book"></i> Resources</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-graduation-cap"></i> Academic</a></li>
+                                <li><a href="#"><i class="fa fa-calendar"></i> Calendar</a></li>
+                                <li><a href="#"><i class="fa fa-bullhorn"></i> Events</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-extra-info text-center py-3" style="background: #990000;">
+            <p style="margin: 0; font-size: 16px; color: #ffffff;">
+                🕒 <span id="currentDateTime"></span> &nbsp;|&nbsp; 👥 Visitors: <span id="visitorCount">1,23,456</span>
+            </p>
+        </div>
+    </footer>
+
+    <style>
+        .footer-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px; /* optional spacing between columns */
+        }
+
+        .footer-links {
+            flex: 1 1 18%; /* makes each block take up about 18% width with wrap */
+            min-width: 150px; /* keeps links from shrinking too much */
+        }
+
+            .footer-links ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                .footer-links ul li {
+                    margin-bottom: 6px;
+                }
+
+                    .footer-links ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                        font-size: 14px;
+                    }
+
+                .footer-links ul.social {
+                    display: flex;
+                    gap: 10px;
+                }
+
+                    .footer-links ul.social li {
+                        margin: 0;
+                    }
+
+                        .footer-links ul.social li a i {
+                            font-size: 18px;
+                            color: #fff;
+                            transition: color 0.3s ease;
+                        }
+
+                        .footer-links ul.social li a:hover i {
+                            color: #ccc;
+                        }
+    </style>
+

@@ -1,0 +1,554 @@
+﻿@page "/iwcalendar"
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header-banners {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+            padding: 0px 0;
+            margin-bottom: 0px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 15px;
+            }
+
+            .page-header p {
+                font-size: 1.2rem;
+                color: #6c757d;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .calendar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .calendar-controls {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .month-navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .nav-btn:hover {
+                background: #0056b3;
+                transform: scale(1.1);
+            }
+
+        .current-month {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .view-toggles {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            border: 2px solid #007bff;
+            background: transparent;
+            color: #007bff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .view-btn.active, .view-btn:hover {
+                background: #007bff;
+                color: white;
+            }
+
+        .calendar-main {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 5px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 120px;
+            padding: 10px 8px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+            .calendar-day:hover {
+                background: #f8f9fa;
+            }
+
+            .calendar-day.other-month {
+                background: #f1f3f4;
+                color: #9aa0a6;
+            }
+
+            .calendar-day.today {
+                background: #e3f2fd;
+                border: 2px solid #2196f3;
+            }
+
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .day-events {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .event {
+            background: #007bff;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+            .event.seminar {
+                background: #28a745;
+            }
+
+            .event.workshop {
+                background: #fd7e14;
+            }
+
+            .event.lecture {
+                background: #6f42c1;
+            }
+
+            .event.exam {
+                background: #dc3545;
+            }
+
+            .event.holiday {
+                background: #ffc107;
+                color: #333;
+            }
+
+        .events-sidebar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f8f9fa;
+            padding-bottom: 10px;
+        }
+
+        .event-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+
+            .event-item.seminar {
+                border-left-color: #28a745;
+            }
+
+            .event-item.workshop {
+                border-left-color: #fd7e14;
+            }
+
+            .event-item.lecture {
+                border-left-color: #6f42c1;
+            }
+
+            .event-item.exam {
+                border-left-color: #dc3545;
+            }
+
+            .event-item.holiday {
+                border-left-color: #ffc107;
+            }
+
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .event-details {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .legend {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .legend-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+
+
+        .college-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .college-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+
+    
+    </style>
+
+
+    <header class="header-banners">
+        <div class="container">
+            <div class="page-header">
+                <h1>Academic Calendar</h1>
+                <p>Stay updated with all important dates, seminars, workshops, and academic events</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="calendar-container">
+        <div class="calendar-controls">
+            <div class="month-navigation">
+                <button class="nav-btn" id="prevMonth">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <div class="current-month" id="currentMonth">March 2025</div>
+                <button class="nav-btn" id="nextMonth">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="view-toggles">
+                <button class="view-btn active" data-view="month">Month</button>
+                <button class="view-btn" data-view="week">Week</button>
+                <button class="view-btn" data-view="agenda">Agenda</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="calendar-main">
+                    <div class="calendar-grid" id="calendarGrid">
+                        <div class="calendar-header">Sun</div>
+                        <div class="calendar-header">Mon</div>
+                        <div class="calendar-header">Tue</div>
+                        <div class="calendar-header">Wed</div>
+                        <div class="calendar-header">Thu</div>
+                        <div class="calendar-header">Fri</div>
+                        <div class="calendar-header">Sat</div>
+
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="events-sidebar">
+                    <h3 class="sidebar-title">
+                        <i class="fa fa-calendar-check-o"></i> Upcoming Events
+                    </h3>
+
+                    <div class="event-item seminar">
+                        <div class="event-title">Tactical Leadership Seminar</div>
+                        <div class="event-details">
+                            <i class="fa fa-calendar"></i> March 15, 2025<br>
+                            <i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM<br>
+                            <i class="fa fa-map-marker"></i> Main Auditorium
+                        </div>
+                    </div>
+
+                    <div class="event-item workshop">
+                        <div class="event-title">Infantry Combat Workshop</div>
+                        <div class="event-details">
+                            <i class="fa fa-calendar"></i> March 18, 2025<br>
+                            <i class="fa fa-clock-o"></i> 2:00 PM - 6:00 PM<br>
+                            <i class="fa fa-map-marker"></i> Training Ground
+                        </div>
+                    </div>
+
+                    <div class="event-item lecture">
+                        <div class="event-title">Modern Warfare Doctrine</div>
+                        <div class="event-details">
+                            <i class="fa fa-calendar"></i> March 28, 2025<br>
+                            <i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM<br>
+                            <i class="fa fa-user"></i> Lt Gen R.K. Menon (Retd.)
+                        </div>
+                    </div>
+
+                    <div class="event-item exam">
+                        <div class="event-title">Mid-Term Assessments</div>
+                        <div class="event-details">
+                            <i class="fa fa-calendar"></i> March 25-27, 2025<br>
+                            <i class="fa fa-clock-o"></i> Various Times<br>
+                            <i class="fa fa-map-marker"></i> Examination Halls
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <h3 class="legend-title">Event Categories</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #28a745;"></div>
+                            <span>Seminars</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #fd7e14;"></div>
+                            <span>Workshops</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #6f42c1;"></div>
+                            <span>Lectures</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #dc3545;"></div>
+                            <span>Exams</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ffc107;"></div>
+                            <span>Holidays</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        // Calendar functionality
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Sample events data
+        const events = {
+            '2025-03-15': [{ title: 'Leadership Seminar', type: 'seminar' }],
+            '2025-03-18': [{ title: 'Combat Workshop', type: 'workshop' }],
+            '2025-03-22': [{ title: 'Cyber Warfare', type: 'seminar' }],
+            '2025-03-25': [{ title: 'Mid-Term Exam', type: 'exam' }],
+            '2025-03-26': [{ title: 'Mid-Term Exam', type: 'exam' }],
+            '2025-03-27': [{ title: 'Mid-Term Exam', type: 'exam' }],
+            '2025-03-28': [{ title: 'Guest Lecture', type: 'lecture' }],
+            '2025-04-05': [{ title: 'Operations Planning', type: 'seminar' }],
+            '2025-04-08': [{ title: 'Defense Strategy', type: 'lecture' }],
+            '2025-04-12': [{ title: 'Medical Response', type: 'workshop' }]
+        };
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            let calendarHTML = '';
+
+            // Add day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                calendarHTML += `<div class="calendar-header">${day}</div>`;
+            });
+
+            // Add empty cells for previous month
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const prevDate = daysInPrevMonth - i;
+                calendarHTML += `<div class="calendar-day other-month">
+                                <div class="day-number">${prevDate}</div>
+                                <div class="day-events"></div>
+                            </div>`;
+            }
+
+            // Add days of current month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear();
+
+                let dayEvents = '';
+                if (events[dateStr]) {
+                    events[dateStr].forEach(event => {
+                        dayEvents += `<div class="event ${event.type}">${event.title}</div>`;
+                    });
+                }
+
+                calendarHTML += `<div class="calendar-day ${isToday ? 'today' : ''}">
+                                <div class="day-number">${day}</div>
+                                <div class="day-events">${dayEvents}</div>
+                            </div>`;
+            }
+
+            // Fill remaining cells
+            const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+            const remainingCells = totalCells - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells; day++) {
+                calendarHTML += `<div class="calendar-day other-month">
+                                <div class="day-number">${day}</div>
+                                <div class="day-events"></div>
+                            </div>`;
+            }
+
+            document.getElementById('calendarGrid').innerHTML = calendarHTML;
+            document.getElementById('currentMonth').textContent = `${months[month]} ${year}`;
+        }
+
+        // Navigation event listeners
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        // View toggle functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Initialize
+        generateCalendar(currentMonth, currentYear);
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>

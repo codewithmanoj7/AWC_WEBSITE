@@ -1,0 +1,2338 @@
+﻿@page "/"
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+	<section class="hero-1">
+		<div class="container">
+			<div class="row">
+				<div class="hero-content">
+					<!--<div class="hero-img col-sm-5 col-md-5" style="margin-left:-170px;margin-top:-80px;">
+						<img src="assets/images/auth-bg.jpg" alt="image">
+					</div>-->
+					<div class="typing-container">
+						<span id="typed-text" class="typing-text"></span><span class="cursor">|</span>
+					</div>
+
+
+					<script>
+						document.addEventListener("DOMContentLoaded", () => {
+							const text = "Welcome to Army War College, Mhow";
+							const typedText = document.getElementById("typed-text");
+							let index = 0;
+							let isDeleting = false;
+
+							function typeLoop() {
+								if (!isDeleting) {
+									typedText.textContent = text.substring(0, index++);
+									if (index <= text.length) {
+										setTimeout(typeLoop, 100);
+									} else {
+										isDeleting = true;
+										setTimeout(typeLoop, 2000); // pause before deleting
+									}
+								} else {
+									typedText.textContent = text.substring(0, --index);
+									if (index >= 0) {
+										setTimeout(typeLoop, 50);
+									} else {
+										isDeleting = false;
+										setTimeout(typeLoop, 500);
+									}
+								}
+							}
+
+							typeLoop();
+						});
+					</script>
+
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+
+
+	<section class="featured-box" style="margin-top:100px;">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-md-4 px-2">
+					<div class="box-1">
+						<a href="#">
+							Student <span>Events</span>
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4 px-2">
+					<div class="box-2">
+						<a href="#">
+							Classroom <span>Stories</span>
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4 px-2">
+					<div class="box-3">
+						<a href="#">
+							Teachers <span>Profile</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	<section class="welcome">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-7 col-md-7">
+					<div class="welcome-content">
+						<h3>
+							<span>AWC COMMANDANT</span>  LT GEN HS SAHI, UYSM, AVSM,
+							YSM,  SM
+						</h3>
+						<p>
+							The Army War College, Mhow (AWC) is a defence service training and research institution of the Indian Army located in Mhow, Madhya Pradesh. It is a premier training institute of warfare and carries out research in tactics, logistics, contemporary military studies and improvement in military doctrine. The college trains about 2500-3000 officers of the Indian Armed Forces, as well as paramilitary forces each year.[3]
+						</p>
+
+						<p>
+
+							History
+							The college was originally established as the College of Combat at Mhow on 1 April 1971 following the merger of the Senior Officers' and Tactical Wings of the Infantry School, Mhow. Once the Higher Command Course was also started at the College, it was decided to separate the College of Combat from the Infantry School. The foundation stone of the new college campus was laid on 6 January 1983 by the then Chief of Army Staff, General K. V. Krishna Rao. The institution continued to function from the campus of Infantry School till the college moved into its new abode in August 1988. On 1 January 2003, the college was renamed as the Army War College, Mhow.[4]
+
+							The college is led by the Commandant, a three-star officer from the Indian Army.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-sm-5 col-md-5">
+					<div class="welcome-img">
+						<img src="assets/images/comdt.jpeg" alt="image">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="we-have-faith">
+		<div class="container">
+			<div class="row">
+				<div class="section-header">
+					<h3>We have faith in our student future</h3>
+					<p>Our students are talented, hard-working and full of good ideas. We encourage and empower them to bring their ideas to life. Hands-on opportunities are what we're all about.</p>
+				</div>
+				<div class="section-content">
+					<div class="col-sm-6 col-md-3">
+						<img src="assets/images/we-have-faith-img-1.png" alt="img">
+						<h4>Empower</h4>
+						<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<img src="assets/images/we-have-faith-img-2.png" alt="img">
+						<h4>Engage</h4>
+						<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<img src="assets/images/we-have-faith-img-3.png" alt="img">
+						<h4>Graduation</h4>
+						<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<img src="assets/images/we-have-faith-img-4.png" alt="img">
+						<h4>Awarding</h4>
+						<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<section class="call-to-action">
+		<div class="container">
+			<div class="row">
+				<div class="call-to-action-content clearfix">
+					<div class="col-md-9">
+						<img src="assets/images/call-to-action-img.png" alt="image">
+						<p><strong>Our students are talented,</strong>passionate, hard-working and full of good ideas.</p>
+					</div>
+					<div class="col-md-3">
+						<a href="#" class="hvr-push">View More</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="academic-calendar">
+		<div class="container">
+			<div class="row">
+				<div class="academic-calendar-header">
+					<h2>Academic Calendar</h2>
+					<p>Our students are talented, hard-working and full of good ideas. We encourage and empower them to bring their ideas to life. Hands-on opportunities are what we're all about. <a href="#">View Full Calendar</a></p>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<ul class="nav nav-year">
+					<li class="active"><a href="#yr2017" data-toggle="tab">2017</a></li>
+					<li><a href="#yr2018" data-toggle="tab">2018</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="tab-pane active clearfix" id="yr2017">
+
+						<div class="col-md-2">
+							<div class="calendar-nav">
+								<h3 class="year-title">
+									<a href="#" class="yr-prev">
+										<i class="fa fa-angle-left" aria-hidden="true"></i>
+									</a>
+									2017
+									<a href="#" class="yr-next">
+										<i class="fa fa-angle-right" aria-hidden="true"></i>
+									</a>
+								</h3>
+								<ul class="nav nav-month">
+									<li class="active"><a href="#jan2017" data-toggle="tab">January</a></li>
+									<li><a href="#feb2017" data-toggle="tab">February</a></li>
+									<li><a href="#mar2017" data-toggle="tab">March</a></li>
+									<li><a href="#apr2017" data-toggle="tab">April</a></li>
+									<li><a href="#may2017" data-toggle="tab">May</a></li>
+									<li><a href="#jun2017" data-toggle="tab">June</a></li>
+									<li><a href="#jul2017" data-toggle="tab">July</a></li>
+									<li><a href="#aug2017" data-toggle="tab">August</a></li>
+									<li><a href="#sep2017" data-toggle="tab">September</a></li>
+									<li><a href="#oct2017" data-toggle="tab">October</a></li>
+									<li><a href="#nov2017" data-toggle="tab">November</a></li>
+									<li><a href="#dec2017" data-toggle="tab">December</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-10">
+							<div class="tab-content tab-month clearfix">
+								<div class="tab-pane active" id="jan2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 January</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 January</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 January</span> National Education Day</li>
+												<li><span>18 - 20 January</span> OSIS Activity</li>
+												<li><span>21 - 31 January</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="feb2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4-end">28</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 February</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 February</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 February</span> National Education Day</li>
+												<li><span>18 - 20 February</span> OSIS Activity</li>
+												<li><span>21 - 18 February</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="mar2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 March</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 March</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 March</span> National Education Day</li>
+												<li><span>18 - 20 March</span> OSIS Activity</li>
+												<li><span>21 - 31 March</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="apr2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 April</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 April</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 April</span> National Education Day</li>
+												<li><span>18 - 20 April</span> OSIS Activity</li>
+												<li><span>21 - 30 April</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="may2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 May</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 May</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 May</span> National Education Day</li>
+												<li><span>18 - 20 May</span> OSIS Activity</li>
+												<li><span>21 - 31 May</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="jun2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 June</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 June</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 June</span> National Education Day</li>
+												<li><span>18 - 20 June</span> OSIS Activity</li>
+												<li><span>21 - 31 June</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="jul2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+													<li class="inactive">6</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 July</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 July</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 July</span> National Education Day</li>
+												<li><span>18 - 20 July</span> OSIS Activity</li>
+												<li><span>21 - 31 July</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="aug2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 August</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 August</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 August</span> National Education Day</li>
+												<li><span>18 - 20 August</span> OSIS Activity</li>
+												<li><span>21 - 31 August</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="sep2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 September</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 September</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 September</span> National Education Day</li>
+												<li><span>18 - 20 September</span> OSIS Activity</li>
+												<li><span>21 - 31 September</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="oct2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">25</li>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 October</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 October</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 October</span> National Education Day</li>
+												<li><span>18 - 20 October</span> OSIS Activity</li>
+												<li><span>21 - 31 October</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="nov2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 November</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 November</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 November</span> National Education Day</li>
+												<li><span>18 - 20 November</span> OSIS Activity</li>
+												<li><span>21 - 30 November</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="dec2017">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-start">15</li>
+													<li class="event-5-end">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 December</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 December</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 December</span> National Education Day</li>
+												<li><span>18 - 20 December</span> OSIS Activity</li>
+												<li><span>21 - 31 December</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="yr2018">
+						<div class="col-md-2">
+							<div class="calendar-nav">
+								<h3 class="year-title">
+									<a href="#" class="yr-prev">
+										<i class="fa fa-angle-left" aria-hidden="true"></i>
+									</a>
+									2018
+									<a href="#" class="yr-next">
+										<i class="fa fa-angle-right" aria-hidden="true"></i>
+									</a>
+								</h3>
+								<ul class="nav nav-month">
+									<li class="active"><a href="#jan2018" data-toggle="tab">January</a></li>
+									<li><a href="#feb2018" data-toggle="tab">February</a></li>
+									<li><a href="#mar2018" data-toggle="tab">March</a></li>
+									<li><a href="#apr2018" data-toggle="tab">April</a></li>
+									<li><a href="#may2018" data-toggle="tab">May</a></li>
+									<li><a href="#jun2018" data-toggle="tab">June</a></li>
+									<li><a href="#jul2018" data-toggle="tab">July</a></li>
+									<li><a href="#aug2018" data-toggle="tab">August</a></li>
+									<li><a href="#sep2018" data-toggle="tab">September</a></li>
+									<li><a href="#oct2018" data-toggle="tab">October</a></li>
+									<li><a href="#nov2018" data-toggle="tab">November</a></li>
+									<li><a href="#dec2018" data-toggle="tab">December</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-10">
+							<div class="tab-content tab-month">
+								<div class="tab-pane active" id="jan2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 January</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 January</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 January</span> National Education Day</li>
+												<li><span>18 - 20 January</span> OSIS Activity</li>
+												<li><span>21 - 31 January</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="feb2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4-end">28</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 February</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 February</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 February</span> National Education Day</li>
+												<li><span>18 - 20 February</span> OSIS Activity</li>
+												<li><span>21 - 18 February</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="mar2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 March</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 March</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 March</span> National Education Day</li>
+												<li><span>18 - 20 March</span> OSIS Activity</li>
+												<li><span>21 - 31 March</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="apr2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+													<li class="inactive">6</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 April</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 April</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 April</span> National Education Day</li>
+												<li><span>18 - 20 April</span> OSIS Activity</li>
+												<li><span>21 - 30 April</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="may2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 May</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 May</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 May</span> National Education Day</li>
+												<li><span>18 - 20 May</span> OSIS Activity</li>
+												<li><span>21 - 31 May</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="jun2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 June</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 June</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 June</span> National Education Day</li>
+												<li><span>18 - 20 June</span> OSIS Activity</li>
+												<li><span>21 - 31 June</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="jul2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">25</li>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-sm-7">
+											<div class="calendar-note">
+												<h3>Explanation</h3>
+												<ul>
+													<li><span>1 - 4 July</span> 1st Army War College Examination</li>
+													<li><span>7 - 12 July</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+													<li><span>15 - 16 July</span> National Education Day</li>
+													<li><span>18 - 20 July</span> OSIS Activity</li>
+													<li><span>21 - 31 July</span> Semester Break</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="aug2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 August</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 August</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 August</span> National Education Day</li>
+												<li><span>18 - 20 August</span> OSIS Activity</li>
+												<li><span>21 - 31 August</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="sep2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 September</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 September</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 September</span> National Education Day</li>
+												<li><span>18 - 20 September</span> OSIS Activity</li>
+												<li><span>21 - 30 September</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="oct2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 October</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 October</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 October</span> National Education Day</li>
+												<li><span>18 - 20 October</span> OSIS Activity</li>
+												<li><span>21 - 31 October</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="nov2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="inactive">31</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-day">15</li>
+													<li class="">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4-end">30</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 November</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 November</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 November</span> National Education Day</li>
+												<li><span>18 - 20 November</span> OSIS Activity</li>
+												<li><span>21 - 30 November</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="dec2018">
+									<div class="calendar-info">
+										<div class="calendar col-sm-5">
+											<div class="calendar-header">
+												<ul>
+													<li>M</li>
+													<li>T</li>
+													<li>W</li>
+													<li>T</li>
+													<li>F</li>
+													<li>S</li>
+													<li>S</li>
+												</ul>
+											</div>
+											<div class="calendar-body">
+												<ul>
+													<li class="inactive">26</li>
+													<li class="inactive">27</li>
+													<li class="inactive">28</li>
+													<li class="inactive">29</li>
+													<li class="inactive">30</li>
+													<li class="event-1-start">1</li>
+													<li class="event-1">2</li>
+													<li class="event-1">3</li>
+													<li class="event-1-end">4</li>
+													<li>5</li>
+													<li>6</li>
+													<li class="event-2-start">7</li>
+													<li class="event-2">8</li>
+													<li class="event-2">9</li>
+													<li class="event-2">10</li>
+													<li class="event-2">11</li>
+													<li class="event-2-end">12</li>
+													<li>13</li>
+													<li>14</li>
+													<li class="event-5-start">15</li>
+													<li class="event-5-end">16</li>
+													<li>17</li>
+													<li class="event-3-start">18</li>
+													<li class="event-3">19</li>
+													<li class="event-3-end">20</li>
+													<li class="event-4-start">21</li>
+													<li class="event-4">22</li>
+													<li class="event-4">23</li>
+													<li class="event-4">24</li>
+													<li class="event-4">25</li>
+													<li class="event-4">26</li>
+													<li class="event-4">27</li>
+													<li class="event-4">28</li>
+													<li class="event-4">29</li>
+													<li class="event-4">30</li>
+													<li class="event-4-end">31</li>
+													<li class="inactive">1</li>
+													<li class="inactive">2</li>
+													<li class="inactive">3</li>
+													<li class="inactive">4</li>
+													<li class="inactive">5</li>
+													<li class="inactive">6</li>
+												</ul>
+											</div>
+											<div class="calendar-footer">
+												<ul>
+													<li class="event-1"><span></span> Exam</li>
+													<li class="event-2"><span></span> Tour</li>
+													<li class="event-3"><span></span> OSIS</li>
+													<li class="event-4"><span></span> Report</li>
+												</ul>
+											</div>
+										</div>
+										<div class="calendar-note col-sm-7">
+											<h3>Explanation</h3>
+											<ul>
+												<li><span>1 - 4 December</span> 1st Army War College Examination</li>
+												<li><span>7 - 12 December</span> Study tour to Taman Sari, Yogyakarta, Indonesia</li>
+												<li><span>15 - 16 December</span> National Education Day</li>
+												<li><span>18 - 20 December</span> OSIS Activity</li>
+												<li><span>21 - 31 December</span> Semester Break</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	<section class="featured-news">
+		<div class="container">
+			<div class="row">
+				<div class="section-header">
+					<h2>Our Latest News</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="section-content">
+					<div class="col-xs-6 col-md-3">
+						<div class="news-item">
+							<div class="item-meta-data">
+								<div class="col-md-8">
+									<a href="#"><img src="assets/images/favicon.ico" class="college-logo" alt="image"></a>
+									<a href="#"><span>Army War College</span></a>
+								</div>
+								<div class="col-md-4">
+									<span>Aug 15</span>
+								</div>
+							</div>
+							<div class="item-image">
+								<a href="#">
+									<img src="assets/images/awcimages/i1.jpg" alt="image">
+								</a>
+							</div>
+							<div class="item-info">
+								<h3><a href="#">Students were on a trip Istanbul, Turkey</a></h3>
+								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>
+								<a href="#">Read More</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-3">
+						<div class="news-item">
+							<div class="item-meta-data">
+								<div class="col-md-8">
+									<a href="#"><img src="assets/images/favicon.ico" class="college-logo" alt="image"></a>
+									<a href="#"><span>Army War College</span></a>
+								</div>
+								<div class="col-md-4">
+									<span>Aug 15</span>
+								</div>
+							</div>
+							<div class="item-image">
+								<a href="#">
+									<img src="assets/images/awcimages/images.jpg" alt="image">
+								</a>
+							</div>
+							<div class="item-info">
+								<h3><a href="#">Fall Sports Practices, Meeting in August</a></h3>
+								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>
+								<a href="#">Read More</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-3">
+						<div class="news-item">
+							<div class="item-meta-data">
+								<div class="col-md-8">
+									<a href="#"><img src="assets/images/favicon.ico" class="college-logo" alt="image"></a>
+									<a href="#"><span>Army War College</span></a>
+								</div>
+								<div class="col-md-4">
+									<span>Aug 15</span>
+								</div>
+							</div>
+							<div class="item-image">
+								<a href="#">
+									<img src="assets/images/awcimages/images2.jpg" alt="image">
+								</a>
+							</div>
+							<div class="item-info">
+								<h3><a href="#">Apply for Community Scholarships</a></h3>
+								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>
+								<a href="#">Read More</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-3">
+						<div class="news-item">
+							<div class="item-meta-data">
+								<div class="col-md-8">
+									<a href="#"><img src="assets/images/favicon.ico" class="college-logo" alt="image"></a>
+									<a href="#"><span>Army War College</span></a>
+								</div>
+								<div class="col-md-4">
+									<span>Aug 15</span>
+								</div>
+							</div>
+							<div class="item-image">
+								<a href="#">
+									<img src="assets/images/awcimages/images3.jpg" alt="image">
+								</a>
+							</div>
+							<div class="item-info">
+								<h3><a href="#">Jobs, Career Presentation to Coincide with Conferences</a></h3>
+								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>
+								<a href="#">Read More</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="featured-gallery">
+		<div class="row">
+			<div class="col-12 text-center section-header">
+				<h2>Our Galleries</h2>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<a href="#" data-featherlight="#content-1">
+				<img src="assets/images/auth-bg.jpg" alt="image">
+			</a>
+			<div id="content-1" class="gallery-lightbox">
+				<img src="assets/images/gallery-img-1.jpg" alt="image">
+				<div class="gallery-lightbox-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<a href="#" data-featherlight="#content-2">
+				<img src="assets/images/awcimages/cmdt.jpeg" alt="image">
+			</a>
+			<div id="content-2" class="gallery-lightbox">
+				<img src="assets/images/awcimages/cmdt.jpeg" alt="image">
+				<div class="gallery-lightbox-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+				</div>
+			</div>
+			<a href="#" data-featherlight="#content-3">
+				<img src="assets/images/awcimages/awcimg.jpeg" alt="image">
+			</a>
+			<div id="content-3" class="gallery-lightbox">
+				<img src="assets/images/awcimages/awcimg.jpeg" alt="image">
+				<div class="gallery-lightbox-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<a href="#" data-featherlight="#content-4">
+				<img src="assets/images/awcimages/rjnwithcmd.jpg" alt="image">
+			</a>
+			<div id="content-4" class="gallery-lightbox">
+				<img src="assets/images/awcimages/rjnwithcmd.jpg" alt="image">
+				<div class="gallery-lightbox-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+				</div>
+			</div>
+			<a href="#" data-featherlight="#content-5">
+				<img src="assets/images/awcimages/images4.jpg" alt="image">
+			</a>
+			<div id="content-5" class="gallery-lightbox">
+				<img src="assets/images/awcimages/images4.jpg" alt="image">
+				<div class="gallery-lightbox-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+				</div>
+			</div>
+		</div>
+@* 		</div>
+ *@	</section>
+
+	<section class="featured-video">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<h2>Video Galleries</h2>
+					<p>From the teachers, to the assistants, to the students, there is such a family atmosphere that is perfect for nurturing academic ability. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+					<a href="#" class="primary-link hvr-push">View More</a>
+				</div>
+				<div class="col-sm-6">
+					<div class="content-video">
+						<div class="video-wrapper">
+							<iframe width="100%" height="315"
+									src="https://www.youtube.com/embed/R2IyC-aZ0CQ"
+									title="YouTube video player" frameborder="0"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen>
+							</iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+	<style>
+		.footer-menu {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 20px; /* optional spacing between columns */
+		}
+
+		.college-logo {
+			width: 60px; /* Adjust width as needed */
+			height: auto;
+		}
+
+		.footer-links {
+			flex: 1 1 18%; /* makes each block take up about 18% width with wrap */
+			min-width: 150px; /* keeps links from shrinking too much */
+		}
+
+			.footer-links ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+				.footer-links ul li {
+					margin-bottom: 6px;
+				}
+
+					.footer-links ul li a {
+						color: #fff;
+						text-decoration: none;
+						font-size: 14px;
+					}
+
+				.footer-links ul.social {
+					display: flex;
+					gap: 10px;
+				}
+
+					.footer-links ul.social li {
+						margin: 0;
+					}
+
+						.footer-links ul.social li a i {
+							font-size: 18px;
+							color: #fff;
+							transition: color 0.3s ease;
+						}
+
+						.footer-links ul.social li a:hover i {
+							color: #ccc;
+						}
+	</style>
+
+</body>
+
+</html>

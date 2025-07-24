@@ -1,0 +1,348 @@
+﻿@page "/origin"
+
+    <title>Commandant's Page - College Origin</title>
+    <style>
+      
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: underline;
+            color: #333;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .commandant-photo {
+            flex: 0 0 280px;
+            border: 3px solid #4a90e2;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .commandant-photo  {
+                width: 100%;
+                height: 350px;
+                object-fit: cover;
+            }
+
+        .bio-section {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .commandant-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+
+        .commandant-rank {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .bio-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .memory-lane {
+            flex: 0 0 250px;
+            border: 3px solid #4a90e2;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .memory-lane-header {
+            background-color: #4a5d23;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .memory-lane img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .college-origin-section {
+            border: 3px solid #4a90e2;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: white;
+            margin-bottom: 20px;
+        }
+
+        .origin-header {
+            background-color: #4a5d23;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .origin-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .origin-text {
+            flex: 1;
+        }
+
+        .origin-paragraph {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .pdf-section {
+            flex: 0 0 300px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .pdf-header {
+            background-color: #8B4513;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .pdf-preview {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            height: 200px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .pdf-icon {
+            font-size: 48px;
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+
+        .pdf-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .pdf-description {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .pdf-download {
+            background-color: #4a5d23;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+            .pdf-download:hover {
+                background-color: #3a4d1a;
+            }
+
+        .bottom-text {
+            border: 3px solid #4a90e2;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .bottom-text-content {
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+   
+
+        .hub-header {
+            background: #990000;
+            color: #fff;
+            font-size: 36px;
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .back-button-container {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #990000;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .back-button i {
+                margin-right: 6px;
+            }
+
+            .back-button:hover {
+                background-color: #770000;
+                text-decoration: none;
+                color: #fff;
+            }
+    </style>
+
+
+    <div class="container">
+        <div class="hub-header">ARMY WAR COLLEGE-ORIGIN</div>
+
+        <div class="back-button-container">
+            <a href="javascript:history.back()" class="back-button">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="commandant-photo">
+                <img src="assets/images/comdt.jpeg" alt="Commandant">
+            </div>
+
+            <div class="bio-section">
+                <h2 class="commandant-name">Harjeet Singh Sahi</h2>
+                <h3 class="commandant-rank">Lieutenant General</h3>
+
+                <p class="bio-text">
+                    Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin.
+                </p>
+
+                <p class="bio-text">
+                    Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin.
+                </p>
+
+                <p class="bio-text">
+                    Under his distinguished leadership, the college has witnessed remarkable growth and development. His vision for excellence in military education has transformed the institution into a premier center of learning.
+                </p>
+            </div>
+
+            <div class="memory-lane">
+                <div class="memory-lane-header">
+                    COMMANDANT'S MEMORY LANE
+                </div>
+                <img src="assets/images/primg/college.png" alt="Memory Lane">
+            </div>
+        </div>
+
+        <div class="college-origin-section">
+            <div class="origin-header">
+                ORIGIN OF THE COLLEGE
+            </div>
+
+            <div class="origin-content">
+                <div class="origin-text">
+                    <p class="origin-paragraph">
+                        Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin. Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin.
+                    </p>
+
+                    <p class="origin-paragraph">
+                        The college was established with the vision of creating a world-class institution for military education and training. Founded in the early 20th century, it has grown from humble beginnings to become one of the most prestigious military academies in the region.
+                    </p>
+
+                    <p class="origin-paragraph">
+                        Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin. The institution has played a crucial role in shaping military leaders and contributing to national defense.
+                    </p>
+                </div>
+
+                <div class="pdf-section">
+                    <div class="pdf-header">
+                        HISTORICAL DOCUMENTS
+                    </div>
+
+                    <div class="pdf-preview">
+                        <div class="pdf-icon">📄</div>
+                        <div class="pdf-title">College Foundation Document</div>
+                        <div class="pdf-description">
+                            Official founding charter and historical records of the college establishment (1920-1925)
+                        </div>
+                    </div>
+
+                    <button class="pdf-download">Download PDF</button>
+
+                    <div class="pdf-preview" style="margin-top: 20px;">
+                        <div class="pdf-icon">📊</div>
+                        <div class="pdf-title">Development Timeline</div>
+                        <div class="pdf-description">
+                            Comprehensive timeline of college growth and major milestones over the decades
+                        </div>
+                    </div>
+
+                    <button class="pdf-download">Download PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-text">
+            <div class="bottom-text-content">
+                Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin. Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin. A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman. Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin. Lorem Ipsum Is Typically A Corrupted Version Of De Finibus Bonorum Et Malorum, A 1st Century BC Text By The Roman Statesman And Philosopher Cicero, With Words Altered, Added, And Removed To Make It Nonsensical And Improper Latin.
+            </div>
+        </div>
+    </div>

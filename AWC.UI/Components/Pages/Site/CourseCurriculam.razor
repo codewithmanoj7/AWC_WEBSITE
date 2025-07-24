@@ -1,0 +1,692 @@
+﻿@page "/course-curriculam"
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+                color: #333;
+                line-height: 1.6;
+                min-height: 100vh;
+            }
+
+            .header-banners {
+                background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+                padding: 0px 0;
+                margin-bottom: 0px;
+            }
+
+            .page-header {
+                text-align: center;
+            }
+
+                .page-header h1 {
+                    font-size: 2.8rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    margin-bottom: 15px;
+                }
+
+                .page-header p {
+                    font-size: 1.2rem;
+                    color: #6c757d;
+                    max-width: 600px;
+                    margin: 0 auto;
+                }
+
+            .breadcrumb-nav {
+                background: rgba(255,255,255,0.95);
+                border-radius: 10px;
+                padding: 18px;
+                margin-bottom: 35px;
+                box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+                backdrop-filter: blur(10px);
+            }
+
+            .breadcrumb {
+                background: none;
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .curriculum-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 25px;
+                position: relative;
+            }
+
+            .curriculum-section {
+                background: rgba(255,255,255,0.98);
+                border-radius: 15px;
+                padding: 35px;
+                margin-bottom: 35px;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+                border: 1px solid rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .curriculum-section:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                }
+
+            .section-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 25px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #4facfe;
+                position: relative;
+            }
+
+            .section-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 20px;
+                font-size: 1.8rem;
+                color: #fff;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            }
+
+            .year1 .section-icon {
+                background: linear-gradient(45deg, #667eea, #764ba2);
+            }
+
+            .year2 .section-icon {
+                background: linear-gradient(45deg, #4facfe, #00f2fe);
+            }
+
+            .year3 .section-icon {
+                background: linear-gradient(45deg, #43e97b, #38f9d7);
+            }
+
+            .year4 .section-icon {
+                background: linear-gradient(45deg, #fa709a, #fee140);
+            }
+
+            .specialization .section-icon {
+                background: linear-gradient(45deg, #a8edea, #fed6e3);
+            }
+
+            .assessment .section-icon {
+                background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            }
+
+            .section-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #2c3e50;
+                margin: 0;
+                flex-grow: 1;
+            }
+
+            .section-meta {
+                background: #f8f9ff;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                color: #667eea;
+                font-weight: 600;
+            }
+
+            .course-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 25px;
+                margin-top: 25px;
+            }
+
+            .course-card {
+                background: #f8f9ff;
+                border-radius: 12px;
+                padding: 25px;
+                border-left: 5px solid #667eea;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .course-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: -50px;
+                    width: 100px;
+                    height: 100px;
+                    background: linear-gradient(45deg, rgba(102,126,234,0.1), rgba(102,126,234,0.05));
+                    border-radius: 50%;
+                    transition: transform 0.3s ease;
+                }
+
+                .course-card:hover::before {
+                    transform: scale(1.2);
+                }
+
+                .course-card:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(102,126,234,0.15);
+                    border-left-color: #4facfe;
+                }
+
+            .course-title {
+                font-size: 1.3rem;
+                font-weight: 650;
+                color: #2c3e50;
+                margin-bottom: 12px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .course-details {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 15px;
+                font-size: 0.9rem;
+                color: #7f8c8d;
+                position: relative;
+                z-index: 2;
+            }
+
+            .detail-item {
+                display: flex;
+                align-items: center;
+                background: rgba(102,126,234,0.1);
+                padding: 4px 10px;
+                border-radius: 15px;
+            }
+
+                .detail-item i {
+                    margin-right: 6px;
+                    color: #667eea;
+                }
+
+            .course-description {
+                color: #5d6d7e;
+                font-size: 1rem;
+                margin-bottom: 18px;
+                line-height: 1.6;
+                position: relative;
+                z-index: 2;
+            }
+
+            .course-objectives {
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .objectives-title {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #34495e;
+                margin-bottom: 8px;
+            }
+
+            .objectives-list {
+                list-style: none;
+                padding: 0;
+            }
+
+                .objectives-list li {
+                    padding: 3px 0 3px 20px;
+                    position: relative;
+                    font-size: 0.9rem;
+                    color: #5d6d7e;
+                }
+
+                    .objectives-list li::before {
+                        content: '▸';
+                        position: absolute;
+                        left: 0;
+                        color: #667eea;
+                        font-weight: bold;
+                    }
+
+            .course-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .tag {
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: #fff;
+                padding: 5px 12px;
+                border-radius: 18px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .highlight-section {
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                color: #fff;
+                border-radius: 15px;
+                padding: 30px;
+                margin: 40px 0;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .highlight-section::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+                    animation: shine 3s infinite;
+                }
+
+
+
+            .highlight-section h3 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .highlight-section p {
+                font-size: 1.2rem;
+                margin: 0;
+                position: relative;
+                z-index: 2;
+            }
+
+            .statistics-section {
+                background: rgba(255,255,255,0.98);
+                border-radius: 15px;
+                padding: 35px;
+                margin: 40px 0;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                text-align: center;
+            }
+
+            .stat-card {
+                padding: 25px;
+                background: linear-gradient(135deg, #f8f9ff 0%, #e9ecff 100%);
+                border-radius: 12px;
+                transition: transform 0.3s ease;
+            }
+
+                .stat-card:hover {
+                    transform: scale(1.05);
+                }
+
+            .stat-number {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: #667eea;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            .stat-label {
+                font-size: 1.1rem;
+                color: #34495e;
+                margin: 0;
+                font-weight: 500;
+            }
+
+            .action-section {
+                text-align: center;
+                margin: 50px 0;
+            }
+
+            .btn-military {
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                border: none;
+                padding: 15px 35px;
+                font-size: 1.2rem;
+                border-radius: 30px;
+                margin: 0 15px;
+                color: #fff;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+            }
+
+                .btn-military:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+                    background: linear-gradient(45deg, #4facfe, #00f2fe);
+                }
+
+            .btn-outline-military {
+                border: 3px solid #667eea;
+                color: #667eea;
+                background: transparent;
+                padding: 12px 35px;
+                font-size: 1.2rem;
+                border-radius: 30px;
+                margin: 0 15px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: all 0.3s ease;
+            }
+
+                .btn-outline-military:hover {
+                    background: #667eea;
+                    color: #fff;
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 20px rgba(102,126,234,0.3);
+                }
+
+       
+
+        </style>
+
+
+    <header class="header-banners">
+        <div class="container">
+            <div class="page-header">
+                <h1>Army Training Curriculum</h1>
+                <p>Comprehensive military education program designed to develop future defense leaders</p>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="curriculum-container">
+        <div class="highlight-section">
+            <h3><i class="fa fa-graduation-cap"></i> Elite Military Academy Program</h3>
+            <p>Four-year comprehensive curriculum combining theoretical knowledge with intensive field training and leadership development</p>
+        </div>
+
+        <!-- Year 1 -->
+        <div class="curriculum-section year1">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa fa-flag"></i>
+                </div>
+                <h2 class="section-title">Foundation Year</h2>
+                <div class="section-meta">Year 1 • 8 Courses</div>
+            </div>
+
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-title">Military History & Heritage</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                        <div class="detail-item"><i class="fa fa-users"></i> Core Course</div>
+                    </div>
+                    <div class="course-description">
+                        Comprehensive study of military traditions, battle history, and the evolution of warfare strategies from ancient times to modern conflicts.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Analyze historical military campaigns</li>
+                            <li>Understand strategic decision-making</li>
+                            <li>Study leadership under pressure</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">History</span>
+                        <span class="tag">Strategy</span>
+                        <span class="tag">Foundation</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Basic Military Science</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                        <div class="detail-item"><i class="fa fa-book"></i> Theory + Lab</div>
+                    </div>
+                    <div class="course-description">
+                        Introduction to military organization, chain of command, military law, and fundamental principles of armed forces operations.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Master military hierarchy and protocol</li>
+                            <li>Understand military justice system</li>
+                            <li>Learn basic military terminology</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Military Law</span>
+                        <span class="tag">Organization</span>
+                        <span class="tag">Protocol</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Physical Training & Conditioning</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 2 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Both Semesters</div>
+                        <div class="detail-item"><i class="fa fa-heartbeat"></i> Practical</div>
+                    </div>
+                    <div class="course-description">
+                        Intensive physical fitness program including endurance training, strength building, and combat-ready conditioning protocols.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Achieve military fitness standards</li>
+                            <li>Build mental resilience</li>
+                            <li>Master basic combat movements</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Fitness</span>
+                        <span class="tag">Endurance</span>
+                        <span class="tag">Combat Ready</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Leadership Fundamentals</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                        <div class="detail-item"><i class="fa fa-star"></i> Leadership Track</div>
+                    </div>
+                    <div class="course-description">
+                        Basic principles of military leadership, team dynamics, decision-making processes, and ethical leadership in high-stress environments.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Develop leadership philosophy</li>
+                            <li>Practice ethical decision-making</li>
+                            <li>Build team management skills</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Leadership</span>
+                        <span class="tag">Ethics</span>
+                        <span class="tag">Team Building</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Year 2 -->
+        <div class="curriculum-section year2">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa fa-shield"></i>
+                </div>
+                <h2 class="section-title">Intermediate Development</h2>
+                <div class="section-meta">Year 2 • 10 Courses</div>
+            </div>
+
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-title">Tactical Operations</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                        <div class="detail-item"><i class="fa fa-crosshairs"></i> Field Training</div>
+                    </div>
+                    <div class="course-description">
+                        Advanced study of small unit tactics, battlefield maneuvers, and operational planning at platoon and company levels.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Master tactical movement principles</li>
+                            <li>Plan and execute small unit operations</li>
+                            <li>Analyze terrain and enemy capabilities</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Tactics</span>
+                        <span class="tag">Operations</span>
+                        <span class="tag">Field Training</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Military Technology & Weapons Systems</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                        <div class="detail-item"><i class="fa fa-cog"></i> Technical</div>
+                    </div>
+                    <div class="course-description">
+                        Comprehensive training on modern military equipment, weapon systems, communication devices, and emerging battlefield technologies.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Operate advanced military equipment</li>
+                            <li>Understand weapons system capabilities</li>
+                            <li>Maintain and troubleshoot gear</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Technology</span>
+                        <span class="tag">Weapons</span>
+                        <span class="tag">Equipment</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Combat Medicine & First Aid</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                        <div class="detail-item"><i class="fa fa-heartbeat"></i> Medical Training</div>
+                    </div>
+                    <div class="course-description">
+                        Essential battlefield medical skills including trauma care, casualty evacuation, and life-saving procedures in combat zones.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Perform emergency medical procedures</li>
+                            <li>Coordinate casualty evacuation</li>
+                            <li>Manage medical supplies under pressure</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Medical</span>
+                        <span class="tag">Emergency Care</span>
+                        <span class="tag">Combat Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Year 3 -->
+        <div class="curriculum-section year3">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa fa-star"></i>
+                </div>
+                <h2 class="section-title">Advanced Leadership</h2>
+                <div class="section-meta">Year 3 • 12 Courses</div>
+            </div>
+
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-title">Strategic Planning & Operations</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Both Semesters</div>
+                        <div class="detail-item"><i class="fa fa-chess"></i> Strategy</div>
+                    </div>
+                    <div class="course-description">
+                        Advanced strategic thinking, long-term operational planning, resource allocation, and multi-domain warfare concepts.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Develop strategic thinking capabilities</li>
+                            <li>Create comprehensive operation plans</li>
+                            <li>Coordinate multi-unit operations</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Strategy</span>
+                        <span class="tag">Planning</span>
+                        <span class="tag">Multi-Domain</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-title">Joint Operations & International Relations</div>
+                    <div class="course-details">
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                        <div class="detail-item"><i class="fa fa-globe"></i> International</div>
+                    </div>
+                    <div class="course-description">
+                        Study of multinational military operations, alliance structures, peacekeeping missions, and diplomatic-military coordination.
+                    </div>
+                    <div class="course-objectives">
+                        <div class="objectives-title">Learning Objectives:</div>
+                        <ul class="objectives-list">
+                            <li>Understand international military law</li>
+                            <li>Plan joint multinational operations</li>
+                            <li>Navigate diplomatic protocols</li>
+                        </ul>
+                    </div>
+                    <div class="course-tags">
+                        <span class="tag">Joint Ops</span>
+                        <span class="tag">International</span>
+                        <span class="tag">Diplomacy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <button class="btn-military">Enroll Now</button>
+            <button class="btn-outline-military">Learn More</button>
+        </div>
+    </main>
+

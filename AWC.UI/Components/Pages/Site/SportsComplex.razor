@@ -1,0 +1,660 @@
+﻿@page "/sports-complex"
+
+
+
+    <title>Sports Complex - Army War College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .hub-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            font-size: 38px;
+            text-align: center;
+            padding: 25px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hub-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                animation: shine 3s infinite;
+            }
+
+   
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .top-section {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+            .hero-image img {
+                width: 100%;
+                height: 630px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+
+            .hero-image:hover img {
+                transform: scale(1.05);
+            }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .image-nav:hover {
+                transform: translateY(-50%) scale(1.1);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+
+            .image-nav.prev {
+                left: 15px;
+            }
+
+            .image-nav.next {
+                right: 15px;
+            }
+
+        .content-right {
+            flex: 1;
+            padding-left: 25px;
+        }
+
+        .content-text {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .heading-section {
+            margin-bottom: 25px;
+        }
+
+        .heading-title {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .nav-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .nav-button:hover::before {
+                left: 100%;
+            }
+
+            .nav-button:hover {
+                transform: translateX(5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .bottom-section {
+            display: flex;
+            gap: 25px;
+        }
+
+        .calendar-section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .calendar-nav {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+            .calendar-nav:hover {
+                background: rgba(255,255,255,0.2);
+                transform: scale(1.1);
+            }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .calendar-table th {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 12px;
+                text-align: center;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .calendar-table td {
+                text-align: center;
+                padding: 12px;
+                border: 1px solid #e0e0e0;
+                font-size: 13px;
+                cursor: pointer;
+                position: relative;
+                transition: all 0.2s ease;
+            }
+
+                .calendar-table td:hover {
+                    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+                    transform: scale(1.05);
+                }
+
+        .event-day {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef) !important;
+            color: #333;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .special-event {
+            background: linear-gradient(135deg, #a8edea, #fed6e3) !important;
+            color: #333;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .today {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .contact-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .contact-header {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 12px 20px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+            .contact-row .label {
+                font-weight: bold;
+                color: #333;
+            }
+
+        .facilities-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .facilities-header {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .facilities-content {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .facilities-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .facilities-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: left;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+            .facilities-button:hover {
+                transform: translateX(5px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+
+        .back-button-container {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .back-button i {
+                margin-right: 8px;
+            }
+
+            .back-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                text-decoration: none;
+                color: #fff;
+            }
+
+        .month-year {
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #333;
+        }
+
+    </style>
+
+
+    <div class="hub-header">SPORTS COMPLEX</div>
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="back-button">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+    </div>
+    <div class="container">
+        <div class="top-section">
+            <div class="hero-image">
+                <img src="assets/images/primg/sports.jpg" alt="Sports Complex" id="heroImage">
+                <button class="image-nav prev" onclick="previousImage()">‹</button>
+                <button class="image-nav next" onclick="nextImage()">›</button>
+            </div>
+            <div class="content-right">
+                <div class="content-text">
+                    The Army War College Sports Complex stands as a premier facility dedicated to promoting physical fitness, competitive excellence, and recreational activities among cadets and staff. Our state-of-the-art complex encompasses multiple sports disciplines and training facilities.
+                </div>
+                <div class="content-text">
+                    Equipped with modern amenities and professional-grade equipment, the Sports Complex serves as the epicenter for athletic development, inter-service competitions, and recreational sports programs. The facility promotes team building, leadership skills, and physical resilience essential for military excellence.
+                </div>
+                <div class="heading-section">
+                    <div class="heading-title">Quick Access</div>
+                    <div class="nav-buttons">
+                        <button class="nav-button" onclick="showSection('membership')">
+                            <div class="nav-icon">🏃</div>
+                            <span>Membership & Registration</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('sports')">
+                            <div class="nav-icon">⚽</div>
+                            <span>Sports Programs</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('tournaments')">
+                            <div class="nav-icon">🏆</div>
+                            <span>Tournaments & Events</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('training')">
+                            <div class="nav-icon">💪</div>
+                            <span>Training Schedules</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-section">
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <button class="calendar-nav" onclick="previousMonth()">‹</button>
+                    <span><strong>SPORTS EVENTS CALENDAR</strong></span>
+                    <button class="calendar-nav" onclick="nextMonth()">›</button>
+                </div>
+                <div class="month-year" id="monthYear">
+                    July | 2025
+                </div>
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td class="event-day" title="Basketball Tournament">6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td class="special-event" title="Swimming Championship">12</td>
+                        </tr>
+                        <tr>
+                            <td class="event-day" title="Football Match">13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                        </tr>
+                        <tr>
+                            <td class="today">20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td class="event-day" title="Tennis Tournament">25</td>
+                            <td>26</td>
+                        </tr>
+                        <tr>
+                            <td class="special-event" title="Athletics Meet">27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="contact-section">
+                <div class="contact-info">
+                    <div class="contact-header">CONTACT INFORMATION</div>
+                    <div class="contact-row">
+                        <span class="label">Sports Officer</span>
+                        <span class="label">Email</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>+91-135-2694-501</span>
+                        <span>sports.awc@gov.in</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Fitness Center</span>
+                        <span class="label">Equipment Issue</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>+91-135-2694-502</span>
+                        <span>equipment.awc@gov.in</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Emergency</span>
+                        <span class="label">Medical Support</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>+91-135-2694-911</span>
+                        <span>medical.awc@gov.in</span>
+                    </div>
+                </div>
+                <div class="facilities-section">
+                    <div class="facilities-header">Sports Facilities</div>
+                    <div class="facilities-content">
+                        Our comprehensive sports complex features world-class facilities including Olympic-size swimming pool, multi-purpose indoor courts, outdoor playing fields, fully equipped gymnasium, and specialized training areas for various sports disciplines.
+                        <div class="facilities-nav">
+                            <button class="facilities-button" onclick="showFacility('swimming')">🏊 Swimming Pool Complex</button>
+                            <button class="facilities-button" onclick="showFacility('gymnasium')">🏋️ Gymnasium & Fitness Center</button>
+                            <button class="facilities-button" onclick="showFacility('courts')">🎾 Indoor Sports Courts</button>
+                            <button class="facilities-button" onclick="showFacility('fields')">⚽ Outdoor Playing Fields</button>
+                            <button class="facilities-button" onclick="showFacility('track')">🏃 Athletics Track</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Image carousel functionality
+        const images = [
+            'assets/images/primg/sports.jpg',
+            'assets/images/primg/mepta.png',
+            'assets/images/primg/fts.jpg',
+            'assets/images/primg/srp.jpg'
+        ];
+        let currentImageIndex = 0;
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        // Auto-advance images every 5 seconds
+        setInterval(nextImage, 5000);
+
+        // Calendar navigation
+        function nextMonth() {
+            console.log('Next month clicked');
+            // Add calendar navigation logic here
+        }
+
+        function previousMonth() {
+            console.log('Previous month clicked');
+            // Add calendar navigation logic here
+        }
+
+        // Section navigation
+        function showSection(section) {
+            alert(`Navigating to ${section} section`);
+            // Add section navigation logic here
+        }
+
+        function showFacility(facility) {
+            alert(`Showing ${facility} facility details`);
+            // Add facility details logic here
+        }
+
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update visitor count with animation
+        function animateVisitorCount() {
+            const counter = document.getElementById('visitorCount');
+            const target = parseInt(counter.textContent.replace(/,/g, ''));
+            let current = target - 100;
+
+            const increment = () => {
+                if (current < target) {
+                    current += Math.ceil((target - current) / 20);
+                    counter.textContent = current.toLocaleString();
+                    setTimeout(increment, 50);
+                }
+            };
+            increment();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+
+            setTimeout(animateVisitorCount, 1000);
+
+            // Add hover effects to calendar cells
+            document.querySelectorAll('.calendar-table td').forEach(cell => {
+                cell.addEventListener('click', function () {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        alert(`Event: ${title}`);
+                    }
+                });
+            });
+        });
+    </script>

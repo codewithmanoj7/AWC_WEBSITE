@@ -1,0 +1,773 @@
+﻿@page "/swimming"
+
+
+    <title>Swimming Pool Complex - Army War College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .hub-header {
+            background: linear-gradient(135deg, #0077be, #00a8ff);
+            color: #fff;
+            font-size: 38px;
+            text-align: center;
+            padding: 25px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hub-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                animation: shine 3s infinite;
+            }
+
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .top-section {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+            .hero-image img {
+                width: 100%;
+                height: 630px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+
+            .hero-image:hover img {
+                transform: scale(1.05);
+            }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #0077be, #00a8ff);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .image-nav:hover {
+                transform: translateY(-50%) scale(1.1);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+
+            .image-nav.prev {
+                left: 15px;
+            }
+
+            .image-nav.next {
+                right: 15px;
+            }
+
+        .content-right {
+            flex: 1;
+            padding-left: 25px;
+        }
+
+        .content-text {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .heading-section {
+            margin-bottom: 25px;
+        }
+
+        .heading-title {
+            background: linear-gradient(135deg, #0277bd, #0288d1);
+            color: white;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #29b6f6, #039be5);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .nav-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .nav-button:hover::before {
+                left: 100%;
+            }
+
+            .nav-button:hover {
+                transform: translateX(5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .features-section {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .feature-card {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .feature-header {
+            background: linear-gradient(135deg, #0277bd, #0288d1);
+            color: white;
+            padding: 12px 20px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+            .feature-list li {
+                padding: 8px 0;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .feature-list li:last-child {
+                    border-bottom: none;
+                }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #29b6f6, #039be5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .bottom-section {
+            display: flex;
+            gap: 25px;
+        }
+
+        .schedule-section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .schedule-table th {
+                background: linear-gradient(135deg, #0277bd, #0288d1);
+                color: white;
+                padding: 12px;
+                text-align: center;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .schedule-table td {
+                padding: 12px;
+                border: 1px solid #e0e0e0;
+                font-size: 12px;
+                text-align: center;
+            }
+
+        .time-slot {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            font-weight: bold;
+        }
+
+        .activity {
+            background: #f9f9f9;
+        }
+
+        .contact-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .contact-header {
+            background: linear-gradient(135deg, #0277bd, #0288d1);
+            color: white;
+            padding: 12px 20px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+            .contact-row .label {
+                font-weight: bold;
+                color: #333;
+            }
+
+        .safety-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .safety-header {
+            background: linear-gradient(135deg, #0277bd, #0288d1);
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .safety-content {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .safety-rules {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+            .safety-rules li {
+                padding: 8px 0;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 12px;
+            }
+
+                .safety-rules li:last-child {
+                    border-bottom: none;
+                }
+
+        .rule-icon {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #ff5722, #f44336);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .back-button-container {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0077be, #00a8ff);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .back-button i {
+                margin-right: 8px;
+            }
+
+            .back-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                text-decoration: none;
+                color: #fff;
+            }
+
+        .stats-banner {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+    </style>
+
+
+
+    <div class="hub-header">SWIMMING POOL COMPLEX</div>
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="back-button">
+            <i class="fa fa-arrow-left"></i> Back to Sports Complex
+        </a>
+    </div>
+    <div class="container">
+        <div class="stats-banner">
+            <div class="stat-item">
+                <h3>50M</h3>
+                <p>Olympic Size Pool</p>
+            </div>
+            <div class="stat-item">
+                <h3>8</h3>
+                <p>Competition Lanes</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Availability</p>
+            </div>
+            <div class="stat-item">
+                <h3>2</h3>
+                <p>Professional Coaches</p>
+            </div>
+        </div>
+
+        <div class="top-section">
+            <div class="hero-image">
+                <img src="assets/images/primg/swimming1.jpg" alt="Swimming Pool" id="heroImage">
+                <button class="image-nav prev" onclick="previousImage()">‹</button>
+                <button class="image-nav next" onclick="nextImage()">›</button>
+            </div>
+            <div class="content-right">
+                <div class="content-text">
+                    The Army War College Swimming Pool Complex features a world-class Olympic-size swimming pool designed to meet international competition standards. Our facility serves as the premier aquatic training center for military personnel, promoting physical fitness, competitive swimming, and water safety training.
+                </div>
+                <div class="content-text">
+                    Equipped with state-of-the-art filtration systems, temperature control, and professional timing equipment, the complex provides an optimal environment for both recreational swimming and competitive training. The facility operates under strict safety protocols and is maintained by certified pool professionals.
+                </div>
+                <div class="heading-section">
+                    <div class="heading-title">Pool Services</div>
+                    <div class="nav-buttons">
+                        <button class="nav-button" onclick="showSection('training')">
+                            <div class="nav-icon">🏊</div>
+                            <span>Swimming Training Programs</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('booking')">
+                            <div class="nav-icon">📅</div>
+                            <span>Lane Booking & Reservations</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('competitions')">
+                            <div class="nav-icon">🏆</div>
+                            <span>Competitions & Events</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('maintenance')">
+                            <div class="nav-icon">⚙️</div>
+                            <span>Pool Maintenance Schedule</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="feature-card">
+                <div class="feature-header">Pool Specifications</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">📏</span> 50m x 25m Olympic dimensions</li>
+                    <li><span class="feature-icon">🌊</span> 8 competition lanes</li>
+                    <li><span class="feature-icon">🌡️</span> Temperature controlled (26-28°C)</li>
+                    <li><span class="feature-icon">💧</span> Advanced filtration system</li>
+                    <li><span class="feature-icon">💡</span> LED underwater lighting</li>
+                    <li><span class="feature-icon">📊</span> Electronic timing system</li>
+                    <li><span class="feature-icon">🏊</span> Starting blocks & lane ropes</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">Additional Facilities</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">🚿</span> Modern changing rooms</li>
+                    <li><span class="feature-icon">🧴</span> Shower facilities</li>
+                    <li><span class="feature-icon">🔒</span> Secure locker system</li>
+                    <li><span class="feature-icon">🏥</span> First aid station</li>
+                    <li><span class="feature-icon">👀</span> Lifeguard on duty</li>
+                    <li><span class="feature-icon">📺</span> Spectator gallery</li>
+                    <li><span class="feature-icon">☕</span> Refreshment area</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">Training Equipment</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">🏊</span> Kickboards & pull buoys</li>
+                    <li><span class="feature-icon">🦽</span> Training fins & paddles</li>
+                    <li><span class="feature-icon">⏱️</span> Pace clocks</li>
+                    <li><span class="feature-icon">🎯</span> Training lane markers</li>
+                    <li><span class="feature-icon">📊</span> Performance tracking tools</li>
+                    <li><span class="feature-icon">🔧</span> Pool maintenance equipment</li>
+                    <li><span class="feature-icon">🏆</span> Competition accessories</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="schedule-section">
+                <div class="schedule-header">DAILY SWIMMING SCHEDULE</div>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-slot">05:00-07:00</td>
+                            <td class="activity">Early Morning Lap</td>
+                            <td class="activity">Training Session</td>
+                            <td class="activity">Early Morning Lap</td>
+                            <td class="activity">Training Session</td>
+                            <td class="activity">Early Morning Lap</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Open Swimming</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">07:00-09:00</td>
+                            <td class="activity">Maintenance</td>
+                            <td class="activity">Maintenance</td>
+                            <td class="activity">Maintenance</td>
+                            <td class="activity">Maintenance</td>
+                            <td class="activity">Maintenance</td>
+                            <td class="activity">Competitive Training</td>
+                            <td class="activity">Recreational</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">09:00-12:00</td>
+                            <td class="activity">General Swimming</td>
+                            <td class="activity">Coaching Session</td>
+                            <td class="activity">General Swimming</td>
+                            <td class="activity">Coaching Session</td>
+                            <td class="activity">General Swimming</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Family Time</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">12:00-14:00</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Aqua Fitness</td>
+                            <td class="activity">Open Swimming</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">14:00-17:00</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Water Safety</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Water Safety</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Competition Prep</td>
+                            <td class="activity">Open Swimming</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">17:00-20:00</td>
+                            <td class="activity">Evening Training</td>
+                            <td class="activity">Advanced Training</td>
+                            <td class="activity">Evening Training</td>
+                            <td class="activity">Advanced Training</td>
+                            <td class="activity">Evening Training</td>
+                            <td class="activity">Open Swimming</td>
+                            <td class="activity">Recreational</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="contact-section">
+                <div class="contact-info">
+                    <div class="contact-header">POOL MANAGEMENT</div>
+                    <div class="contact-row">
+                        <span class="label">Pool Manager</span>
+                        <span class="label">Direct Line</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>Major Singh</span>
+                        <span>+91-135-2694-510</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Swimming Coach</span>
+                        <span class="label">Training Inquiry</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>Coach Sharma</span>
+                        <span>+91-135-2694-511</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Maintenance</span>
+                        <span class="label">Emergency</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>+91-135-2694-512</span>
+                        <span>pool.emergency@awc.gov.in</span>
+                    </div>
+                </div>
+
+                <div class="safety-section">
+                    <div class="safety-header">Safety Guidelines</div>
+                    <div class="safety-content">
+                        Swimming pool safety is our top priority. All users must adhere to the following safety protocols for a secure and enjoyable swimming experience.
+                        <ul class="safety-rules">
+                            <li><span class="rule-icon">!</span> No diving in shallow areas</li>
+                            <li><span class="rule-icon">!</span> Shower before entering pool</li>
+                            <li><span class="rule-icon">!</span> No running on pool deck</li>
+                            <li><span class="rule-icon">!</span> Children must be supervised</li>
+                            <li><span class="rule-icon">!</span> No glass containers poolside</li>
+                            <li><span class="rule-icon">!</span> Follow lane swimming etiquette</li>
+                            <li><span class="rule-icon">!</span> Report injuries immediately</li>
+                            <li><span class="rule-icon">!</span> No food in pool area</li>
+                            <li><span class="rule-icon">!</span> Swimming caps recommended</li>
+                            <li><span class="rule-icon">!</span> Emergency exits clearly marked</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Image carousel functionality for swimming pool images
+        const images = [
+            'assets/images/primg/swimming1.jpg',
+            'assets/images/primg/swimming2.jpg',
+            'assets/images/primg/swimming3.jpg',
+        ];
+        let currentImageIndex = 0;
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        // Auto-advance images every 5 seconds
+        setInterval(nextImage, 5000);
+
+        // Calendar navigation
+        function nextMonth() {
+            console.log('Next month clicked');
+            // Add calendar navigation logic here
+        }
+
+        function previousMonth() {
+            console.log('Previous month clicked');
+            // Add calendar navigation logic here
+        }
+
+        // Section navigation
+        function showSection(section) {
+            alert(`Navigating to ${section} section`);
+            // Add section navigation logic here
+        }
+
+        function showFacility(facility) {
+            alert(`Showing ${facility} facility details`);
+            // Add facility details logic here
+        }
+
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update visitor count with animation
+        function animateVisitorCount() {
+            const counter = document.getElementById('visitorCount');
+            const target = parseInt(counter.textContent.replace(/,/g, ''));
+            let current = target - 100;
+
+            const increment = () => {
+                if (current < target) {
+                    current += Math.ceil((target - current) / 20);
+                    counter.textContent = current.toLocaleString();
+                    setTimeout(increment, 50);
+                }
+            };
+            increment();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+
+            setTimeout(animateVisitorCount, 1000);
+
+            // Add hover effects to calendar cells
+            document.querySelectorAll('.calendar-table td').forEach(cell => {
+                cell.addEventListener('click', function () {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        alert(`Event: ${title}`);
+                    }
+                });
+            });
+        });
+    </script>

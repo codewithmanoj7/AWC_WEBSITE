@@ -1,0 +1,406 @@
+﻿@page "/hceligibility"
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header-banners {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 10px 0;
+            margin-bottom: 0px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 15px;
+            }
+
+            .page-header p {
+                font-size: 1.2rem;
+                color: #6c757d;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .breadcrumb-nav {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .breadcrumb {
+            background: none;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .eligibility-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .eligibility-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #007bff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .eligibility-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .basic-req .card-icon {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .academic-req .card-icon {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+        }
+
+        .professional-req .card-icon {
+            background: linear-gradient(45deg, #fd7e14, #e83e8c);
+        }
+
+        .technical-req .card-icon {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .requirement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+            .requirement-list li {
+                padding: 12px 0;
+                border-bottom: 1px solid #f1f3f4;
+                display: flex;
+                align-items: flex-start;
+                font-size: 1rem;
+            }
+
+                .requirement-list li:last-child {
+                    border-bottom: none;
+                }
+
+                .requirement-list li::before {
+                    content: "✓";
+                    color: #28a745;
+                    font-weight: bold;
+                    margin-right: 12px;
+                    margin-top: 2px;
+                    font-size: 1.1rem;
+                }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+            .highlight-box h3 {
+                color: #856404;
+                margin-bottom: 10px;
+                font-size: 1.3rem;
+            }
+
+            .highlight-box p {
+                color: #856404;
+                margin: 0;
+                font-size: 1rem;
+            }
+
+        .action-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            }
+
+        .btn-outline-primary {
+            border: 2px solid #007bff;
+            color: #007bff;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            margin: 0 10px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+            .btn-outline-primary:hover {
+                background: #007bff;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        .eligibility-stats {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+            .contact-section h3 {
+                color: #2c3e50;
+                margin-bottom: 15px;
+            }
+
+            .contact-section p {
+                color: #6c757d;
+                margin-bottom: 20px;
+            }
+
+   
+    </style>
+
+
+    <header class="header-banners">
+        <div class="container">
+            <div class="page-header">
+                <h1>Course Eligibility Requirements</h1>
+                <p>Comprehensive guide to qualification criteria for our Healthcare Professional Development Programs</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="eligibility-container">
+        <div class="highlight-box">
+            <h3><i class="fa fa-info-circle"></i> Important Notice</h3>
+            <p>All eligibility conditions must be fulfilled prior to application submission. Incomplete applications or missing documentation will not be processed.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="eligibility-card basic-req">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h2 class="card-title">Basic Requirements</h2>
+                    </div>
+                    <ul class="requirement-list">
+                        <li>Commissioned officer in the armed forces</li>
+                        <li>Minimum age of 25 years</li>
+                        <li>Valid service record with no disciplinary issues</li>
+                        <li>Recommendation from commanding officer</li>
+                        <li>Physically fit as per military medical standards</li>
+                        <li>Mentally and emotionally resilient</li>
+                        <li>Proficient in English communication (spoken & written)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="eligibility-card academic-req">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-graduation-cap"></i>
+                        </div>
+                        <h2 class="card-title">Academic Qualifications</h2>
+                    </div>
+                    <ul class="requirement-list">
+                        <li>Bachelor’s degree or equivalent military education</li>
+                        <li>Minimum performance standards in prior courses</li>
+                        <li>Completion of mandatory service-specific training modules</li>
+                        <li>Certificates from military institutions (e.g. IMA, OTA)</li>
+                        <li>Operational planning or staff college qualification (preferred)</li>
+                        <li>Professional military education (PME) documentation</li>
+                        <li>Written endorsements from senior training officers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="eligibility-card professional-req">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+                        <h2 class="card-title">Professional Experience</h2>
+                    </div>
+                    <ul class="requirement-list">
+                        <li>Minimum 5 years of commissioned service</li>
+                        <li>Experience in command or staff assignments</li>
+                        <li>Demonstrated leadership in field or operational units</li>
+                        <li>Recommendation from immediate superior officer</li>
+                        <li>Performance evaluation reports from last 3 years</li>
+                        <li>Involvement in joint or inter-agency operations</li>
+                        <li>Participation in mission planning or training command roles</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="eligibility-card technical-req">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-laptop"></i>
+                        </div>
+                        <h2 class="card-title">Technical & Administrative</h2>
+                    </div>
+                    <ul class="requirement-list">
+                        <li>Basic computer proficiency (MS Office, email, online tools)</li>
+                        <li>Capability to attend digital sessions or hybrid modules</li>
+                        <li>Valid official email for communications</li>
+                        <li>Commitment to full course duration and assessments</li>
+                        <li>Minimum 10 hours/week availability for coursework</li>
+                        <li>Approval of training expenses from service HQ (if applicable)</li>
+                        <li>Signed code of conduct and course participation declaration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="#" class="btn btn-primary">
+                <i class="fa fa-check-circle"></i> Check Your Eligibility
+            </a>
+            <a href="#" class="btn btn-outline-primary">
+                <i class="fa fa-download"></i> Download Application Form
+            </a>
+        </div>
+
+        <div class="contact-section">
+            <h3><i class="fa fa-phone"></i> Need Help with Eligibility?</h3>
+            <p>Our training coordination cell is available to assist with eligibility and application queries.</p>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <strong>Phone:</strong><br>
+                    +91-11-1234-5678
+                </div>
+                <div class="col-md-4">
+                    <strong>Email:</strong><br>
+                    training.admin@army.mil.in
+                </div>
+                <div class="col-md-4">
+                    <strong>Office Hours:</strong><br>
+                    Mon-Fri, 0900 hrs - 1700 hrs
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script>
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>

@@ -1,0 +1,94 @@
+﻿@page "/course-material"
+
+@layout EmptyLayout
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reading Material</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            background: #fff;
+            margin-top: 50px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #d9534f;
+        }
+
+        .icon {
+            font-size: 40px;
+            color: #d9534f;
+            margin-right: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .material-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .material-list li {
+                margin-bottom: 15px;
+                font-size: 16px;
+            }
+
+            .material-list i {
+                margin-right: 10px;
+                color: #5bc0de;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <a href="javascript:history.back()" class="btn btn-default" style="margin-bottom: 20px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+
+
+
+        <h2><i class="fa fa-book"></i> Reading Material</h2>
+
+        <div class="section">
+            <div class="section-title"><i class="fa fa-folder-open icon"></i> Course Essentials</div>
+            <ul class="material-list">
+                <li><i class="fa fa-file-pdf-o"></i> Strategic Operations – Volume I (PDF)</li>
+                <li><i class="fa fa-file-pdf-o"></i> Military Tactics Handbook – Updated 2024 Edition</li>
+                <li><i class="fa fa-video-camera"></i> Leadership Case Studies – Video Series</li>
+                <li><i class="fa fa-book"></i> International Relations and Defense Policy – Reference Manual</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fa fa-cloud-download icon"></i> Downloads & Resources</div>
+            <p>All resources are available via the student portal. Ensure you have your login credentials to access restricted files and secure material.</p>
+        </div>
+    </div>
+
+</body>
+</html>

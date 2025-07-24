@@ -1,0 +1,77 @@
+﻿
+
+.branding-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.college-logo {
+    width: 60px;
+    height: 60px;
+    margin-left: -22px;
+}
+
+.college-name {
+    font-size: 24px;
+    font-weight: 900;
+    color: white;
+    -webkit-text-stroke: 0.8px black;
+    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+
+.footer-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; /* optional spacing between columns */
+}
+
+.footer-links {
+    flex: 1 1 18%; /* makes each block take up about 18% width with wrap */
+    min-width: 150px; /* keeps links from shrinking too much */
+}
+
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .footer-links ul li {
+            margin-bottom: 6px;
+        }
+
+            .footer-links ul li a {
+                color: #fff;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+        .footer-links ul.social {
+            display: flex;
+            gap: 10px;
+        }
+
+            .footer-links ul.social li {
+                margin: 0;
+            }
+
+                .footer-links ul.social li a i {
+                    font-size: 18px;
+                    color: #fff;
+                    transition: color 0.3s ease;
+                }
+
+                .footer-links ul.social li a:hover i {
+                    color: #ccc;
+                }

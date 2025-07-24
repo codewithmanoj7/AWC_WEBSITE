@@ -1,0 +1,600 @@
+﻿@page "/hcseminars"
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header-banners {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+            padding: 0px 0;
+            margin-bottom: 0px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 15px;
+            }
+
+            .page-header p {
+                font-size: 1.2rem;
+                color: #6c757d;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .breadcrumb-nav {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .breadcrumb {
+            background: none;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .seminar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .seminar-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #28a745;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .seminar-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .upcoming .card-icon {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+
+        .workshops .card-icon {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .guest-lectures .card-icon {
+            background: linear-gradient(45deg, #fd7e14, #e83e8c);
+        }
+
+        .webinars .card-icon {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .seminar-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 3px solid #007bff;
+        }
+
+            .seminar-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .seminar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .seminar-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+        }
+
+            .detail-item i {
+                margin-right: 5px;
+                color: #007bff;
+            }
+
+        .seminar-description {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .seminar-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+            .highlight-box h3 {
+                color: #0c5460;
+                margin-bottom: 10px;
+                font-size: 1.3rem;
+            }
+
+            .highlight-box p {
+                color: #0c5460;
+                margin: 0;
+                font-size: 1rem;
+            }
+
+        .action-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            }
+
+        .btn-outline-success {
+            border: 2px solid #28a745;
+            color: #28a745;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            margin: 0 10px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+            .btn-outline-success:hover {
+                background: #28a745;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        .seminar-stats {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .registration-form {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+
+    
+    </style>
+
+    <header class="header-banners">
+        <div class="container">
+            <div class="page-header">
+                <h1>College Seminars & Workshops</h1>
+                <p>Engage in cutting-edge healthcare education through our comprehensive seminar programs</p>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="seminar-container">
+        <div class="highlight-box">
+            <h3><i class="fa fa-calendar-check-o"></i> Registration Open</h3>
+            <p>Secure your place in our upcoming military training seminars. Priority slots available for early enrollees 30 days prior.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="seminar-card upcoming">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h2 class="card-title">Upcoming Seminars</h2>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Tactical Leadership and Decision Making</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> March 15, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-map-marker"></i> Main Auditorium</div>
+                        </div>
+                        <div class="seminar-description">
+                            Intensive focus on battlefield leadership, critical decision-making under stress, and unit-level command scenarios.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Leadership</span>
+                            <span class="tag">Command Skills</span>
+                            <span class="tag">Combat Readiness</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Cyber & Electronic Warfare Fundamentals</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> March 22, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 10:00 AM - 3:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-laptop"></i> Virtual Event</div>
+                        </div>
+                        <div class="seminar-description">
+                            Understand modern battlefield disruptions, counter-electronic strategies, and cyber command integration.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Cyber Ops</span>
+                            <span class="tag">Signals</span>
+                            <span class="tag">Defense Tech</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Operational Planning & Logistics</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> April 5, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 8:30 AM - 5:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-map-marker"></i> Conference Hall B</div>
+                        </div>
+                        <div class="seminar-description">
+                            Training on integrated logistics, force deployment, and mission sustainment at battalion and brigade levels.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Logistics</span>
+                            <span class="tag">Planning</span>
+                            <span class="tag">Field Ops</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="seminar-card workshops">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-wrench"></i>
+                        </div>
+                        <h2 class="card-title">Hands-On Workshops</h2>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Infantry Combat Drills</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> Weekly Sessions</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 2:00 PM - 6:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-map-marker"></i> Parade Ground</div>
+                        </div>
+                        <div class="seminar-description">
+                            Real-time drills in close-quarter battle, section attacks, movement under fire, and urban warfare.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Live Training</span>
+                            <span class="tag">Infantry</span>
+                            <span class="tag">Tactics</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Combat Medical Response</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> April 12, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 5:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-map-marker"></i> Field Training Area</div>
+                        </div>
+                        <div class="seminar-description">
+                            Instruction in battlefield first aid, casualty evacuation drills, and trauma stabilization in hostile zones.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Field Medics</span>
+                            <span class="tag">Combat Care</span>
+                            <span class="tag">Rapid Response</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Military Research & Innovation</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> April 18-19, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-map-marker"></i> War College Research Wing</div>
+                        </div>
+                        <div class="seminar-description">
+                            Learn operational research methodology, strategy development, and technological adaptation in warfare.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Doctrine</span>
+                            <span class="tag">Military Studies</span>
+                            <span class="tag">Strategy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="seminar-card guest-lectures">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-microphone"></i>
+                        </div>
+                        <h2 class="card-title">Guest Expert Lectures</h2>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Modern Warfare Doctrine</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-user"></i> Lt Gen R.K. Menon (Retd.)</div>
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> March 28, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM</div>
+                        </div>
+                        <div class="seminar-description">
+                            Insights into integrated battle groups, multi-domain operations, and counter-insurgency evolution.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Doctrine</span>
+                            <span class="tag">Operations</span>
+                            <span class="tag">Free Entry</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Defense Diplomacy and Military Strategy</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-user"></i> Brig. S. Kapoor</div>
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> April 8, 2025</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 6:30 PM - 8:00 PM</div>
+                        </div>
+                        <div class="seminar-description">
+                            A discussion on international military cooperation, peacekeeping operations, and strategic deterrence.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Strategy</span>
+                            <span class="tag">Diplomacy</span>
+                            <span class="tag">Seminar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="seminar-card webinars">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa fa-desktop"></i>
+                        </div>
+                        <h2 class="card-title">Monthly Webinar Series</h2>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Doctrine Brief: Monthly Insights</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> Last Friday of each month</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 12:00 PM - 1:00 PM</div>
+                            <div class="detail-item"><i class="fa fa-laptop"></i> Online Platform</div>
+                        </div>
+                        <div class="seminar-description">
+                            Monthly updates from military thinkers on evolving warfare strategies and defense trends.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Doctrine</span>
+                            <span class="tag">Online</span>
+                            <span class="tag">1 CEU</span>
+                        </div>
+                    </div>
+
+                    <div class="seminar-item">
+                        <div class="seminar-title">Career Progression Forum</div>
+                        <div class="seminar-details">
+                            <div class="detail-item"><i class="fa fa-calendar-o"></i> Third Wednesday monthly</div>
+                            <div class="detail-item"><i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM</div>
+                            <div class="detail-item"><i class="fa fa-laptop"></i> Interactive Session</div>
+                        </div>
+                        <div class="seminar-description">
+                            Explore Army leadership tracks, instructional command roles, and upward mobility in officer ranks.
+                        </div>
+                        <div class="seminar-tags">
+                            <span class="tag">Officer Training</span>
+                            <span class="tag">Career Path</span>
+                            <span class="tag">Forum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="registration-form">
+            <h3 class="text-center mb-4">Quick Registration</h3>
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" class="form-control" id="fullName" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profession">Profession *</label>
+                            <select class="form-control" id="profession" required>
+                                <option value="">Select your profession</option>
+                                <option value="physician">Physician</option>
+                                <option value="nurse">Nurse</option>
+                                <option value="pharmacist">Pharmacist</option>
+                                <option value="therapist">Therapist</option>
+                                <option value="other">Other Healthcare Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="seminarInterest">Seminar of Interest *</label>
+                            <select class="form-control" id="seminarInterest" required>
+                                <option value="">Select a seminar</option>
+                                <option value="patient-care">Advanced Patient Care Management</option>
+                                <option value="digital-health">Digital Health Technologies</option>
+                                <option value="leadership">Leadership in Healthcare</option>
+                                <option value="emergency">Emergency Response Training</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-user-plus"></i> Register for Seminars
+                    </button>
+                    <a href="#" class="btn btn-outline-success">
+                        <i class="fa fa-download"></i> Download Brochure
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+    <script>
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>

@@ -1,0 +1,178 @@
+﻿@page "/awc-hub"
+
+
+
+    <style>
+        body {
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hub-header {
+            background: #990000;
+            color: #fff;
+            font-size: 36px;
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top:8px;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            display: flex;
+            align-items: stretch;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+            .main-content .image-left {
+                flex: 1;
+                overflow: hidden;
+                border-radius: 0px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+                .main-content .image-left img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    min-height: 400px;
+                }
+
+            .main-content .image-left {
+                flex: 2; /* Increase width */
+            }
+
+            .main-content .content-right {
+                flex: 1; /* Decrease width */
+            }
+
+
+            .main-content .content-right {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+
+        .content-right p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .events-box {
+            background: #fff;
+            padding: 25px;
+            border-left: 6px solid #990000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+        }
+
+            .events-box h5 {
+                margin-bottom: 20px;
+                font-size: 20px;
+                color: #333;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 8px;
+                font-weight: bold;
+            }
+
+        .event-item {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #333;
+        }
+
+            .event-item i {
+                color: #007b5e;
+                margin-right: 10px;
+            }
+
+        .back-button-container {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #990000;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .back-button i {
+                margin-right: 6px;
+            }
+
+            .back-button:hover {
+                background-color: #770000;
+                text-decoration: none;
+                color: #fff;
+            }
+
+
+    </style>
+
+
+
+        <div class="hub-header">HUB</div>
+
+        <div class="back-button-container">
+            <a href="javascript:history.back()" class="back-button">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="main-container">
+            <div class="main-content">
+                <div class="image-left">
+                    <img src="assets/images/primg/hub.png" alt="Theatre Image">
+                </div>
+                <div class="content-right">
+                    <p>
+                        The HUB is the central platform where officers and students converge for news, updates, and key happenings. Whether you're preparing for a session, attending a seminar, or joining recreational events, this space ensures you're well-informed and engaged.
+                    </p>
+                    <p>
+                        Stay tuned to upcoming lectures, movie screenings, workshops, and guest visits. This portal reflects our belief in holistic development and collective learning.
+                    </p>
+                </div>
+            </div>
+
+            <div class="events-box">
+                <h5>📅 Upcoming Events</h5>
+                <div class="event-item">
+                    <i class="fa fa-video-camera"></i> Movie MI-8 <span>(23rd to 25th May 2025)</span>
+                </div>
+                <div class="event-item">
+                    <i class="fa fa-university"></i> Lecture on Defence Management <span>(29th May 2025)</span>
+                </div>
+            </div>
+        </div>
+

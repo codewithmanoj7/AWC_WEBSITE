@@ -1,0 +1,797 @@
+﻿@page "/medicals"
+
+    <title>Medical Complex - Army War College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .hub-header {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: #fff;
+            font-size: 38px;
+            text-align: center;
+            padding: 25px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hub-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                animation: shine 3s infinite;
+            }
+
+        body {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .top-section {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+            .hero-image img {
+                width: 100%;
+                height: 630px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+
+            .hero-image:hover img {
+                transform: scale(1.05);
+            }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .image-nav:hover {
+                transform: translateY(-50%) scale(1.1);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+
+            .image-nav.prev {
+                left: 15px;
+            }
+
+            .image-nav.next {
+                right: 15px;
+            }
+
+        .content-right {
+            flex: 1;
+            padding-left: 25px;
+        }
+
+        .content-text {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .heading-section {
+            margin-bottom: 25px;
+        }
+
+        .heading-title {
+            background: linear-gradient(135deg, #c62828, #d32f2f);
+            color: white;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #ef5350, #f44336);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .nav-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .nav-button:hover::before {
+                left: 100%;
+            }
+
+            .nav-button:hover {
+                transform: translateX(5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .features-section {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .feature-card {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .feature-header {
+            background: linear-gradient(135deg, #c62828, #d32f2f);
+            color: white;
+            padding: 12px 20px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+            .feature-list li {
+                padding: 8px 0;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .feature-list li:last-child {
+                    border-bottom: none;
+                }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ef5350, #f44336);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .bottom-section {
+            display: flex;
+            gap: 25px;
+        }
+
+        .schedule-section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            background: linear-gradient(135deg, #ff5722, #f44336);
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .schedule-table th {
+                background: linear-gradient(135deg, #c62828, #d32f2f);
+                color: white;
+                padding: 12px;
+                text-align: center;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .schedule-table td {
+                padding: 12px;
+                border: 1px solid #e0e0e0;
+                font-size: 12px;
+                text-align: center;
+            }
+
+        .time-slot {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            font-weight: bold;
+        }
+
+        .activity {
+            background: #f9f9f9;
+        }
+
+        .emergency {
+            background: linear-gradient(135deg, #ffcdd2, #f8bbd9);
+            font-weight: bold;
+            color: #c62828;
+        }
+
+        .contact-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .contact-header {
+            background: linear-gradient(135deg, #c62828, #d32f2f);
+            color: white;
+            padding: 12px 20px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+            .contact-row .label {
+                font-weight: bold;
+                color: #333;
+            }
+
+        .emergency-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #f44336;
+        }
+
+        .emergency-header {
+            background: linear-gradient(135deg, #c62828, #d32f2f);
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .emergency-content {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .emergency-numbers {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+            .emergency-numbers li {
+                padding: 8px 0;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+                .emergency-numbers li:last-child {
+                    border-bottom: none;
+                }
+
+        .emergency-icon {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .back-button-container {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .back-button i {
+                margin-right: 8px;
+            }
+
+            .back-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                text-decoration: none;
+                color: #fff;
+            }
+
+        .stats-banner {
+            background: linear-gradient(135deg, #ff5722, #f44336);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .alert-banner {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+    </style>
+
+
+    <div class="hub-header">MEDICAL COMPLEX</div>
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="back-button">
+            <i class="fa fa-arrow-left"></i> Back to Main Campus
+        </a>
+    </div>
+    <div class="container">
+        <div class="alert-banner">
+            🚨 EMERGENCY HOTLINE: 135-2694-911 | 24/7 MEDICAL SERVICES AVAILABLE
+        </div>
+
+        <div class="stats-banner">
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Emergency Services</p>
+            </div>
+            <div class="stat-item">
+                <h3>15</h3>
+                <p>Medical Specialists</p>
+            </div>
+            <div class="stat-item">
+                <h3>50</h3>
+                <p>Bed Capacity</p>
+            </div>
+            <div class="stat-item">
+                <h3>3</h3>
+                <p>Operation Theaters</p>
+            </div>
+        </div>
+
+        <div class="top-section">
+            <div class="hero-image">
+                <img src="assets/images/primg/medicals3.jpg" alt="Medical Complex" id="heroImage">
+                <button class="image-nav prev" onclick="previousImage()">‹</button>
+                <button class="image-nav next" onclick="nextImage()">›</button>
+            </div>
+            <div class="content-right">
+                <div class="content-text">
+                    The Army War College Medical Complex serves as a comprehensive healthcare facility providing world-class medical services to military personnel, faculty, and their families. Our state-of-the-art facility is equipped with advanced medical technology and staffed by experienced military medical professionals.
+                </div>
+                <div class="content-text">
+                    Operating 24/7, our medical complex ensures immediate access to emergency care, specialized treatments, and preventive healthcare services. The facility maintains the highest standards of military medical care while incorporating modern healthcare practices and cutting-edge medical equipment.
+                </div>
+                <div class="heading-section">
+                    <div class="heading-title">Medical Services</div>
+                    <div class="nav-buttons">
+                        <button class="nav-button" onclick="showSection('emergency')">
+                            <div class="nav-icon">🚨</div>
+                            <span>Emergency & Trauma Care</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('specialist')">
+                            <div class="nav-icon">👨‍⚕️</div>
+                            <span>Specialist Consultations</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('diagnostic')">
+                            <div class="nav-icon">🔬</div>
+                            <span>Diagnostic Services</span>
+                        </button>
+                        <button class="nav-button" onclick="showSection('pharmacy')">
+                            <div class="nav-icon">💊</div>
+                            <span>Pharmacy & Medicine</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="feature-card">
+                <div class="feature-header">Emergency Services</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">🚑</span> 24/7 Ambulance Service</li>
+                    <li><span class="feature-icon">🏥</span> Trauma & Emergency Care</li>
+                    <li><span class="feature-icon">⚡</span> Rapid Response Team</li>
+                    <li><span class="feature-icon">🩹</span> Wound Care & Surgery</li>
+                    <li><span class="feature-icon">💉</span> Blood Bank & Transfusion</li>
+                    <li><span class="feature-icon">🫀</span> Cardiac Emergency Unit</li>
+                    <li><span class="feature-icon">🧠</span> Neurological Emergency</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">Specialist Departments</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">🫀</span> Cardiology & Heart Care</li>
+                    <li><span class="feature-icon">🦴</span> Orthopedics & Bone</li>
+                    <li><span class="feature-icon">🧠</span> Neurology & Brain</li>
+                    <li><span class="feature-icon">👁️</span> Ophthalmology & Eye Care</li>
+                    <li><span class="feature-icon">🦷</span> Dental & Oral Surgery</li>
+                    <li><span class="feature-icon">🩺</span> Internal Medicine</li>
+                    <li><span class="feature-icon">🧘</span> Mental Health & Psychiatry</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">Diagnostic Services</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon">📷</span> X-Ray & Imaging</li>
+                    <li><span class="feature-icon">🧲</span> MRI & CT Scans</li>
+                    <li><span class="feature-icon">🔬</span> Laboratory Services</li>
+                    <li><span class="feature-icon">🫀</span> ECG & Cardiac Tests</li>
+                    <li><span class="feature-icon">🔍</span> Pathology & Biopsy</li>
+                    <li><span class="feature-icon">📊</span> Health Screening</li>
+                    <li><span class="feature-icon">💻</span> Digital Health Records</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="schedule-section">
+                <div class="schedule-header">DAILY MEDICAL SCHEDULE</div>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-slot">06:00-08:00</td>
+                            <td class="activity">General OPD</td>
+                            <td class="activity">Cardiology</td>
+                            <td class="activity">General OPD</td>
+                            <td class="activity">Orthopedics</td>
+                            <td class="activity">General OPD</td>
+                            <td class="activity">Emergency Only</td>
+                            <td class="emergency">Emergency Only</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">08:00-12:00</td>
+                            <td class="activity">Specialist Clinics</td>
+                            <td class="activity">Surgery OPD</td>
+                            <td class="activity">Dental Clinic</td>
+                            <td class="activity">Eye Care</td>
+                            <td class="activity">Neurology</td>
+                            <td class="activity">Routine Checkup</td>
+                            <td class="emergency">Emergency Only</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">12:00-14:00</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="activity">Lunch Break</td>
+                            <td class="emergency">Emergency Only</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">14:00-18:00</td>
+                            <td class="activity">Lab Services</td>
+                            <td class="activity">Physiotherapy</td>
+                            <td class="activity">Mental Health</td>
+                            <td class="activity">Diagnostic Tests</td>
+                            <td class="activity">General Medicine</td>
+                            <td class="activity">Health Screening</td>
+                            <td class="emergency">Emergency Only</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">18:00-22:00</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                            <td class="emergency">Emergency Ward</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">22:00-06:00</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                            <td class="emergency">Night Emergency</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="contact-section">
+                <div class="contact-info">
+                    <div class="contact-header">MEDICAL STAFF DIRECTORY</div>
+                    <div class="contact-row">
+                        <span class="label">Chief Medical Officer</span>
+                        <span class="label">Direct Line</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>Brig. Dr. Kumar</span>
+                        <span>+91-135-2694-520</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Emergency Coordinator</span>
+                        <span class="label">24x7 Emergency</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>Lt. Col. Dr. Sharma</span>
+                        <span>+91-135-2694-911</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="label">Pharmacy In-charge</span>
+                        <span class="label">Medicine Inquiry</span>
+                    </div>
+                    <div class="contact-row">
+                        <span>Maj. Patel</span>
+                        <span>+91-135-2694-525</span>
+                    </div>
+                </div>
+
+                <div class="emergency-section">
+                    <div class="emergency-header">
+                        <span>🚨</span> EMERGENCY CONTACTS
+                    </div>
+                    <div class="emergency-content">
+                        For immediate medical assistance, dial any of the following emergency numbers. Our medical team is available 24/7 for all types of medical emergencies.
+                        <ul class="emergency-numbers">
+                            <li><span class="emergency-icon">📞</span> Main Emergency: 135-2694-911</li>
+                            <li><span class="emergency-icon">🚑</span> Ambulance Service: 135-2694-912</li>
+                            <li><span class="emergency-icon">🏥</span> Trauma Unit: 135-2694-913</li>
+                            <li><span class="emergency-icon">💊</span> Poison Control: 135-2694-914</li>
+                            <li><span class="emergency-icon">🫀</span> Cardiac Emergency: 135-2694-915</li>
+                            <li><span class="emergency-icon">🧠</span> Neurological Emergency: 135-2694-916</li>
+                            <li><span class="emergency-icon">👶</span> Pediatric Emergency: 135-2694-917</li>
+                            <li><span class="emergency-icon">🚨</span> Medical Helpline: medical.emergency@awc.gov.in</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image carousel functionality for swimming pool images
+        const images = [
+            'assets/images/primg/medicals3.jpg',
+            'assets/images/primg/medicals2.jpg',
+            'assets/images/primg/medicals1.jpg',
+        ];
+        let currentImageIndex = 0;
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('heroImage').src = images[currentImageIndex];
+        }
+
+        // Auto-advance images every 5 seconds
+        setInterval(nextImage, 5000);
+
+        // Calendar navigation
+        function nextMonth() {
+            console.log('Next month clicked');
+            // Add calendar navigation logic here
+        }
+
+        function previousMonth() {
+            console.log('Previous month clicked');
+            // Add calendar navigation logic here
+        }
+
+        // Section navigation
+        function showSection(section) {
+            alert(`Navigating to ${section} section`);
+            // Add section navigation logic here
+        }
+
+        function showFacility(facility) {
+            alert(`Showing ${facility} facility details`);
+            // Add facility details logic here
+        }
+
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update visitor count with animation
+        function animateVisitorCount() {
+            const counter = document.getElementById('visitorCount');
+            const target = parseInt(counter.textContent.replace(/,/g, ''));
+            let current = target - 100;
+
+            const increment = () => {
+                if (current < target) {
+                    current += Math.ceil((target - current) / 20);
+                    counter.textContent = current.toLocaleString();
+                    setTimeout(increment, 50);
+                }
+            };
+            increment();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+
+            setTimeout(animateVisitorCount, 1000);
+
+            // Add hover effects to calendar cells
+            document.querySelectorAll('.calendar-table td').forEach(cell => {
+                cell.addEventListener('click', function () {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        alert(`Event: ${title}`);
+                    }
+                });
+            });
+        });
+    </script>

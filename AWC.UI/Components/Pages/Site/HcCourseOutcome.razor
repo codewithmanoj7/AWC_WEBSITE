@@ -1,0 +1,218 @@
+﻿@page "/hcoutcome"
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #222;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ccc;
+        }
+
+            .header h1 {
+                font-size: 2.5rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #222;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+                color: #555;
+            }
+
+        /* Course Section Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Course Card */
+        .course-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+            .course-card h2 {
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+                color: #2c3e50;
+                font-weight: 600;
+            }
+
+        .course-content {
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+            .course-content ul {
+                list-style-type: disc;
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+
+            .course-content li {
+                margin-bottom: 8px;
+            }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+            .btn:hover {
+                background-color: #1a252f;
+            }
+
+        /* Stats Section */
+        .stats-section {
+            background-color: #e9e9e9;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+
+    </style>
+
+    <div class="container">
+        <div class="header">
+            <h1>Army Leadership Courses</h1>
+            <p>Strengthening Command, Strategy, and Service</p>
+        </div>
+
+        <div class="courses-grid">
+            <div class="course-card outcome">
+                <h2>
+                    <span class="icon">🎯</span>
+                    Course Objectives
+                </h2>
+                <div class="course-content">
+                    <p>Our leadership programs are designed to enhance strategic military effectiveness and operational excellence:</p>
+                    <ul>
+                        <li>Strengthen leadership and decision-making skills</li>
+                        <li>Improve mission planning and execution</li>
+                        <li>Develop strategic thinking in complex environments</li>
+                        <li>Promote joint operations understanding</li>
+                        <li>Advance knowledge in military tactics and logistics</li>
+                        <li>Prepare officers for senior command roles</li>
+                        <li>Foster inter-service collaboration</li>
+                    </ul>
+                    <a href="#" class="btn">Explore Leadership Objectives</a>
+                </div>
+            </div>
+
+            <div class="course-card eligibility">
+                <h2>
+                    <span class="icon">📋</span>
+                    Eligibility Requirements
+                </h2>
+                <div class="course-content">
+                    <p>To ensure readiness and relevance, all candidates must meet the following:</p>
+                    <ul>
+                        <li>Commissioned officer of Indian Army or allied forces</li>
+                        <li>Minimum 5 years of active military service</li>
+                        <li>Strong performance in previous leadership roles</li>
+                        <li>Recommendation from commanding officer</li>
+                        <li>Basic operational planning skills</li>
+                        <li>Commitment to full participation</li>
+                        <li>Physical and mental fitness clearance</li>
+                    </ul>
+                    <a href="#" class="btn">Verify Your Eligibility</a>
+                </div>
+            </div>
+
+            <div class="course-card seminars">
+                <h2>
+                    <span class="icon">🎓</span>
+                    Seminars & Field Exercises
+                </h2>
+                <div class="course-content">
+                    <p>Our holistic learning programs combine theory with hands-on military exercises:</p>
+                    <ul>
+                        <li>Strategy and war-gaming simulations</li>
+                        <li>Joint command planning workshops</li>
+                        <li>Leadership in high-stress environments</li>
+                        <li>Combat readiness drills</li>
+                        <li>Guest lectures by senior officers</li>
+                        <li>Doctrine and operational innovation discussions</li>
+                        <li>Advanced scenario-based field exercises</li>
+                    </ul>
+                    <a href="#" class="btn">View Event Schedule</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>10,000+</h3>
+                    <p>Officers Trained</p>
+                </div>
+                <div class="stat-item">
+                    <h3>98%</h3>
+                    <p>Leadership Program Success Rate</p>
+                </div>
+                <div class="stat-item">
+                    <h3>75+</h3>
+                    <p>Military Courses Delivered</p>
+                </div>
+                <div class="stat-item">
+                    <h3>4.9/5</h3>
+                    <p>Officer Satisfaction Rating</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+

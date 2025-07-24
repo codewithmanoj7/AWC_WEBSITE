@@ -1,0 +1,656 @@
+﻿@page "/kalyanishop"
+
+
+    <title>Kalyani Shop Complex - One Stop Shopping Destination</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .hub-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            font-size: 42px;
+            text-align: center;
+            padding: 30px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hub-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                animation: shine 4s infinite;
+            }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .hero-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+            .hero-image img {
+                width: 100%;
+                height: 400px;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+
+            .hero-image:hover img {
+                transform: scale(1.08);
+            }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .welcome-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .products-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+
+            .section-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 3px;
+                background: rgba(255,255,255,0.5);
+            }
+
+        .products-grid {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-category {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .product-category::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                transition: left 0.6s;
+            }
+
+            .product-category:hover::before {
+                left: 100%;
+            }
+
+            .product-category:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            }
+
+        .category-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .category-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #2d3436;
+        }
+
+        .category-items {
+            font-size: 12px;
+            color: #636e72;
+            line-height: 1.4;
+        }
+
+        .price-range {
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            font-weight: bold;
+            color: #e17055;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .timing-section,
+        .amenities-section,
+        .contact-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .timing-content,
+        .amenities-content,
+        .contact-content {
+            padding: 20px;
+        }
+
+        .timing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f2f6;
+            font-size: 14px;
+        }
+
+            .timing-row:last-child {
+                border-bottom: none;
+            }
+
+        .day {
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .time {
+            color: #00b894;
+            font-weight: 600;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .amenity-item {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .amenity-item:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .contact-label {
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .contact-value {
+            color: #0984e3;
+            font-weight: 600;
+        }
+
+        .location-map {
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .location-map:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+        .special-offers {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .special-offers::before {
+                content: '🎉';
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 24px;
+                animation: bounce 2s infinite;
+            }
+
+      
+
+        .offer-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .offer-details {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .visit-counter {
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .social-link:hover {
+                transform: scale(1.1);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+      </style>
+
+
+    <div class="hub-header">KALYANI SHOP COMPLEX</div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="Kalyani Shop Complex">
+                <div class="image-overlay">
+                    <h3>Your One-Stop Shopping Destination</h3>
+                    <p>Everything you need under one roof!</p>
+                </div>
+            </div>
+            <div class="hero-content">
+                <div class="welcome-text">
+                    Welcome to Kalyani Shop Complex, the largest and most comprehensive shopping destination in the region. We pride ourselves on offering an extensive range of products from daily essentials to luxury items, all under one convenient roof.
+                </div>
+                <div class="welcome-text">
+                    With over 50 specialized departments and a commitment to quality and affordability, Kalyani Shop Complex has been serving the community for over two decades, establishing itself as the trusted choice for thousands of families.
+                </div>
+
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Customer Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="special-offers">
+            <div class="offer-title">🛍️ SPECIAL WEEKEND OFFERS 🛍️</div>
+            <div class="offer-details">
+                Get up to 30% off on Electronics | Buy 2 Get 1 Free on Clothing |
+                20% off on Groceries above ₹1000 | Free Home Delivery on orders above ₹2000
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="products-section">
+                <div class="section-header">🏪 Our Product Categories & Pricing</div>
+                <div class="products-grid">
+                    <div class="product-category" onclick="showCategory('groceries')">
+                        <span class="category-icon">🛒</span>
+                        <div class="category-name">Groceries & Food</div>
+                        <div class="category-items">Rice, Wheat, Pulses, Oils, Spices, Snacks, Beverages, Dairy Products</div>
+                        <div class="price-range">₹10 - ₹2,000</div>
+                    </div>
+
+                    <div class="product-category" onclick="showCategory('electronics')">
+                        <span class="category-icon">📱</span>
+                        <div class="category-name">Electronics</div>
+                        <div class="category-items">Mobile Phones, Laptops, TVs, Home Appliances, Gaming, Accessories</div>
+                        <div class="price-range">₹500 - ₹1,50,000</div>
+                    </div>
+
+                    <div class="product-category" onclick="showCategory('clothing')">
+                        <span class="category-icon">👗</span>
+                        <div class="category-name">Fashion & Clothing</div>
+                        <div class="category-items">Men's, Women's, Kids Wear, Traditional, Western, Footwear, Accessories</div>
+                        <div class="price-range">₹200 - ₹15,000</div>
+                    </div>
+
+                    <div class="product-category" onclick="showCategory('home')">
+                        <span class="category-icon">🏠</span>
+                        <div class="category-name">Home & Kitchen</div>
+                        <div class="category-items">Furniture, Kitchenware, Decor, Bedding, Storage, Cleaning Supplies</div>
+                        <div class="price-range">₹50 - ₹50,000</div>
+                    </div>
+
+                    <div class="product-category" onclick="showCategory('health')">
+                        <span class="category-icon">💊</span>
+                        <div class="category-name">Health & Beauty</div>
+                        <div class="category-items">Medicines, Cosmetics, Skincare, Personal Care, Health Supplements</div>
+                        <div class="price-range">₹25 - ₹5,000</div>
+                    </div>
+
+                    <div class="product-category" onclick="showCategory('sports')">
+                        <span class="category-icon">⚽</span>
+                        <div class="category-name">Sports & Toys</div>
+                        <div class="category-items">Sports Equipment, Fitness Gear, Kids Toys, Games, Outdoor Gear</div>
+                        <div class="price-range">₹100 - ₹25,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="timing-section">
+                    <div class="section-header">🕒 Store Timings</div>
+                    <div class="timing-content">
+                        <div class="timing-row">
+                            <span class="day">Monday - Friday</span>
+                            <span class="time">9:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="day">Saturday</span>
+                            <span class="time">9:00 AM - 11:00 PM</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="day">Sunday</span>
+                            <span class="time">10:00 AM - 9:00 PM</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="day">Public Holidays</span>
+                            <span class="time">10:00 AM - 8:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="amenities-section">
+                    <div class="section-header">✨ Amenities & Services</div>
+                    <div class="amenities-content">
+                        <p style="margin-bottom: 15px; font-size: 14px; color: #636e72;">We offer world-class amenities to make your shopping experience comfortable and enjoyable.</p>
+                        <div class="amenities-grid">
+                            <div class="amenity-item">🅿️ Free Parking</div>
+                            <div class="amenity-item">❄️ AC Throughout</div>
+                            <div class="amenity-item">🚚 Home Delivery</div>
+                            <div class="amenity-item">💳 Card Payments</div>
+                            <div class="amenity-item">🛡️ Security</div>
+                            <div class="amenity-item">♿ Wheelchair Access</div>
+                            <div class="amenity-item">🍽️ Food Court</div>
+                            <div class="amenity-item">🎪 Kids Play Area</div>
+                            <div class="amenity-item">📶 Free WiFi</div>
+                            <div class="amenity-item">🚻 Clean Restrooms</div>
+                            <div class="amenity-item">🎁 Gift Wrapping</div>
+                            <div class="amenity-item">🔧 Repair Services</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <div class="section-header">📞 Contact Information</div>
+                    <div class="contact-content">
+                        <div class="contact-row">
+                            <span class="contact-label">Main Store:</span>
+                            <span class="contact-value">+91-98765-43210</span>
+                        </div>
+                        <div class="contact-row">
+                            <span class="contact-label">Customer Care:</span>
+                            <span class="contact-value">1800-123-4567</span>
+                        </div>
+                        <div class="contact-row">
+                            <span class="contact-label">Email:</span>
+                            <span class="contact-value">info@kalyani.com</span>
+                        </div>
+                        <div class="contact-row">
+                            <span class="contact-label">Website:</span>
+                            <span class="contact-value">www.kalyani.com</span>
+                        </div>
+                        <div class="contact-row">
+                            <span class="contact-label">Manager:</span>
+                            <span class="contact-value">Rajesh Kumar</span>
+                        </div>
+
+                        <div class="location-map" onclick="showLocation()">
+                            📍 123 Main Street, Commercial Complex<br>
+                            New Delhi - 110001<br>
+                            <strong>Click for Directions</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-content">
+                <div class="visit-counter">
+                    👥 Daily Visitors: <strong id="visitorCount" style="color:white;">2,847</strong>
+                </div>
+                <div>
+                    🕐 <span id="currentTime"></span>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Facebook">📘</a>
+                    <a href="#" class="social-link" title="Instagram">📷</a>
+                    <a href="#" class="social-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-link" title="WhatsApp">💬</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        function showCategory(category) {
+            alert(`Showing ${category} category details and current offers!`);
+        }
+
+        function showLocation() {
+            alert('Opening Google Maps for directions to Kalyani Shop Complex...');
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', options);
+        }
+
+        function animateVisitorCount() {
+            const counter = document.getElementById('visitorCount');
+            let count = 2800;
+            const target = 2847;
+
+            const increment = () => {
+                if (count < target) {
+                    count += Math.ceil(Math.random() * 3);
+                    counter.textContent = count.toLocaleString();
+                    setTimeout(increment, 100);
+                }
+            };
+            increment();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateTime();
+            setInterval(updateTime, 1000);
+            setTimeout(animateVisitorCount, 2000);
+
+            // Add click effects to product categories
+            document.querySelectorAll('.product-category').forEach(category => {
+                category.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+
+                category.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>

@@ -1,0 +1,364 @@
+﻿@page "/deptofadm"
+
+
+
+    <title>Department of Administration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header-section {
+            background-color: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            margin-top:12px;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            color:white;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .content-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            background-color: #2d3748;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .section-content {
+            padding: 25px;
+        }
+
+            .section-content p {
+                margin-bottom: 15px;
+                text-align: justify;
+            }
+
+        .services-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+            .services-list li {
+                padding: 12px;
+                border-bottom: 1px solid #e2e8f0;
+                display: flex;
+                align-items: center;
+            }
+
+                .services-list li:last-child {
+                    border-bottom: none;
+                }
+
+                .services-list li i {
+                    color: #2d3748;
+                    margin-right: 12px;
+                    width: 20px;
+                }
+
+        .stats-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #e2e8f0;
+        }
+
+        .stat-item {
+            background: white;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+        }
+
+        .sidebar-header {
+            background-color: #2d3748;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .sidebar-content {
+            padding: 20px;
+        }
+
+        .links-list {
+            list-style: none;
+        }
+
+            .links-list li {
+                margin-bottom: 10px;
+            }
+
+            .links-list a {
+                color: #2d3748;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid transparent;
+            }
+
+                .links-list a:hover {
+                    color: #1a365d;
+                    border-bottom-color: #e2e8f0;
+                }
+
+                .links-list a i {
+                    margin-right: 10px;
+                    width: 16px;
+                }
+
+        .office-hours table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .office-hours td {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+            .office-hours td:first-child {
+                font-weight: 600;
+                color: #2d3748;
+            }
+
+        .notice-text {
+            background-color: #f7fafc;
+            border-left: 4px solid #2d3748;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+    
+    </style>
+
+
+    <div class="header-section">
+        <h1 class="header-title">DEPARTMENT OF ADMINISTRATION</h1>
+        <p class="header-subtitle">Army War College</p>
+    </div>
+
+    <div class="main-container">
+        <div class="stats-section">
+            <div class="section-header">Department Overview</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Divisions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Staff</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Daily Files</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Operations</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-layout">
+            <div class="main-content">
+                <div class="content-section">
+                    <div class="section-header">About the Department</div>
+                    <div class="section-content">
+                        <p>The Department of Administration serves as the central coordinating body for all administrative functions within the Army War College. Established to ensure efficient management of institutional operations, the department oversees policy implementation, resource allocation, and interdepartmental coordination.</p>
+
+                        <p>Our department is committed to maintaining the highest standards of administrative excellence while supporting the academic and training mission of the college. We work closely with all departments to ensure seamless operations and effective governance.</p>
+
+                        <p>The department operates under the direct supervision of the Commandant and implements policies in accordance with Army regulations and institutional guidelines. We are responsible for strategic planning, process optimization, and ensuring compliance with all regulatory requirements.</p>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">Key Functions & Services</div>
+                    <div class="section-content">
+                        <ul class="services-list">
+                            <li><i class="fas fa-file-alt"></i> Document Management and Record Keeping</li>
+                            <li><i class="fas fa-users"></i> Personnel Administration and HR Services</li>
+                            <li><i class="fas fa-chart-line"></i> Budget Planning and Financial Coordination</li>
+                            <li><i class="fas fa-cogs"></i> Policy Development and Implementation</li>
+                            <li><i class="fas fa-handshake"></i> Inter-departmental Coordination</li>
+                            <li><i class="fas fa-clipboard-check"></i> Compliance and Quality Assurance</li>
+                            <li><i class="fas fa-desktop"></i> Administrative IT Systems Management</li>
+                            <li><i class="fas fa-calendar-alt"></i> Institutional Planning and Scheduling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">Organizational Structure</div>
+                    <div class="section-content">
+                        <p>The Department of Administration is organized into specialized divisions to ensure effective management of diverse administrative functions:</p>
+
+                        <div class="notice-text">
+                            <strong>Administrative Divisions:</strong> General Administration, Personnel Management, Financial Services, Records Management, Protocol and Liaison, IT Administration, Facilities Management, and Strategic Planning.
+                        </div>
+
+                        <p>Each division operates under qualified administrative officers who report to the departmental head. The department maintains coordination with academic departments, training wings, and support services to ensure integrated institutional management.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Links</div>
+                    <div class="sidebar-content">
+                        <ul class="links-list">
+                            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                            <li><a href="#"><i class="fas fa-phone"></i> Contact Directory</a></li>
+                            <li><a href="#"><i class="fas fa-download"></i> Forms & Downloads</a></li>
+                            <li><a href="#"><i class="fas fa-book"></i> Policies & Procedures</a></li>
+                            <li><a href="#"><i class="fas fa-calendar"></i> Official Calendar</a></li>
+                            <li><a href="#"><i class="fas fa-envelope"></i> Official Communications</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Office Hours</div>
+                    <div class="sidebar-content">
+                        <div class="office-hours">
+                            <table>
+                                <tr>
+                                    <td>Monday - Friday:</td>
+                                    <td>0900 - 1700 hrs</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday:</td>
+                                    <td>0900 - 1300 hrs</td>
+                                </tr>
+                                <tr>
+                                    <td>Emergency:</td>
+                                    <td>24x7 Available</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Important Notice</div>
+                    <div class="sidebar-content">
+                        <p><strong>New Administrative Procedures:</strong> Updated filing procedures are now in effect. All departments must follow the new guidelines for official correspondence.</p>
+
+                        <p><strong>System Maintenance:</strong> Administrative systems will undergo scheduled maintenance on weekends. Plan accordingly for any urgent requirements.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Contact Information</div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong>Department Head:</strong><br>
+                            Colonel (Administration)
+                        </p>
+
+                        <p><strong>Office:</strong> Admin Block, Room 101</p>
+
+                        <p><strong>Phone:</strong> +91-XXXX-XXXXXX</p>
+
+                        <p><strong>Email:</strong> admin@awc.edu.in</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        setInterval(updateDateTime, 60000);
+        updateDateTime();
+    </script>
