@@ -1,0 +1,167 @@
+﻿.auth-overlay {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+/*    background: url('assets/images/auth-bg.jpg') no-repeat center center;
+*/    background-size: cover;
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 40px #21212180;
+    border-radius: 10px;
+    width: 500px;
+}
+
+
+.auth-box-header {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 10px 10px 0 0;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tab-switch {
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    background: transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+    .tab-switch:hover {
+        background-color: rgba(229, 66, 74, 0.15);
+        color: #e5424a;
+    }
+
+    .tab-switch.active {
+        background-color: #e5424a;
+        color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        border-color: #e5424a;
+    }
+
+
+
+
+.auth-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-box-header {
+    text-align: center;
+}
+
+    .auth-box-header span {
+        padding: .5rem;
+    }
+
+    .auth-box-header .active {
+        border-bottom: 2px solid #e5424a;
+    }
+
+::deep form {
+    padding: 30px;
+}
+
+::deep input {
+    direction: ltr;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 500px) {
+    .auth-box {
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .auth-group {
+        width: 100%;
+    }
+
+    .card {
+        border-radius: 0;
+    }
+}
+
+h1.title {
+    direction: rtl;
+    font-size: 50px;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.footer {
+    position: fixed; /* Ensure the footer remains fixed at the bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Stretch horizontally across the page */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-align: center; /* Center the text inside the footer */
+}
+
+.card-title {
+    color: #e5424a;
+}
+
+a {
+    text-decoration: none;
+    color: #FF0000; /* Link color */
+}
+
+    a:hover {
+        color: #F3F100; /* Hover color */
+    }
+
+.card {
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.logo {
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Spacing around the content */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+    .logo img {
+        border-radius: 50%; /* Optional: make the logo image circular */
+        max-height: 50px; /* Adjust as needed */
+    }
+
+    .logo span {
+        margin-left: 10px;
+        font-size: 1rem; /* Adjust font size */
+        color: #333; /* Text color for contrast */
+        text-decoration: none; /* Remove underline from title */
+    }
+
+    .logo a:hover span {
+        text-decoration: none; /* Ensure underline is not shown on hover */
+    }

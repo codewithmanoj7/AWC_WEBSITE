@@ -1,0 +1,172 @@
+﻿@inject IAuthenticationStateService AuthenticationState
+@inject IPermissionStylingService PermissionStyling
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+
+<div class="top-row">
+    <div class="container-fluid" style="overflow: hidden; display: table; width: 100%;">
+
+        <!-- Left: Logo, Title and Mobile Menu Toggle -->
+        <div style="display: table-cell; vertical-align: middle;">
+            <button class="mobile-menu-toggle visible-xs-inline-block" @onclick="ToggleMobileMenu" style="margin-right: 15px; background: none; border: none;">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <img src="/img/logo.png" alt="Army War College Logo" style="height: 40px; margin-right: 10px;" />
+            <div style="display: inline-block;">
+                <h5 style="margin: 0;">Army War College</h5>
+                <small class="hidden-xs">Mhow, Madhya Pradesh</small>
+            </div>
+        </div>
+
+        <!-- Center: Date & Time (Hidden on small screens) -->
+        <div class="hidden-xs text-center" style="display: table-cell; vertical-align: middle;">
+            <span style="margin-right: 20px;"><i class="fa fa-clock-o"></i> <span id="current-time">@DateTime.Now.ToString("HH:mm")</span></span>
+            <span><i class="fa fa-calendar"></i> @DateTime.Now.ToString("dd MMM yyyy")</span>
+        </div>
+
+        <!-- Right: User Info -->
+        <div style="display: table-cell; vertical-align: middle; text-align: right;">
+
+            <!-- Notification Bell -->
+            <div class="hidden-xs" style="display: inline-block; margin-right: 15px;">
+                <button class="btn btn-link" title="Notifications" style="position: relative;">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge" style="position: absolute; top: -5px; right: -10px; background-color: red;">3</span>
+                </button>
+            </div>
+
+            <!-- User Dropdown -->
+            <div class="dropdown" style="display: inline-block; margin-right: 10px;">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    @{
+                        var initials = $"{AuthenticationState.User?.FirstName?.FirstOrDefault()}{AuthenticationState.User?.LastName?.FirstOrDefault()}";
+                    }
+                    <span class="avatar-text">@initials</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">
+                        <div>
+                            <strong>@AuthenticationState.User?.FirstName @AuthenticationState.User?.LastName</strong><br />
+                            <small>@AuthenticationState.User?.ICnumber</small>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/profile"><i class="fa fa-user"></i> My Profile</a></li>
+                    <li><a href="/settings"><i class="fa fa-gear"></i> Settings</a></li>
+                    <li><a href="/help"><i class="fa fa-question-circle"></i> Help & Support</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0)" class="text-danger" @onclick="InitiateLogout"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+                </ul>
+            </div>
+
+            <!-- Optional Sign Out Button -->
+            <button class="btn btn-danger hidden-xs" @onclick="InitiateLogout" disabled="@_isLoggingOut">
+                @if (_isLoggingOut)
+                {
+                    <i class="fa fa-spinner fa-spin"></i> <h4>Signing Out</h4>
+                }
+                else
+                {
+                    <i class="fa fa-sign-out"></i> <h4>Sign Out</h4>
+                }
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Logout Modal -->
+@if (_showLogoutModal)
+{
+    <div class="modal fade in" style="display: block; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog" style="margin-top: 15%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" @onclick="CancelLogout">&times;</button>
+                    <h4 class="modal-title">Confirm Sign Out</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to sign out?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" @onclick="CancelLogout">Cancel</button>
+                    <button class="btn btn-danger" @onclick="ConfirmLogout">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool _isLoggingOut = false;
+    private bool _showLogoutModal = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Start the clock update timer
+            await JSRuntime.InvokeVoidAsync("startClock");
+        }
+    }
+
+    private void ToggleMobileMenu()
+    {
+        // This would trigger mobile menu toggle
+        JSRuntime.InvokeVoidAsync("toggleMobileMenu");
+    }
+
+    private void InitiateLogout()
+    {
+        _showLogoutModal = true;
+        StateHasChanged();
+    }
+
+    private void CancelLogout()
+    {
+        _showLogoutModal = false;
+        StateHasChanged();
+    }
+
+    private async Task ConfirmLogout()
+    {
+        _isLoggingOut = true;
+        _showLogoutModal = false;
+        StateHasChanged();
+
+        // Add a small delay for better UX
+        await Task.Delay(500);
+
+        // Trigger actual logout
+        await JSRuntime.InvokeVoidAsync("performLogout");
+    }
+}
+
+<script>
+    window.startClock = () => {
+        setInterval(() => {
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = new Date().toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+        }, 1000);
+    };
+
+    window.toggleMobileMenu = () => {
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('show');
+        }
+    };
+
+    window.performLogout = () => {
+        document.cookie = 'AccessCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/auth/login';
+    };
+</script>

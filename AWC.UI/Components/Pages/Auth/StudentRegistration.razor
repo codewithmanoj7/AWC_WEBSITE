@@ -1,0 +1,133 @@
+﻿@* @page "/auth/student-register"
+ *@
+@layout EmptyLayout
+
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    body {
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .register-container {
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        width: 100%;
+    }
+
+    h3 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .form-group i {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #999;
+            font-size: 16px;
+        }
+
+    .form-control {
+        padding-left: 38px;
+        height: 45px;
+        font-size: 15px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #337ab7;
+        font-size: 14px;
+    }
+
+        .back-link i {
+            margin-right: 5px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+</style>
+
+<div class="register-container">
+    <h3><i class="fa fa-user-plus"></i> Army War College: Student Registration</h3>
+
+    <form>
+        <div class="row">
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-id-card form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="IC Number" required>
+            </div>
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-user form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="Full Name" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-shield form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="Rank (e.g., Lt, Col)" required>
+            </div>
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-envelope form-control-feedback"></i>
+                <input type="email" class="form-control" placeholder="Email" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-phone form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="Mobile Number" required>
+            </div>
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-building form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="Unit / Regiment" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-map-marker form-control-feedback"></i>
+                <input type="text" class="form-control" placeholder="Station Posted" required>
+            </div>
+            <div class="col-sm-6 form-group has-feedback">
+                <i class="fa fa-calendar form-control-feedback"></i>
+                <input type="date" class="form-control" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i> Register</button>
+
+        <a href="/auth/login" class="back-link"><i class="fa fa-arrow-left"></i> Back to Login</a>
+    </form>
+</div>

@@ -1,30 +1,130 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">AWC.UI</a>
+﻿@inject IAuthenticationStateService AuthenticationState
+@inject IPermissionStylingService PermissionStyling
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<div class="nav-sidebar">
+    <div class="nav-user-section">
+        <img src="/assets/images/logo.png" class="nav-logo" alt="Logo" />
+        <div class="nav-title">Army War College</div>
+        <div class="nav-subtitle">Mhow, MP</div>
+        <div class="nav-time-date">
+            <span id="current-time">@DateTime.Now.ToString("HH:mm")</span> |
+            <span>@DateTime.Now.ToString("dd MMM yyyy")</span>
+        </div>
+    </div>
+
+    <nav class="nav-links">
+        <NavLink href="" Match="NavLinkMatch.All"><i class="fa fa-home"></i> Home</NavLink>
+
+        @if (AuthenticationState?.User?.Permissions != null)
+        {
+            @switch (AuthenticationState?.User?.Permissions)
+            {
+                case UserPermissionsEnum.Administrator:
+                    <NavLink href="site"><i class="fa fa-globe"></i> Site</NavLink>
+                    <NavLink href="maestro"><i class="fa fa-music"></i> Maestro</NavLink>
+                    <NavLink href="syllabus"><i class="fa fa-book"></i> Syllabus</NavLink>
+                    <NavLink href="human-resources"><i class="fa fa-handshake-o"></i> Human Resource</NavLink>
+                    <NavLink href="classrooms"><i class="fa fa-university"></i> Classrooms</NavLink>
+                    <NavLink href="assets"><i class="fa fa-archive"></i> Assets</NavLink>
+                    <NavLink href="allotments"><i class="fa fa-list-alt"></i> Allotments</NavLink>
+                    <NavLink href="parade-state"><i class="fa fa-flag"></i> Parade State</NavLink>
+                    <NavLink href="assessments"><i class="fa fa-check-square-o"></i> Assessments</NavLink>
+                    <NavLink href="mutual-assessment"><i class="fa fa-handshake-o"></i> Mutual Assessment</NavLink>
+                    <NavLink href="medicals"><i class="fa fa-heartbeat"></i> Medicals</NavLink>
+                    <NavLink href="complaints"><i class="fa fa-exclamation-circle"></i> Complaints</NavLink>
+                    <NavLink href="reports"><i class="fa fa-line-chart"></i> Reports</NavLink>
+                    <NavLink href="manage/users"><i class="fa fa-users"></i> Manage Users</NavLink>
+                    <NavLink href="feedbacks"><i class="fa fa-commenting"></i> Feedback</NavLink>
+                    break;
+                case UserPermissionsEnum.ContentManager:
+                    <NavLink href="site"><i class="fa fa-globe"></i> Site</NavLink>
+                    break;
+                case UserPermissionsEnum.DirectingStaff:
+                    <NavLink href="directing-staff/syndication"><i class="fa fa-users"></i> Syndication</NavLink>
+                    <NavLink href="war-gaming"><i class="fa fa-chess"></i> War Gaming</NavLink>
+                    <NavLink href="assessments"><i class="fa fa-check-square-o"></i> Assessments</NavLink>
+                    <NavLink href="mutual-assessment"><i class="fa fa-handshake-o"></i> Mutual Assessment</NavLink>
+                    break;
+                case UserPermissionsEnum.Student:
+                    <NavLink href="leave"><i class="fa fa-sign-out"></i> Leave</NavLink>
+                    <NavLink href="medicals"><i class="fa fa-heartbeat"></i> Medicals</NavLink>
+                    <NavLink href="complaints"><i class="fa fa-exclamation-circle"></i> Complaints</NavLink>
+                    <NavLink href="student/mutual-assessment"><i class="fa fa-handshake-o"></i> Mutual Assessment</NavLink>
+                    <NavLink href="feedbacks/speaker-feedbacks"><i class="fa fa-comments"></i> Speaker Feedback</NavLink>
+                    <NavLink href="student/payments"><i class="fa fa-money"></i> Payments</NavLink>
+                    break;
+            }
+        }
+
+        <NavLink href="profile"><i class="fa fa-user"></i> My Profile</NavLink>
+    </nav>
+
+    <div class="nav-logout">
+        <button class="logout-button" @onclick="InitiateLogout">
+            <i class="fa fa-sign-out"></i> Sign Out
+        </button>
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+@if (_showLogoutModal)
+{
+    <div class="modal-backdrop">
+        <div class="modal-card">
+            <h4>Confirm Sign Out</h4>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button @onclick="CancelLogout">Cancel</button>
+                <button @onclick="ConfirmLogout" class="danger">Sign Out</button>
+            </div>
         </div>
+    </div>
+}
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+@code {
+    private bool _isLoggingOut = false;
+    private bool _showLogoutModal = false;
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    private void InitiateLogout() => _showLogoutModal = true;
 
+    private void CancelLogout() => _showLogoutModal = false;
+
+    private async Task ConfirmLogout()
+    {
+        _isLoggingOut = true;
+        _showLogoutModal = false;
+        StateHasChanged();
+        await Task.Delay(500);
+        await JSRuntime.InvokeVoidAsync("performLogout");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("startClock");
+        }
+    }
+}
+
+
+<script>
+    window.startClock = () => {
+        setInterval(() => {
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = new Date().toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+        }, 1000);
+    };
+
+    window.performLogout = () => {
+        document.cookie = 'AccessCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/auth/login';
+    };
+</script>

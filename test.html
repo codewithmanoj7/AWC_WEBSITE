@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pretty App Layout</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .topbar {
+      background-color: #e3f2fd;
+      padding: 15px 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #1565c0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #f1f8ff;
+      padding-top: 20px;
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 20px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 5px 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #bbdefb;
+      color: #0d47a1;
+    }
+
+    .main {
+      flex: 1;
+      padding: 25px;
+      background-color: #ffffff;
+      border-radius: 0 0 8px 0;
+      box-shadow: inset 0 0 4px #f0f0f0;
+    }
+
+    .main h2 {
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    📘 My Application Dashboard
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="#">🏠 Home</a>
+      <a href="#">🌐 Site</a>
+      <a href="#">🎵 Maestro</a>
+      <a href="#">📘 Syllabus</a>
+      <a href="#">👥 Human Resource</a>
+      <a href="#">🏫 Classrooms</a>
+      <a href="#">📦 Assets</a>
+      <a href="#">🗂️ Allotments</a>
+      <a href="#">🚩 Parade State</a>
+      <a href="#">📑 Assessments</a>
+    </div>
+
+    <div class="main">
+      <h2>Welcome to your dashboard</h2>
+      <p>This is your body content area. Add your profile, data cards, or dynamic content here.</p>
+    </div>
+  </div>
+
+</body>
+</html>

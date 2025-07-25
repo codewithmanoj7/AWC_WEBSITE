@@ -4,7 +4,9 @@ using AWC.Infra.Interfaces;
 using AWC.UI.Components;
 using AWC.UI.Middlewares;
 using AWC.UI.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 using System;
 
@@ -19,6 +21,14 @@ builder.Services.AddScoped<IAuthenticationStateService, AuthenticationStateServi
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<INavigationService, NavigationService>();
 builder.Services.AddScoped<IPermissionStylingService, PermissionStylingService>();
+
+builder.Services.AddAuthentication()
+    .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("custom", null);
+
+builder.Services.AddAuthorization();
+
+// Register your custom authentication state provider
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 

@@ -29,10 +29,16 @@ namespace AWC.Infra.Bases
                 }
 
                 var result = await dataAccessLayer.ExecuteNonQueryAsync(storedProcedureName, parameters);
+                Guid? insertedId = null;
+                if (parameters.ParameterNames.Contains("InsertedId"))
+                {
+                    var raw = parameters.Get<object>("InsertedId");
+                    if (raw != null && raw != DBNull.Value)
+                    {
+                        insertedId = (Guid)raw;
+                    }
+                }
 
-                var insertedId = parameters.ParameterNames.Contains("InsertedId")
-                    ? parameters.Get<Guid>("InsertedId")
-                    : (Guid?)null;
 
                 if (result > 0)
                 {

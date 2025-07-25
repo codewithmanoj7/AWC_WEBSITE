@@ -476,9 +476,9 @@ body{
 }
 
 	.site-header #site-navigation .nav li a {
-		font-size: 16px; /* increased from 13px */
-		text-transform: uppercase;
-		color: white;
+		font-size: 13px; /* increased from 13px */
+/*		text-transform: uppercase;
+*/		color: white;
 		padding: 14px 22px 17px; /* slight padding boost for better alignment */
 		background: none !important;
 		position: relative;
@@ -596,8 +596,8 @@ body{
 
 	.header-1 #site-navigation .nav li a {
 		font-size: 14px;
-		text-transform: uppercase;
-		color: #1a1a1a; /* changed from #004296 to a darker shade for visibility */
+/*		text-transform: uppercase;
+*/		color: #1a1a1a; /* changed from #004296 to a darker shade for visibility */
 		font-weight: 600;
 		padding: 36px 19px;
 		background: none !important;
@@ -893,7 +893,7 @@ body{
 	/*background-color: rgba(0, 0, 0, 0.8);*/ /* Dark semi-transparent background */
 	color: rgba(0, 0, 0, 0.8);
 	
-	padding: 10px 0;
+	padding: 0px 0;
 }
 
 	.site-header .nav li a,
