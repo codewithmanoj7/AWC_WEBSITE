@@ -6,70 +6,91 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="top-options">
-						<a href="/sitemap" class="top-link">Sitemap</a>
-						<span class="separator">|</span>
-						<a href="/faqs" class="top-link">FAQs</a>
-						<span class="separator">|</span>
-						<a href="#main-content" class="skip-link top-link">Skip to Main Content</a>
-						<span class="separator">|</span>
 
-						<!-- Language Dropdown -->
-						<div class="dropdown-container">
-							<button class="dropdown-btn" onclick="toggleDropdown('languageDropdown')">
-								<i class="fa fa-globe"></i> Language <i class="fa fa-chevron-down"></i>
-							</button>
-							<div class="dropdown-content" id="languageDropdown">
-								<a href="#" onclick="setLanguage('en')" class="lang-option active">English</a>
-								<a href="#" onclick="setLanguage('hi')" class="lang-option">हिंदी</a>
-							</div>
-						</div>
+							<div class="top-options-wrapper">
+			<!-- LEFT SIDE -->
+			<div class="top-options-left">
+				<a href="/sitemap" class="top-link">Sitemap</a>
+				<span class="separator">|</span>
+				<a href="/faqs" class="top-link">FAQs</a>
+				<span class="separator">|</span>
+				<a href="#main-content" class="skip-link top-link">Skip to Main Content</a>
+			</div>
 
-						<span class="separator">|</span>
-
-						<!-- Theme Dropdown -->
-						<div class="dropdown-container">
-							<button class="dropdown-btn" onclick="toggleDropdown('themeDropdown')">
-								<i class="fa fa-paint-brush"></i> Theme <i class="fa fa-chevron-down"></i>
-							</button>
-							<div class="dropdown-content" id="themeDropdown">
-								<a href="#" onclick="setTheme('light')" class="theme-option">
-									<span class="theme-preview light-preview"></span> Light
-								</a>
-								<a href="#" onclick="setTheme('blue')" class="theme-option">
-									<span class="theme-preview blue-preview"></span> Blue
-								</a>
-								<a href="#" onclick="setTheme('dark')" class="theme-option">
-									<span class="theme-preview dark-preview"></span> Dark
-								</a>
-							</div>
-						</div>
-
-						<span class="separator">|</span>
-
-						<!-- Accessibility Dropdown -->
-						<div class="dropdown-container">
-							<button class="dropdown-btn" onclick="toggleDropdown('accessibilityDropdown')">
-								<i class="fa fa-universal-access"></i> Accessibility <i class="fa fa-chevron-down"></i>
-							</button>
-							<div class="dropdown-content" id="accessibilityDropdown">
-								<div class="font-controls">
-									<span class="dropdown-label">Font Size:</span>
-									<div class="font-control-group">
-										<a href="#" onclick="decreaseFontSize()" class="font-control" title="Decrease Font Size">A-</a>
-										<a href="#" onclick="resetFontSize()" class="font-control active" title="Normal Font Size">A</a>
-										<a href="#" onclick="increaseFontSize()" class="font-control" title="Increase Font Size">A+</a>
-									</div>
+			<!-- RIGHT SIDE (keep your existing items here) -->
+			<div class="top-options-right">
+							<div class="dropdown-container">
+								<button class="dropdown-btn" onclick="toggleDropdown('languageDropdown')">
+									<i class="fa fa-globe"></i> Language <i class="fa fa-chevron-down"></i>
+								</button>
+								<div class="dropdown-content" id="languageDropdown">
+									<a href="#" onclick="setLanguage('en')" class="lang-option active">English</a>
+									<a href="#" onclick="setLanguage('hi')" class="lang-option">हिंदी</a>
 								</div>
-								<a href="#" class="accessibility-option">
-									<i class="fa fa-volume-up"></i> Screen Reader Access
-								</a>
-								<a href="#" class="accessibility-option">
-									<i class="fa fa-eye"></i> High Contrast
-								</a>
 							</div>
-						</div>
-					</div>
+
+							<span class="separator">|</span>
+
+							<!-- Theme Dropdown -->
+							<div class="dropdown-container">
+								<button class="dropdown-btn" onclick="toggleDropdown('themeDropdown')">
+									<i class="fa fa-paint-brush"></i> Theme <i class="fa fa-chevron-down"></i>
+								</button>
+								<div class="dropdown-content" id="themeDropdown">
+									<a href="#" onclick="setTheme('light')" class="theme-option">
+										<span class="theme-preview light-preview"></span> Light
+									</a>
+									<a href="#" onclick="setTheme('blue')" class="theme-option">
+										<span class="theme-preview blue-preview"></span> Blue
+									</a>
+									<a href="#" onclick="setTheme('dark')" class="theme-option">
+										<span class="theme-preview dark-preview"></span> Dark
+									</a>
+								</div>
+							</div>
+
+							<span class="separator">|</span>
+
+							<!-- Accessibility Dropdown -->
+							<div class="dropdown-container">
+								<button class="dropdown-btn" onclick="toggleDropdown('accessibilityDropdown')">
+									<i class="fa fa-universal-access"></i> Accessibility <i class="fa fa-chevron-down"></i>
+								</button>
+								<div class="dropdown-content" id="accessibilityDropdown">
+									<div class="font-controls">
+										<span class="dropdown-label">Font Size:</span>
+										<div class="font-control-group">
+											<a href="#" onclick="decreaseFontSize()" class="font-control" title="Decrease Font Size">A-</a>
+											<a href="#" onclick="resetFontSize()" class="font-control active" title="Normal Font Size">A</a>
+											<a href="#" onclick="increaseFontSize()" class="font-control" title="Increase Font Size">A+</a>
+										</div>
+									</div>
+									<a href="#" class="accessibility-option">
+										<i class="fa fa-volume-up"></i> Screen Reader Access
+									</a>
+									<a href="#" class="accessibility-option">
+										<i class="fa fa-eye"></i> High Contrast
+									</a>
+								</div>
+							</div>
+
+							<!-- Search Box -->
+							<div class="search-container">
+								<input type="text" class="search-input" placeholder="Search..." />
+								<button class="search-button" title="Search">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+
+							<!-- Login Button -->
+							<a href="/auth/login" class="login-button">
+								<i class="fa fa-lock"></i> <span>Login</span>
+							</a>				<!-- No change required here -->
+			</div>
+		</div>
+
+
+
 				</div>
 			</div>
 		</div>
@@ -103,18 +124,20 @@
 								</li>
 
 								<li class="dropdown">
-									<a href="#">@* <i class="fa fa-info-circle"></i> *@ ABOUT US</a>
+									<a href="#"> <i class="fa fa-info-circle"></i>  ABOUT US</a>
 									<ul class="dropdown-menu">
 										<li><a href="/about-college"><i class="fa fa-sitemap"></i> About</a></li>
-										<li><a href="/origin"><i class="fa fa-history"></i> Origin</a></li>
-										<li><a href="/role-vision"><i class="fa fa-book"></i> History</a></li>
-										<li><a href="/armywarcollege/campus"><i class="fa fa-university"></i> Our Campus</a></li>
-										<li><a href="/mhow-awc"><i class="fa fa-map-marker"></i> Mhow as a City</a></li>
-										<li><a href="/underconstruction"><i class="fa fa-clock-o"></i> Over the Years</a></li>
-									</ul>
+@* 										<li><a href="/origin"><i class="fa fa-history"></i> Origin</a></li>
+ *@			
+					                    <li><a href="/mhow-awc"><i class="fa fa-map-marker"></i> Mhow Town</a></li>
+										<li><a href="/origin"><i class="fa fa-history"></i> Mhow Cantoment</a></li>
+@* 										<li><a href="/role-vision"><i class="fa fa-book"></i> History</a></li>
+ *@										<li><a href="/armywarcollege/campus"><i class="fa fa-university"></i> Our Campus</a></li>
+@* 										<li><a href="/underconstruction"><i class="fa fa-clock-o"></i> Over the Years</a></li>
+ *@									</ul>
 								</li>
 
-								<li class="dropdown">
+@* 								<li class="dropdown">
 									<a href="#"><i class="fa fa-users"></i> TEAM</a>
 									<ul class="dropdown-menu">
 										<li><a href="/hcwing"><i class="fa fa-user"></i> HC Wing</a></li>
@@ -138,12 +161,12 @@
 										</li>
 									</ul>
 								</li>
-
+ *@
 								<li class="dropdown">
 									<a href="#"><i class="fa fa-book"></i> COURSES</a>
 									<ul class="dropdown-menu">
 										<li class="dropdown-submenu">
-											<a href="#"><i class="fa fa-graduation-cap"></i> HC Courses</a>
+											<a href="#"><i class="fa fa-graduation-cap"></i> Higher Command</a>
 											<ul class="dropdown-menu">
 												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Outcome</a></li>
 												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Eligibility</a></li>
@@ -152,17 +175,7 @@
 										</li>
 
 										<li class="dropdown-submenu">
-											<a href="#"><i class="fa fa-graduation-cap"></i> SC Courses</a>
-											<ul class="dropdown-menu">
-												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Outcome</a></li>
-												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Eligibility</a></li>
-												<li><a href="/hcseminars"><i class="fa fa-comments"></i> Seminars</a></li>
-												<li><a href="/course-curriculam"><i class="fa fa-file-text"></i> Curriculum</a></li>
-											</ul>
-										</li>
-
-										<li class="dropdown-submenu">
-											<a href="#"><i class="fa fa-graduation-cap"></i> JC Courses</a>
+											<a href="#"><i class="fa fa-graduation-cap"></i> Senior Commands</a>
 											<ul class="dropdown-menu">
 												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Outcome</a></li>
 												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Eligibility</a></li>
@@ -172,7 +185,17 @@
 										</li>
 
 										<li class="dropdown-submenu">
-											<a href="#"><i class="fa fa-graduation-cap"></i> IW Courses</a>
+											<a href="#"><i class="fa fa-graduation-cap"></i> Junior Commands</a>
+											<ul class="dropdown-menu">
+												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Outcome</a></li>
+												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Eligibility</a></li>
+												<li><a href="/hcseminars"><i class="fa fa-comments"></i> Seminars</a></li>
+												<li><a href="/course-curriculam"><i class="fa fa-file-text"></i> Curriculum</a></li>
+											</ul>
+										</li>
+
+										<li class="dropdown-submenu">
+											<a href="#"><i class="fa fa-graduation-cap"></i> IW</a>
 											<ul class="dropdown-menu">
 												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Outcome</a></li>
 												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Eligibility</a></li>
@@ -188,7 +211,36 @@
 									</ul>
 								</li>
 
+
 								<li class="dropdown">
+									<a href="#">@* <i class="fa fa-info-circle"></i> *@  <i class="fa fa-info-circle"></i> Faculty Of Studies</a>
+									<ul class="dropdown-menu">
+										<li><a href="/about-college"><i class="fa fa-sitemap"></i> Role & Vision</a></li>		
+					                    <li><a href="/mhow-awc"><i class="fa fa-map-marker"></i> Pattern</a></li>
+										<li><a href="/origin"><i class="fa fa-history"></i> Calander of the week</a></li>
+										<li><a href="/armywarcollege/campus"><i class="fa fa-university"></i> Research Work</a></li>
+
+										<li class="dropdown-submenu">
+											<a href="events.html"><i class="fa fa-external-link"></i> External Links</a>
+											<ul class="dropdown-menu">
+												<li><a href="https://igotkarmayogi.gov.in/#/" target="_blank"><i class="fa fa-university"></i> iGot Karmayogi</a></li>
+												<li><a href="https://indianarmy.nic.in/" target="_blank"><i class="fa fa-shield"></i> Indian Army</a></li>
+												<li><a href="https://ids.nic.in/" target="_blank"><i class="fa fa-sitemap"></i> IDS</a></li>
+												<li><a href="https://www.joinindiannavy.gov.in/" target="_blank"><i class="fa fa-ship"></i> Navy</a></li>
+												<li><a href="https://www.drdo.gov.in/drdo/" target="_blank"><i class="fa fa-cogs"></i> DRDO</a></li>
+											</ul>
+										</li>
+
+										<li><a href="/armywarcollege/campus"><i class="fa fa-university"></i> Combat Library</a></li>
+
+								</ul>
+								</li>
+
+								<li><a href="/contact-us"><i class="fa fa-envelope"></i> Freind For Life</a></li>
+
+
+
+@* 								<li class="dropdown">
 									<a href="#"><i class="fa fa-flask"></i> RESEARCH</a>
 									<ul class="dropdown-menu">
 										<li><a href="/origin"><i class="fa fa-eye"></i> Role & Vision</a></li>
@@ -216,33 +268,65 @@
 										</li>
 									</ul>
 								</li>
-
+ *@
 								<li class="dropdown">
 									<a href="#"><i class="fa fa-cube"></i> AMENITIES</a>
 									<ul class="dropdown-menu">
-										<li><a href="/awc-mepta"><i class="fa fa-building-o"></i> MEPTA</a></li>
+										<li><a href="/swimming"><i class="fa fa-tint"></i> Swimming Pool</a></li>
+										<li><a href="/medicals"><i class="fa fa-medkit"></i> Medicals Facilities</a></li>
+
+								  <li class="dropdown-submenu">
+											<a href="#"><i class="fa fa-graduation-cap"></i> Kalyani</a>
+											<ul class="dropdown-menu">
+												<li><a href="/hcoutcome"><i class="fa fa-check-circle"></i> Sugrehini Shop</a></li>
+												<li><a href="/hceligibility"><i class="fa fa-filter"></i> Shopping Complex</a></li>
+												<li><a href="/hcseminars"><i class="fa fa-comments"></i> Restaurant</a></li>
+											</ul>
+										</li>
+
+
+										<li><a href="/medicals"><i class="fa fa-medkit"></i> School</a></li>
+
+
+
+@* 										<li><a href="/awc-mepta"><i class="fa fa-building-o"></i> MEPTA</a></li>
 										<li><a href="/awc-hub"><i class="fa fa-plug"></i> HUB</a></li>
 										<li><a href="/underconstruction"><i class="fa fa-cubes"></i> BWTA</a></li>
 										<li><a href="/studentofficermess"><i class="fa fa-cutlery"></i> Mess</a></li>
 										<li><a href="/combatmess"><i class="fa fa-trophy"></i> Combat Mess</a></li>
 										<li><a href="/sports-complex"><i class="fa fa-futbol-o"></i> Sports Complex</a></li>
-										<li><a href="/swimming"><i class="fa fa-tint"></i> Swimming</a></li>
-										<li><a href="/medicals"><i class="fa fa-medkit"></i> Medicals</a></li>
 										<li><a href="/underconstruction"><i class="fa fa-archive"></i> URC</a></li>
-										<li><a href="/kalyanishop"><i class="fa fa-shopping-cart"></i> Kalyani Shop</a></li>
+										<li><a href="/kalyanishop"><i class="fa fa-shopping-cart"></i> Kalyani Shop</a></li> *@
 									</ul>
 								</li>
 
 								<li><a href="/contact-us"><i class="fa fa-envelope"></i> CONTACT US</a></li>
-								<li><a href="/galleries"><i class="fa fa-picture-o"></i> Gallery</a></li>
+
+
+
+								<li class="dropdown">
+									<a href="#">@* <i class="fa fa-info-circle"></i> *@ <i class="fa fa-info-circle"></i> Gallery</a>
+									<ul class="dropdown-menu">
+										<li><a href="/galleries"><i class="fa fa-sitemap"></i> Year Wise</a></li>
+										<li><a href="/galleries"><i class="fa fa-sitemap"></i> Activity Wise</a></li>
+									</ul>
+								</li>
+
+
+@* 								<li><a href="/galleries"><i class="fa fa-picture-o"></i> Gallery</a></li>
+ *@
 								<li><a href="/news"><i class="fa fa-globe"></i> VIRTUAL TOUR</a></li>
 
-								<li class="login-item">
+
+								<li><a href="/awc/tender-notices"><i class="fa fa-globe"></i> Tender And Notices</a></li>
+
+
+@* 								<li class="login-item">
 									<a href="/auth/login">
 										<i class="fa fa-lock"></i> &nbsp; <span>Login</span>
 									</a>
 								</li>
-							</ul>
+ *@							</ul>
 						</div>
 					</nav>
 				</div>
@@ -316,6 +400,80 @@
 			position: relative;
 			z-index: 1000;
 		}
+
+		.login-button {
+			display: inline-block;
+			background-color: #ffffff;
+			color: #123456;
+			padding: 6px 18px; /* slightly smaller padding */
+			margin-left: 10px;
+			border-radius: 18px; /* slightly smaller curve */
+			font-weight: 600;
+			font-size: 14px; /* slightly smaller text */
+			text-decoration: none;
+			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+			.login-button:hover {
+				background-color: #123456;
+				color: #ffffff;
+				text-decoration: none;
+			}
+
+			.login-button i {
+				margin-right: 6px;
+				font-size: 14px; /* slightly smaller icon */
+			}
+
+
+
+		.search-container {
+			display: inline-flex;
+			align-items: center;
+			border: 1px solid #ccc;
+			border-radius: 20px;
+			overflow: hidden;
+			background-color: #fff;
+			margin-left: 10px;
+		}
+
+		.search-input {
+			border: none;
+			padding: 5px 10px;
+			outline: none;
+			width: 150px;
+			font-size: 14px;
+		}
+
+		.search-button {
+			background-color: transparent;
+			border: none;
+			padding: 5px 10px;
+			color: #123456;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+
+			.search-button:hover {
+				background-color: #eee;
+			}
+
+		.top-options-wrapper {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.top-options-left,
+		.top-options-right {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
+
+
 
 		.top-options {
 			display: flex;
@@ -473,6 +631,18 @@
 			align-items: center;
 			gap: 8px;
 		}
+
+
+		.gov-top-bar .container-fluid,
+		.gov-top-bar .row,
+		.gov-top-bar .col-md-12 {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+
+
 
 		/* Skip link styles */
 		.skip-link:focus {

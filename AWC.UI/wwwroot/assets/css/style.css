@@ -479,7 +479,7 @@ body{
 		font-size: 13px; /* increased from 13px */
 /*		text-transform: uppercase;
 */		color: white;
-		padding: 14px 22px 17px; /* slight padding boost for better alignment */
+		padding: 16px 18px 21px; /* slight padding boost for better alignment */
 		background: none !important;
 		position: relative;
 	}
