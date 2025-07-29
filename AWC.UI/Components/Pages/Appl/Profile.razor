@@ -1,16 +1,8 @@
 ﻿@page "/profile"
+@using AWC.CQRS.Queries.User
 
 @layout AuthorizedLayout
 @rendermode InteractiveServer
-
-<Greeting />
-
-
-<h4>Welcome</h4>
-
-
-@* @page "/profile"
-@using AWC.CQRS.Queries.User
 
 
 @inject IAuthenticationStateService AuthenticationState
@@ -18,179 +10,371 @@
 @inject IMediator Mediator
 @inject IFileUploadService FileUpload
 
-@layout AuthorizedLayout
-@rendermode InteractiveServer
-
 <PageTitle>User Profile</PageTitle>
 
+<style>
+    .profile-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 0px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+
+    .header-section {
+        background: linear-gradient(135deg, #337ab7 0%, #23527c 100%);
+        color: white;
+        padding: 0px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header-icon {
+        background: rgba(255, 255, 255, 0.15);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        .header-icon i {
+            font-size: 22px;
+        }
+
+    .header-title {
+        font-size: 32px;
+        font-weight: 500;
+        margin: 0;
+        color:white;
+        font-weight:bold;
+    }
+
+    .header-subtitle {
+        font-size: 20px;
+        font-weight: 300;
+        margin-top: 5px;
+        opacity: 0.85;
+    }
+
+    .profile-picture-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(51, 122, 183, 0.1);
+        margin: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .profile-picture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #337ab7, #5bc0de, #5cb85c);
+        }
+
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 25px;
+    }
+
+    .profile-image {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 4px solid #337ab7;
+        box-shadow: 0 8px 25px rgba(51, 122, 183, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(51, 122, 183, 0.4);
+        }
+
+    .profile-placeholder {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 4px dashed #337ab7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: #337ab7;
+        transition: all 0.3s ease;
+    }
+
+        .profile-placeholder:hover {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            transform: scale(1.05);
+        }
+
+    .upload-section {
+        background: rgba(51, 122, 183, 0.05);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border: 2px dashed rgba(51, 122, 183, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .upload-section:hover {
+            border-color: #337ab7;
+            background: rgba(51, 122, 183, 0.1);
+        }
+
+    .btn-primary-modern {
+        background: linear-gradient(135deg, #337ab7 0%, #286090 100%) !important;
+        border: none !important;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(51, 122, 183, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-primary-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(51, 122, 183, 0.4);
+            background: linear-gradient(135deg, #286090 0%, #204d74 100%) !important;
+        }
+
+        .btn-primary-modern:active {
+            transform: translateY(0);
+        }
+
+    .user-details-card {
+        background: white;
+        border-radius: 20px;
+        margin: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid rgba(51, 122, 183, 0.1);
+    }
+
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 25px 30px;
+        border-bottom: 3px solid #337ab7;
+    }
+
+    .card-header-title {
+        color: #337ab7;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .card-body-modern {
+        padding: 30px;
+    }
+
+    .info-item {
+        background: rgba(51, 122, 183, 0.02);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #337ab7;
+        transition: all 0.3s ease;
+    }
+
+        .info-item:hover {
+            background: rgba(51, 122, 183, 0.08);
+            transform: translateX(5px);
+        }
+
+    .info-label {
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .info-value {
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .info-icon {
+        width: 20px;
+        margin-right: 10px;
+        color: #337ab7;
+    }
+
+    .permissions-badge {
+        background: linear-gradient(135deg, #337ab7 0%, #286090 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(51, 122, 183, 0.3);
+        display: inline-flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+</style>
+
 <EditForm Context="_" Model="@this" OnValidSubmit="UploadProfilePicture" FormName="ProfileForm">
-    <div class="container mb-4">
-        <!-- Header Card -->
-        <div class="card border-0 shadow-sm mb-4 @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState?.User?.Permissions)">
-            <div class="card-body p-4">
-                <div class="d-flex align-items-center">
-                    <div class="bg-white bg-opacity-25 p-3 rounded-circle me-3">
-                        <i class="fas fa-user-circle fs-3"></i>
-                    </div>
-                    <div>
-                        <h1 class="h3 mb-0 fw-bold">
-                            User Profile
-                        </h1>
-                        <p class="text-opacity-75 mb-0 small">
-                            View and update your profile picture
-                        </p>
-                    </div>
-                </div>
+    <div class="container profile-container">
+        <!-- Header Section -->
+        <div class="header-section text-center">
+            <div class="header-icon">
+                <i class="fa fa-user-circle fa-2x"></i>
             </div>
+            <h1 class="header-title">User Profile</h1>
+            <p class="header-subtitle">View and update your profile information</p>
         </div>
 
-        <!-- Main Content -->
+
+
         <div class="row">
-            <div class="col-lg-4 mb-4">
-                <!-- Profile Picture Card -->
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
-                        <h5 class="fw-bold mb-0">Profile Picture</h5>
-                    </div>
-                    <div class="card-body px-4 pb-4 pt-2 text-center">
-                        <div class="d-flex justify-content-center align-items-center text-center mb-3">
-                            @if (_profileImageExists)
-                            {
-                                <img src="@($@"\uploads\ProfileImages\{_user?.ICnumber}.jpg?{_cacheBuster}")"
-                                     class="rounded-circle border border-2 shadow-sm" alt="Profile Image"
-                                     width="120" height="120">
-                            }
-                            else
-                            {
-                                <div class="rounded-circle border border-2 shadow-sm bg-light"
-                                     style="width: 120px; height: 120px;">
-                                </div>
-                            }
-                        </div>
+            <!-- Profile Picture Section -->
+            <div class="col-lg-4 col-md-5">
+                <div class="profile-picture-card">
+                    <h4 style="color: #337ab7; margin-bottom: 25px; font-weight: 600;">
+                        <i class="fa fa-camera" style="margin-right: 10px;"></i>
+                        Profile Picture
+                    </h4>
 
-                        <div class="row g-3">
-                            <div class="col-12 text-center">
-                                <PrettyInputFile @ref="_inputFile" />
+                    <div class="profile-image-container">
+                        @if (_profileImageExists)
+                        {
+                            <img src="@($@"\uploads\ProfileImages\{_user?.ICnumber}.jpg?{_cacheBuster}")"
+                                 class="profile-image" alt="Profile Image">
+                        }
+                        else
+                        {
+                            <div class="profile-placeholder">
+                                <i class="fa fa-user"></i>
                             </div>
-
-                            <div class="col-12 text-center">
-                                <button type="submit" disabled="@_inAction" class="btn btn-dark w-100">
-                                    @if (_inAction)
-                                    {
-                                        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
-                                    }
-                                    <span>Submit</span>
-                                </button>
-                            </div>
-                        </div>
+                        }
                     </div>
+
+                    <div class="upload-section">
+                        <PrettyInputFile @ref="_inputFile" />
+                        <p style="margin: 10px 0 0 0; color: #666; font-size: 12px;">
+                            JPG, PNG or GIF (Max 2MB)
+                        </p>
+                    </div>
+
+                    <button type="submit" disabled="@_inAction" class="btn btn-primary btn-primary-modern btn-block">
+                        @if (_inAction)
+                        {
+                            <i class="fa fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                            <span>Uploading...</span>
+                        }
+                        else
+                        {
+                            <i class="fa fa-upload" style="margin-right: 8px;"></i>
+                            <span>Upload Photo</span>
+                        }
+                    </button>
                 </div>
             </div>
-        
-            <div class="col-lg-8">
-                <!-- User Details Card -->
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-3">
-                        <h5 class="fw-bold mb-0 d-flex align-items-center">
-                            <i class="fas fa-user-shield text-primary me-2"></i>
-                            <span>Personal Information</span>
-                        </h5>
+
+            <!-- User Details Section -->
+            <div class="col-lg-8 col-md-7">
+                <div class="user-details-card">
+                    <div class="card-header-modern">
+                        <h3 class="card-header-title">
+                            <i class="fa fa-user-circle-o" style="margin-right: 10px;"></i>
+                            Personal Information
+                        </h3>
                     </div>
-                    <div class="card-body px-4 pb-4 pt-0">
+
+                    <div class="card-body-modern">
                         @if (_user != null)
                         {
-                            <div class="row g-4">
-                                <!-- Identity Column -->
+                            <div class="row">
+                                <!-- Left Column -->
                                 <div class="col-md-6">
-                                    <div class="d-flex flex-column gap-3">
-                                        <!-- IC Number -->
-                                        <div class="border-bottom pb-3">
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-id-card text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">IC NUMBER</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold">@_user?.ICnumber</span>
-                                            </div>
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-id-card-o info-icon"></i>
+                                            IC Number
                                         </div>
-                        
-                                        <!-- Full Name -->
-                                        <div class="border-bottom pb-3">
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-signature text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">FULL NAME</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold">@_user?.FirstName @_user?.LastName</span>
-                                            </div>
+                                        <div class="info-value">@_user?.ICnumber</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-user info-icon"></i>
+                                            Full Name
                                         </div>
-                        
-                                        <!-- Gender -->
-                                        <div>
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-venus-mars text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">GENDER</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold">@_user?.Gender</span>
-                                            </div>
+                                        <div class="info-value">@_user?.FirstName @_user?.LastName</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-venus-mars info-icon"></i>
+                                            Gender
                                         </div>
+                                        <div class="info-value">@_user?.Gender</div>
                                     </div>
                                 </div>
 
-                                <!-- Contact Column -->
+                                <!-- Right Column -->
                                 <div class="col-md-6">
-                                    <div class="d-flex flex-column gap-3">
-                                        <!-- Email -->
-                                        <div class="border-bottom pb-3">
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-envelope text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">EMAIL</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold text-break">@_user?.Email</span>
-                                            </div>
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-envelope-o info-icon"></i>
+                                            Email Address
                                         </div>
-                        
-                                        <!-- Phone -->
-                                        <div class="border-bottom pb-3">
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-phone text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">PHONE</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold">@_user?.PhoneNumber</span>
-                                            </div>
+                                        <div class="info-value">@_user?.Email</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-phone info-icon"></i>
+                                            Phone Number
                                         </div>
-                        
-                                        <!-- City -->
-                                        <div>
-                                            <div class="d-flex align-items-center mb-1">
-                                                <i class="fas fa-city text-muted me-2" style="width: 20px;"></i>
-                                                <small class="text-muted">CITY</small>
-                                            </div>
-                                            <div class="ps-3 ms-1">
-                                                <span class="fw-semibold">@_user?.City</span>
-                                            </div>
+                                        <div class="info-value">@_user?.PhoneNumber</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fa fa-map-marker info-icon"></i>
+                                            City
                                         </div>
+                                        <div class="info-value">@_user?.City</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Permissions Section - Full Width -->
-                            <div class="mt-4 pt-3 border-top">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="d-flex align-items-center mb-1">
-                                            <i class="fas fa-key text-muted me-2"></i>
-                                            <small class="text-muted">PERMISSIONS</small>
-                                        </div>
-                                        <div class="ps-3 ms-1">
-                                            <span class="badge bg-primary bg-opacity-25 text-primary px-3 py-2 fw-normal">
-                                                <i class="fas fa-user-shield me-1"></i> @_user?.Permissions
-                                            </span>
-                                        </div>
-                                    </div>
+                            <!-- Permissions Section -->
+                            <div style="margin-top: 30px; padding-top: 25px; border-top: 2px solid #f1f3f4;">
+                                <div class="info-label" style="margin-bottom: 15px;">
+                                    <i class="fa fa-key info-icon"></i>
+                                    User Permissions
+                                </div>
+                                <div class="permissions-badge">
+                                    <i class="fa fa-shield" style="margin-right: 8px;"></i>
+                                    @_user?.Permissions
                                 </div>
                             </div>
                         }
@@ -200,6 +384,36 @@
         </div>
     </div>
 </EditForm>
+
+<script>
+    // Add hover effects and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effects to info items
+        const infoItems = document.querySelectorAll('.info-item');
+        infoItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add smooth transitions to profile image
+        const profileImage = document.querySelector('.profile-image, .profile-placeholder');
+        if (profileImage) {
+            profileImage.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+
+            profileImage.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }
+    });
+</script>
+
 <div class="row mt-2">
 	<DismissibleAlert @ref="_alert" class="m-2 shadow-sm" />
 </div>
@@ -212,19 +426,41 @@
 	private bool _profileImageExists;
 	private string _cacheBuster = Guid.NewGuid().ToString();
 
-	protected override async Task OnInitializedAsync()
-	{
-		if (AuthenticationState.User?.Id != null)
-		{
-			var userQuery = new GetByIdQuery { Id = AuthenticationState.User.Id };
-			_user = await Mediator.Send(userQuery);
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (AuthenticationState == null || AuthenticationState.User == null)
+            {
+                Console.WriteLine("AuthenticationState or User is null.");
+                return;
+            }
 
-			if (_user != null)
-			{
-				await CheckProfileImageExists();
-			}
-		}
-	}
+            if (AuthenticationState.User.Id == null)
+            {
+                Console.WriteLine("User ID is null.");
+                return;
+            }
+
+            var userQuery = new GetByIdQuery { Id = AuthenticationState.User.Id };
+            _user = await Mediator.Send(userQuery);
+
+            if (_user != null)
+            {
+                Console.WriteLine($"User loaded: {_user.FirstName} {_user.LastName}");
+                await CheckProfileImageExists();
+            }
+            else
+            {
+                Console.WriteLine("User data could not be loaded from query.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception in OnInitializedAsync: {ex.Message}");
+        }
+    }
+
 
 	private Task CheckProfileImageExists()
 	{
@@ -279,4 +515,4 @@
 			}
 		}
 	}
-} *@
+} 

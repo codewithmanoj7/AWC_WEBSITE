@@ -1,0 +1,227 @@
+﻿@page "/manage/users"
+@page "/manage/users/{PageId:int}"
+
+@using AWC.CQRS.Commands.User
+@using AWC.CQRS.Queries.User
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject ICsvExporterService CsvExporter
+@inject IPermissionStylingService PermissionStyling
+@rendermode InteractiveServer
+
+@layout AuthorizedLayout
+<PageTitle>User Management</PageTitle>
+
+<RenderPermission Permission="UserPermissionsEnum.Administrator" RedirectIfInvalid="true">
+    <div class="user-management-container">
+
+        <!-- Header -->
+        <div class="panel panel-primary no-margin">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">
+                    <i class="fa fa-users"></i> User Management
+                </h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-sm" @onclick="ExportToCsv">
+                        <i class="fa fa-download"></i> Export CSV
+                    </button>
+                    <button class="btn btn-warning btn-sm"
+                            @onclick="@(() => NavigationService.NavigateTo($"/manage/users/create"))">
+                        <i class="fa fa-user-plus"></i> Add New User
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="panel panel-default no-margin">
+            <div class="panel-body">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control"
+                           placeholder="Search users by name, email or IC number..."
+                           @bind="_searchTerm" @oninput="OnSearchInputChanged" />
+                    <span class="fa fa-search form-control-feedback text-primary" style="top: 8px;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Info -->
+        @{
+            var numFrom = (PageId - 1) * ItemsPerPage + 1;
+            var numTo = (PageId * ItemsPerPage) > _itemCount ? _itemCount : (PageId * ItemsPerPage);
+        }
+
+        <div class="alert alert-info no-margin">
+            <i class="fa fa-info-circle"></i>
+            Displaying <strong>@numFrom-@numTo</strong> of <strong>@_itemCount</strong> users
+        </div>
+
+        <DismissibleAlert @ref="_alert" class="mb-3" />
+
+        <!-- User Grid -->
+        @if (_userList.Any())
+        {
+            <div class="row no-margin">
+                @foreach (var user in _userList)
+                {
+                    <div class="col-sm-6 col-md-4">
+                        <div class="panel panel-default user-card">
+                            <div class="panel-heading clearfix">
+                                <h4 class="panel-title pull-left" style="margin: 0;">
+                                    @user.FirstName @user.LastName
+                                </h4>
+                                <div class="dropdown pull-right">
+                                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-cog"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="@($"/manage/users/{user.Id}/edit")">
+                                                <i class="fa fa-pencil text-primary"></i> Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="text-danger" @onclick="() => DeleteUser(user.Id)">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <p><i class="fa fa-id-card text-muted"></i> @user.ICnumber</p>
+                                <p><i class="fa fa-envelope text-info"></i> @user.Email</p>
+                                <p><i class="fa fa-phone text-success"></i> @(user.PhoneNumber ?? "Not provided")</p>
+                                <p><i class="fa fa-map-marker text-danger"></i> @user.City, @user.Country</p>
+                                <p><i class="fa fa-venus-mars text-warning"></i> @user.Gender</p>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <span class="label user-role-badge @PermissionStyling.GetBootstrapClassesForPermission(user.Permissions)">
+                                    @user.Permissions
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default text-center no-margin" style="padding: 30px;">
+                <i class="fa fa-user-times fa-3x text-muted mb-2"></i>
+                <h4 class="text-muted">No users found</h4>
+                <p>Try adjusting your search or add a new user</p>
+                <button class="btn btn-primary"
+                        @onclick="@(() => NavigationService.NavigateTo($"/manage/users/create"))">
+                    <i class="fa fa-user-plus"></i> Create First User
+                </button>
+            </div>
+        }
+
+        <!-- Pagination -->
+        @if (_userList.Any())
+        {
+            <nav class="text-center">
+                <Pagination @ref="_pagination"
+                            UrlPagination="/manage/users/"
+                            PagesBufferRange="@PagesBufferRange"
+                            CurrentPage="PageId"
+                            CurrentPagesCount="_pagesCount" />
+            </nav>
+        }
+    </div>
+</RenderPermission>
+
+@code {
+    [Parameter] public int PageId { get; set; }
+    private string _searchTerm = string.Empty;
+    
+    private IList<UserEntity> _userList = new List<UserEntity>();
+    private Pagination? _pagination;
+    private DismissibleAlert? _alert;
+
+    private const int ItemsPerPage = 9;
+    private const int PagesBufferRange = 5;
+
+    private long _pagesCount;
+    private long _itemCount;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        PageId = PageId <= 0 ? 1 : PageId;
+        _pagination?.SetCurrentPage(PageId);
+        await FetchUsers();
+    }
+
+    private async Task OnSearchInputChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value?.ToString() ?? string.Empty;
+        PageId = 1;
+        await FetchUsers();
+    }
+
+    private async Task FetchUsers()
+    {
+        if (AuthenticationState.User?.Id != null)
+        {
+            var result = await Mediator.Send(new GetPagedQuery
+            {
+                PageNumber = PageId,
+                PageSize = ItemsPerPage,
+                SearchTerm = _searchTerm
+            });
+        
+            if (result.Items != null)
+            {
+                _userList = result.Items;
+                _itemCount = result.TotalCount;
+            }
+            _pagesCount = Convert.ToInt64(Math.Ceiling((double)_itemCount / ItemsPerPage));
+            _pagination?.SetPagesCount(_pagesCount);
+        }
+    }
+
+    private async Task DeleteUser(Guid userId)
+    {
+        var result = await Mediator.Send(new DeleteCommand
+            { Id = userId, DeletedBy = AuthenticationState.User?.Id });
+
+        switch (result.Result)
+        {
+            case 1:
+                _alert?.ShowSuccess("User deleted successfully.");
+                var userIndex = _userList.ToList().FindIndex(u => u.Id == userId);
+                if (userIndex >= 0) _userList.RemoveAt(userIndex);
+                break;
+            case -1:
+                _alert?.ShowError("Failed to delete user.");
+                break;
+            default:
+                _alert?.ShowError("An error occurred while deleting the user.");
+                break;
+        }
+    }
+
+    private async Task ExportToCsv()
+    {
+        if (!_userList.Any())
+        {
+            _alert?.ShowError("No data available to export.");
+            return;
+        }
+
+        const string header = "IC Number,Name,Email,Phone,Country,City,Gender,Permission,Last Active";
+
+        await CsvExporter.ExportListToCSV(_userList, "Users", header, user => 
+            $"{user.ICnumber}," +
+            $"\"{user.FirstName} {user.LastName}\"," +
+            $"\"{user.Email}\"," +
+            $"\"{user.PhoneNumber}\"," +
+            $"\"{user.Country}\"," +
+            $"\"{user.City}\"," +
+            $"\"{user.Gender}\"," +
+            $"\"{user.Permissions}\",");
+    }
+}

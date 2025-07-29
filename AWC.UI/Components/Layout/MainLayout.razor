@@ -1,100 +1,11 @@
 ﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
 
 <div class="page">
 	<!-- Government Accessibility Top Bar -->
-	<div class="gov-top-bar">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-
-							<div class="top-options-wrapper">
-			<!-- LEFT SIDE -->
-			<div class="top-options-left">
-				<a href="/sitemap" class="top-link">Sitemap</a>
-				<span class="separator">|</span>
-				<a href="/faqs" class="top-link">FAQs</a>
-				<span class="separator">|</span>
-				<a href="#main-content" class="skip-link top-link">Skip to Main Content</a>
-			</div>
-
-			<!-- RIGHT SIDE (keep your existing items here) -->
-			<div class="top-options-right">
-							<div class="dropdown-container">
-								<button class="dropdown-btn" onclick="toggleDropdown('languageDropdown')">
-									<i class="fa fa-globe"></i> Language <i class="fa fa-chevron-down"></i>
-								</button>
-								<div class="dropdown-content" id="languageDropdown">
-									<a href="#" onclick="setLanguage('en')" class="lang-option active">English</a>
-									<a href="#" onclick="setLanguage('hi')" class="lang-option">हिंदी</a>
-								</div>
-							</div>
-
-							<span class="separator">|</span>
-
-							<!-- Theme Dropdown -->
-							<div class="dropdown-container">
-								<button class="dropdown-btn" onclick="toggleDropdown('themeDropdown')">
-									<i class="fa fa-paint-brush"></i> Theme <i class="fa fa-chevron-down"></i>
-								</button>
-								<div class="dropdown-content" id="themeDropdown">
-									<a href="#" onclick="setTheme('light')" class="theme-option">
-										<span class="theme-preview light-preview"></span> Light
-									</a>
-									<a href="#" onclick="setTheme('blue')" class="theme-option">
-										<span class="theme-preview blue-preview"></span> Blue
-									</a>
-									<a href="#" onclick="setTheme('dark')" class="theme-option">
-										<span class="theme-preview dark-preview"></span> Dark
-									</a>
-								</div>
-							</div>
-
-							<span class="separator">|</span>
-
-							<!-- Accessibility Dropdown -->
-							<div class="dropdown-container">
-								<button class="dropdown-btn" onclick="toggleDropdown('accessibilityDropdown')">
-									<i class="fa fa-universal-access"></i> Accessibility <i class="fa fa-chevron-down"></i>
-								</button>
-								<div class="dropdown-content" id="accessibilityDropdown">
-									<div class="font-controls">
-										<span class="dropdown-label">Font Size:</span>
-										<div class="font-control-group">
-											<a href="#" onclick="decreaseFontSize()" class="font-control" title="Decrease Font Size">A-</a>
-											<a href="#" onclick="resetFontSize()" class="font-control active" title="Normal Font Size">A</a>
-											<a href="#" onclick="increaseFontSize()" class="font-control" title="Increase Font Size">A+</a>
-										</div>
-									</div>
-									<a href="#" class="accessibility-option">
-										<i class="fa fa-volume-up"></i> Screen Reader Access
-									</a>
-									<a href="#" class="accessibility-option">
-										<i class="fa fa-eye"></i> High Contrast
-									</a>
-								</div>
-							</div>
-
-							<!-- Search Box -->
-							<div class="search-container">
-								<input type="text" class="search-input" placeholder="Search..." />
-								<button class="search-button" title="Search">
-									<i class="fa fa-search"></i>
-								</button>
-							</div>
-
-							<!-- Login Button -->
-							<a href="/auth/login" class="login-button">
-								<i class="fa fa-lock"></i> <span>Login</span>
-							</a>				<!-- No change required here -->
-			</div>
-		</div>
-
-
-
-				</div>
-			</div>
-		</div>
-	</div>
+	<TopBar />
 
 	<header class="position-relative header-banner">
 		<img src="assets/images/header-banner.png" alt="Header Image" class="img-fluid w-100">
@@ -823,3 +734,4 @@
 
 	</script>
 </div>
+

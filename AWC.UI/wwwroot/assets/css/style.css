@@ -248,6 +248,46 @@ body{
 	}
 }
 
+@media (max-width: 768px) {
+	.management-header-section {
+		padding: 30px 20px;
+	}
+
+	.form-section-card {
+		margin: 15px;
+		padding: 25px;
+	}
+
+	.management-header-title {
+		font-size: 28px;
+	}
+
+	.form-row-modern {
+		grid-template-columns: 1fr;
+	}
+}
+
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
+}
+
 
 @keyframes pulse {
 	0% {
@@ -262,6 +302,7 @@ body{
 		opacity: 1;
 	}
 }
+
 
 @keyframes bounce {
 	0%, 20%, 50%, 80%, 100% {

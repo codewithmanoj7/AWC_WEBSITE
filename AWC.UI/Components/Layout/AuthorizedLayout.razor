@@ -113,12 +113,12 @@
         transition: margin-left 0.3s ease-in-out;
     }
 
-    .content {
+  /*   .content {
         background-color: #fff;
-        padding: 25px;
-        border-radius: 0px;
+       padding: 25px;
+         border-radius: 0px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+    } */
 
     /* Icon size consistency */
     .sidebar i {
@@ -195,6 +195,8 @@
   
 </style>
 
+
+<PageTitle>Army War College, Mhow</PageTitle> 
 <AuthorizeView>
     <Authorized>
         <div class="topbar">
@@ -238,8 +240,8 @@
 
         <div class="layout-container">
             <div class="sidebar @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState.User.Permissions) @(isSidebarOpen ? "open" : "")">
-                <a href="/" @onclick="CloseSidebar"><i class="fa fa-home"></i> Dashboard</a>
-                <a href="/users" @onclick="CloseSidebar"><i class="fa fa-users"></i> Users</a>
+                <a href="/home" @onclick="CloseSidebar"><i class="fa fa-home"></i> Dashboard</a>
+                <a href="/manage/users" @onclick="CloseSidebar"><i class="fa fa-users"></i> Users</a>
                 <a href="/notifications" @onclick="CloseSidebar"><i class="fa fa-bell"></i> Notifications</a>
                 <a href="/settings" @onclick="CloseSidebar"><i class="fa fa-cog"></i> Settings</a>
                 <a href="/logout" @onclick="CloseSidebar"><i class="fa fa-sign-out"></i> Logout</a>
@@ -277,4 +279,4 @@
 
     [Inject] public IJSRuntime JSRuntime { get; set; }
     [Inject] public NavigationManager NavManager { get; set; }
-}
+ }

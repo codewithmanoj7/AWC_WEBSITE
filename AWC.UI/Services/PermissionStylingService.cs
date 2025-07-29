@@ -24,17 +24,17 @@ public class PermissionStylingService : IPermissionStylingService
     {
         if (permission == null)
         {
-            return null;
+            return "label label-default";
         }
 
         return permission switch
         {
-            UserPermissionsEnum.Administrator => "bg-danger bg-opacity-75 text-white",
-            UserPermissionsEnum.DirectingStaff => "bg-primary bg-opacity-50 text-white",
-            UserPermissionsEnum.Student => "bg-info text-white",
-            UserPermissionsEnum.ContentManager => "bg-primary bg-opacity-75 text-white",
-            UserPermissionsEnum.WaitingApproval => "bg-secondary bg-opacity-50 text-white",
-            _ => "bg-light text-dark"
+            UserPermissionsEnum.Administrator => "label label-danger",
+            UserPermissionsEnum.DirectingStaff => "label label-primary",
+            UserPermissionsEnum.Student => "label label-info",
+            UserPermissionsEnum.ContentManager => "label label-warning",
+            UserPermissionsEnum.WaitingApproval => "label label-default",
+            _ => "label label-default"
         };
     }
 }

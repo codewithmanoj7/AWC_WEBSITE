@@ -21,6 +21,8 @@ namespace AWC.UI.Components
 #nullable enable
 
         protected override async Task OnInitializedAsync()
+        
+        
         {
             if (AuthService?.IsAuthenticated == true && AuthService.SessionId != null)
             {

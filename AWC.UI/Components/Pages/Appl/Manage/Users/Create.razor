@@ -1,0 +1,606 @@
+﻿@page "/manage/users/create"
+@page "/manage/users/{UserId:guid}/edit"
+
+@using AWC.CQRS.Commands.User
+@using AWC.CQRS.Queries.User
+@using System.Security.Cryptography
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@rendermode InteractiveServer
+
+@layout AuthorizedLayout
+
+
+<PageTitle>@(IsEditMode ? "Edit User" : "Create User")</PageTitle>
+
+<style>
+    .user-management-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 0px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .management-header-section {
+        background: linear-gradient(135deg, #337ab7 0%, #23527c 100%);
+        color: white;
+        padding: 10px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .management-header-icon {
+        background: rgba(255, 255, 255, 0.15);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        .management-header-icon i {
+            font-size: 18px;
+        }
+
+    .management-header-title {
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0;
+        color: white;
+        text-align: left;
+    }
+
+    .management-header-subtitle {
+        font-size: 14px;
+        font-weight: 300;
+        margin-top: 4px;
+        opacity: 0.85;
+        text-align: left;
+    }
+
+
+    .back-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 8px 16px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            text-decoration: none;
+        }
+
+    .form-section-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(51, 122, 183, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .form-section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #337ab7, #5bc0de, #5cb85c);
+        }
+
+    .section-card-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px 25px;
+        margin: -30px -30px 25px -30px;
+        border-bottom: 3px solid #337ab7;
+    }
+
+    .section-card-title {
+        color: #337ab7;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+        .section-card-title i {
+            margin-right: 10px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+        .form-label i {
+            width: 20px;
+            margin-right: 8px;
+            color: #337ab7;
+        }
+
+    .form-control {
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: rgba(248, 250, 252, 0.5);
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #337ab7;
+            box-shadow: 0 0 0 3px rgba(51, 122, 183, 0.1);
+            background: white;
+        }
+
+    .btn-primary-modern {
+        background: linear-gradient(135deg, #337ab7 0%, #286090 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(51, 122, 183, 0.3);
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+        .btn-primary-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(51, 122, 183, 0.4);
+            background: linear-gradient(135deg, #286090 0%, #204d74 100%);
+            color: white;
+        }
+
+    .btn-secondary-modern {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #e2e8f0;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        color: #4a5568;
+    }
+
+        .btn-secondary-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: white;
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+    .status-alert {
+        background: rgba(51, 122, 183, 0.05);
+        border: 2px solid rgba(51, 122, 183, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 15px 0;
+        color: #2d3748;
+        border-left: 4px solid #337ab7;
+    }
+
+    .validation-summary {
+        background: rgba(217, 83, 79, 0.1);
+        border: 2px solid rgba(217, 83, 79, 0.2);
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 20px;
+        color: #a94442;
+        border-left: 4px solid #d9534f;
+    }
+
+    .form-hint {
+        font-size: 11px;
+        color: #999;
+        margin-top: 5px;
+        font-style: italic;
+    }
+
+    .spinner-border-sm {
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+        margin-right: 8px;
+    }
+
+    /* Adjust dropdown (select) height and padding */
+    select.form-control {
+        padding: 12px 16px !important;
+        height: 48px !important;
+        font-size: 14px;
+        line-height: 1.5;
+        background-color: rgba(248, 250, 252, 0.5);
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='292.4'%20height='292.4'%3E%3Cpath%20fill='%23337ab7'%20d='M287%2069.4c5.3-5.3%205.3-13.8%200-19.1s-13.8-5.3-19.1%200L146.2%20172.1%2024.5%2050.3C19.2%2045%2010.7%2045%205.4%2050.3c-5.3%205.3-5.3%2013.8%200%2019.1l133.3%20133.3c5.3%205.3%2013.8%205.3%2019.1%200L287%2069.4z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        background-size: 1rem;
+    }
+
+</style>
+
+<RenderPermission Permission="UserPermissionsEnum.Administrator" RedirectIfInvalid="true">
+    <div class="container-fluid user-management-container">
+        <!-- Header Section -->
+        <div class="management-header-section">
+            <div class="container-fluid">
+                <div class="row align-items-center py-3">
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="management-header-icon">
+                            <i class="fa @(IsEditMode ? "fa-user-edit" : "fa-user-plus")"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h1 class="management-header-title mb-1 text-start">
+                            @(IsEditMode ? $"Edit User - {_user.FirstName} {_user.LastName}" : "Create New User")
+                        </h1>
+                        <p class="management-header-subtitle mb-0 text-start">
+                            @(IsEditMode ? "Update user information and permissions" : "Add a new user to the system")
+                        </p>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <button class="btn back-button"
+                                @onclick="@(() => NavigationService.NavigateTo($"/manage/users"))">
+                            <i class="fa fa-arrow-left"></i> Back to Users
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form -->
+        <EditForm Context="_" OnValidSubmit="@OnUserSubmitAsync" Model="_user" FormName="UserForm">
+            <DataAnnotationsValidator />
+
+            <!-- Validation Summary -->
+            <ValidationSummary class="validation-summary" />
+
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-section-card">
+                        <div class="section-card-header">
+                            <h3 class="section-card-title">
+                                <i class="fa fa-id-card-o"></i>
+                                Personal Information
+                            </h3>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fa fa-user"></i>
+                                        First Name *
+                                    </label>
+                                    <InputText class="form-control" @bind-Value="_user.FirstName"
+                                               placeholder="Enter first name"
+                                               minlength="2" maxlength="30" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fa fa-user"></i>
+                                        Last Name *
+                                    </label>
+                                    <InputText class="form-control" @bind-Value="_user.LastName"
+                                               placeholder="Enter last name"
+                                               minlength="2" maxlength="30" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa fa-id-card-o"></i>
+                                IC Number *
+                            </label>
+                            <InputText class="form-control" @bind-Value="_user.ICnumber"
+                                       placeholder="Enter IC number (e.g., IC12345A)"
+                                       pattern="^[A-Za-z]{2}\d{5}[A-Za-z]{1}$" required />
+                            <div class="form-hint">Format: 2 letters, 5 digits, 1 letter (e.g., IC12345A)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa fa-venus-mars"></i>
+                                Gender *
+                            </label>
+                            <InputSelect class="form-control" @bind-Value="_user.Gender" required>
+                                <option value="">Select gender</option>
+                                <option value="@nameof(GenderEnum.Male)">Male</option>
+                                <option value="@nameof(GenderEnum.Female)">Female</option>
+                                <option value="@nameof(GenderEnum.Other)">Other</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-section-card">
+                        <div class="section-card-header">
+                            <h3 class="section-card-title">
+                                <i class="fa fa-shield"></i>
+                                Account Settings
+                            </h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa fa-key"></i>
+                                Permissions *
+                            </label>
+                            <InputSelect class="form-control" @bind-Value="_user.Permissions" required>
+                                <option value="">Select permission level</option>
+                                @foreach (var permission in Enum.GetValues(typeof(UserPermissionsEnum)))
+                                {
+                                    <option value="@permission">@permission.ToString()</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        @if (!IsEditMode)
+                        {
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fa fa-lock"></i>
+                                    Password *
+                                </label>
+                                <InputText type="password" class="form-control" @bind-Value="_user.Password"
+                                           placeholder="Enter password"
+                                           minlength="8" maxlength="30" required />
+                                <div class="form-hint">Minimum 8 characters required</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-section-card">
+                        <div class="section-card-header">
+                            <h3 class="section-card-title">
+                                <i class="fa fa-address-book-o"></i>
+                                Contact Information
+                            </h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa fa-envelope-o"></i>
+                                Email Address *
+                            </label>
+                            <InputText type="email" class="form-control" @bind-Value="_user.Email"
+                                       placeholder="user@example.com"
+                                       minlength="10" maxlength="128" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa fa-phone"></i>
+                                Phone Number *
+                            </label>
+                            <InputText type="tel" class="form-control" @bind-Value="_user.PhoneNumber"
+                                       placeholder="+60123456789"
+                                       minlength="10" maxlength="16" required />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fa fa-map-marker"></i>
+                                        City *
+                                    </label>
+                                    <InputText class="form-control" @bind-Value="_user.City"
+                                               placeholder="Enter city"
+                                               minlength="2" maxlength="32" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fa fa-globe"></i>
+                                        Country
+                                    </label>
+                                    <InputText class="form-control" @bind-Value="_user.Country"
+                                               placeholder="Enter country"
+                                               maxlength="32" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Section -->
+                <div class="col-lg-6">
+                    <div class="form-section-card">
+                        <div class="section-card-header">
+                            <h3 class="section-card-title">
+                                <i class="fa fa-info-circle"></i>
+                                Account Status
+                            </h3>
+                        </div>
+
+                        <div class="status-alert">
+                            <i class="fa fa-info-circle"></i>
+                            @if (IsEditMode)
+                            {
+                                <span>Last updated: @(_user.UpdatedAt != DateTime.MinValue ? _user.UpdatedAt?.ToString("yyyy-MM-dd HH:mm") : "Never")</span>
+                            }
+                            else
+                            {
+                                <span>New user will be created with the selected permissions and can access the system immediately upon creation.</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-section-card">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary-modern"
+                                @onclick="@(() => NavigationService.NavigateTo($"/manage/users"))">
+                            <i class="fa fa-times"></i> Cancel
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="submit" disabled="@_inAction" class="btn btn-primary-modern">
+                            @if (_inAction)
+                            {
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            }
+                            else
+                            {
+                                <i class="fa @(IsEditMode ? "fa-save" : "fa-user-plus")"></i>
+                            }
+                            @(IsEditMode ? "Update User" : "Create User")
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Section -->
+            <div class="" style="margin-top: 0;">
+                <DismissibleAlert @ref="_alert" />
+            </div>
+        </EditForm>
+    </div>
+</RenderPermission>
+@code {
+    [Parameter] public Guid UserId { get; set; }
+
+    private UserCreateModel _user = new();
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+    private bool IsEditMode => UserId != Guid.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEditMode)
+        {
+            if (AuthenticationState.User?.Id != null)
+            {
+                var query = new GetByIdQuery { Id = UserId };
+                var result = await Mediator.Send(query);
+                _user.Id = result.Id;
+                _user.ICnumber = result.ICnumber;
+                _user.Gender = result.Gender;
+                _user.Permissions = result.Permissions;
+                _user.FirstName = result.FirstName;
+                _user.LastName = result.LastName;
+                _user.Email = result.Email;
+                _user.PhoneNumber = result.PhoneNumber;
+                _user.Country = result.Country;
+                _user.City = result.City;
+                _user.UpdatedAt = result.UpdatedAt;
+            }
+        }
+    }
+
+    private async Task OnUserSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+                var command = new UpsertCommand
+                {
+                    Id = IsEditMode ? _user.Id : Guid.Empty,
+                    ICnumber = _user.ICnumber,
+                    FirstName = _user.FirstName,
+                    LastName = _user.LastName,
+                    Email = _user.Email,
+                    PhoneNumber = _user.PhoneNumber,
+                    Country = _user.Country,
+                    City = _user.City,
+                    Gender = _user?.Gender ?? GenderEnum.Other,
+                    Permissions = _user?.Permissions ?? UserPermissionsEnum.WaitingApproval,
+                    CreatedBy = IsEditMode ? null : AuthenticationState.User?.Id,
+                    UpdatedBy = IsEditMode ? AuthenticationState.User?.Id : null
+                };
+
+                if (!IsEditMode)
+                {
+                    using var hmac = new HMACSHA512();
+                    command.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes((!string.IsNullOrEmpty(_user?.Password) ? _user.Password : _user?.ICnumber) ?? string.Empty));
+                    command.PasswordSalt = hmac.Key;
+                }
+
+                var result = await Mediator.Send(command);
+
+                if (result.Result == 1)
+                {
+                    _alert?.ShowSuccess(IsEditMode ? "User updated successfully!" : "User created successfully!");
+
+                    if (!IsEditMode)
+                    {
+                        // Reset form after successful creation
+                        _user = new UserCreateModel();
+                    }
+                }
+                else
+                {
+                    _alert?.ShowError("Failed to save user. Please try again.");
+                }
+            }
+            catch (CreateUpdateException ex)
+            {
+                _alert?.ShowWarning(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+}

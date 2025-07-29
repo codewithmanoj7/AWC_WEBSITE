@@ -1,0 +1,45 @@
+﻿<ul class="pagination pagination-dark p-0">
+    <li class="page-item" disabled="@(CurrentPage == 1)">
+        <a class="page-link" href="@($"{UrlPagination}{CurrentPage-1}")">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    @{
+        var pagesBufferedEnd = (CurrentPage + PagesBufferRange) > CurrentPagesCount ? CurrentPagesCount : (CurrentPage + PagesBufferRange);
+        var pagesBufferedStart = (CurrentPage - PagesBufferRange) <= 0 ? 1 : (CurrentPage - PagesBufferRange);
+    }
+    @for (long i = pagesBufferedStart; i <= pagesBufferedEnd; i++)
+    {
+        var pageLoopIndex = i;
+        <li class="@($"page-item" + (pageLoopIndex == CurrentPage ? " active": null))">
+            <a class="page-link" href="@($"{UrlPagination}{pageLoopIndex}")">
+                <span aria-hidden="true">@pageLoopIndex</span>
+            </a>
+        </li>
+    }
+    <li class="page-item" disabled="@(CurrentPage == CurrentPagesCount)">
+        <a class="page-link" href="@($"{UrlPagination}{CurrentPage+1}")">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+</ul>
+
+@code {
+    [Parameter] public int PagesBufferRange { get; set; } = 5;
+    [Parameter] public string UrlPagination { get; set; } = "";
+
+    [Parameter] public long CurrentPage { get; set; }
+    [Parameter] public long CurrentPagesCount { get; set; }
+
+    public void SetCurrentPage(long num)
+    {
+        CurrentPage = num;
+        StateHasChanged();
+    }
+
+    public void SetPagesCount(long count)
+    {
+        CurrentPagesCount = count;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,26 @@
+﻿.user-management-container {
+    margin: 0;
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.user-card {
+    transition: box-shadow 0.3s ease;
+}
+
+    .user-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.user-role-badge {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    background-color: #337ab7;
+    color: #fff;
+}
