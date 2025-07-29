@@ -161,28 +161,72 @@ updateDateTime();
 
 
 
-	document.addEventListener("DOMContentLoaded", function () {
-		const heroSection = document.querySelector('.hero-1');
 
-	// Background images (same as yoyur right-side carousel)
-		const bgImages = [
-			'assets/images/auth-bg.jpg',
-	'assets/images/carousel/DSC_5950.jpg',
-			'assets/images/carousel/DSC_4121.jpg',
-			'assets/images/carousel/slider1.jpeg',
+document.addEventListener("DOMContentLoaded", function () {
+	const heroContent = document.querySelector('.hero-content');
 
+	const bgImages = [
+		'assets/images/auth-bg.jpg',
+		'assets/images/carousel/DSC_5950.jpg',
+		'assets/images/carousel/DSC_4121.jpg',
+		'assets/images/carousel/slider1.jpeg'
 	];
 
 	let current = 0;
 
 	function changeBackground() {
-		heroSection.style.backgroundImage = `url(${bgImages[current]})`;
-	current = (current + 1) % bgImages.length;
-		}
+		heroContent.style.backgroundImage = `url(${bgImages[current]})`;
+		current = (current + 1) % bgImages.length;
+	}
 
-	// Initial background set
+	// Initial set
 	changeBackground();
 
-	// Change every 5 seconds
+	// Rotate every 10 seconds
 	setInterval(changeBackground, 10000);
+});
+
+
+let sessionTimer;
+let sessionStartTime;
+
+window.startSessionTimer = (dotNetHelper) => {
+	sessionStartTime = new Date();
+
+	sessionTimer = setInterval(() => {
+		const now = new Date();
+		const elapsed = now - sessionStartTime;
+
+		const hours = Math.floor(elapsed / 3600000);
+		const minutes = Math.floor((elapsed % 3600000) / 60000);
+		const seconds = Math.floor((elapsed % 60000) / 1000);
+
+		const timeString =
+			hours.toString().padStart(2, '0') + ':' +
+			minutes.toString().padStart(2, '0') + ':' +
+			seconds.toString().padStart(2, '0');
+
+		dotNetHelper.invokeMethodAsync('UpdateTimer', timeString);
+	}, 1000);
+};
+
+window.stopSessionTimer = () => {
+	if (sessionTimer) {
+		clearInterval(sessionTimer);
+		sessionTimer = null;
+	}
+};
+
+
+
+
+window.initializeFeatherlight = function () {
+	$(document).ready(function () {
+		if ($.featherlight) {
+			$.featherlight.defaults.closeOnClick = 'anywhere';
+		}
+
+		// Optional: manually rebind if dynamic content
+		$('a[data-featherlight]').featherlight();
 	});
+};

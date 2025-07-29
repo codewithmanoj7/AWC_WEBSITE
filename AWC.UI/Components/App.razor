@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inherits AppBase
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -35,8 +37,18 @@
 </head>
 
 <body>
-    <Routes />
-    <script src="_framework/blazor.web.js"></script>
+	<CascadingAuthenticationState>
+		<Router AppAssembly="@typeof(App).Assembly">
+			<Found Context="routeData">
+				<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+				<FocusOnNavigate RouteData="@routeData" Selector="h1" />
+			</Found>
+			<NotFound>
+				<RedirectToUnderConstruction />
+			</NotFound>
+		</Router>
+	</CascadingAuthenticationState>
+	<script src="_framework/blazor.web.js"></script>
 
 
 	<script src="assets/js/jquery-3.2.0.min.js"></script>

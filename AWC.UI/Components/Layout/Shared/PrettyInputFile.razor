@@ -1,0 +1,22 @@
+﻿<label for="file-upload" class="DropZone">
+    <InputFile class="DropFile" id="file-upload" OnChange="@UploadFilesRequest" />
+    <div class="h6 text-center w-100 m-0">
+        <span>Drag a file or click</span>
+        @if (RequestedUploadFile != null)
+        {
+            <span class="me-1">(@RequestedUploadFile.Name)</span>
+        }
+        <div class="m-0">
+            <small class="text-muted">Only one file allowed</small>
+        </div>
+    </div>
+</label>
+
+@code {
+    public IBrowserFile? RequestedUploadFile { get; private set; }
+
+    private void UploadFilesRequest(InputFileChangeEventArgs e)
+    {
+        RequestedUploadFile = e.File;
+    }
+}

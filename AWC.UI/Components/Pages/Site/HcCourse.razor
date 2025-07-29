@@ -1,0 +1,2439 @@
+﻿@page "/college-courses"
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f5f5f5;
+        color: #222;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        text-align: center;
+        padding: 30px 0;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #ccc;
+    }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+    /* Course Section Grid */
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    /* Course Card */
+    .course-card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 25px;
+    }
+
+        .course-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+    .course-content {
+        color: #444;
+        font-size: 0.95rem;
+    }
+
+        .course-content ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .course-content li {
+            margin-bottom: 8px;
+        }
+
+    /* Button */
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #2c3e50;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+
+        .btn:hover {
+            background-color: #1a252f;
+        }
+
+    /* Stats Section */
+    .stats-section {
+        background-color: #e9e9e9;
+        border-radius: 8px;
+        padding: 30px;
+        margin-top: 40px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 25px;
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    .stat-item p {
+        font-size: 0.95rem;
+        color: #444;
+    }
+
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>Army Leadership Courses</h1>
+        <p>Strengthening Command, Strategy, and Service</p>
+    </div>
+
+    <div class="courses-grid">
+        <div class="course-card outcome">
+            <h2>
+                <span class="icon">🎯</span>
+                Course Objectives
+            </h2>
+            <div class="course-content">
+                <p>Our leadership programs are designed to enhance strategic military effectiveness and operational excellence:</p>
+                <ul>
+                    <li>Strengthen leadership and decision-making skills</li>
+                    <li>Improve mission planning and execution</li>
+                    <li>Develop strategic thinking in complex environments</li>
+                    <li>Promote joint operations understanding</li>
+                    <li>Advance knowledge in military tactics and logistics</li>
+                    <li>Prepare officers for senior command roles</li>
+                    <li>Foster inter-service collaboration</li>
+                </ul>
+                <a href="#" class="btn">Explore Leadership Objectives</a>
+            </div>
+        </div>
+
+        <div class="course-card eligibility">
+            <h2>
+                <span class="icon">📋</span>
+                Eligibility Requirements
+            </h2>
+            <div class="course-content">
+                <p>To ensure readiness and relevance, all candidates must meet the following:</p>
+                <ul>
+                    <li>Commissioned officer of Indian Army or allied forces</li>
+                    <li>Minimum 5 years of active military service</li>
+                    <li>Strong performance in previous leadership roles</li>
+                    <li>Recommendation from commanding officer</li>
+                    <li>Basic operational planning skills</li>
+                    <li>Commitment to full participation</li>
+                    <li>Physical and mental fitness clearance</li>
+                </ul>
+                <a href="#" class="btn">Verify Your Eligibility</a>
+            </div>
+        </div>
+
+        <div class="course-card seminars">
+            <h2>
+                <span class="icon">🎓</span>
+                Seminars & Field Exercises
+            </h2>
+            <div class="course-content">
+                <p>Our holistic learning programs combine theory with hands-on military exercises:</p>
+                <ul>
+                    <li>Strategy and war-gaming simulations</li>
+                    <li>Joint command planning workshops</li>
+                    <li>Leadership in high-stress environments</li>
+                    <li>Combat readiness drills</li>
+                    <li>Guest lectures by senior officers</li>
+                    <li>Doctrine and operational innovation discussions</li>
+                    <li>Advanced scenario-based field exercises</li>
+                </ul>
+                <a href="#" class="btn">View Event Schedule</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>10,000+</h3>
+                <p>Officers Trained</p>
+            </div>
+            <div class="stat-item">
+                <h3>98%</h3>
+                <p>Leadership Program Success Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>75+</h3>
+                <p>Military Courses Delivered</p>
+            </div>
+            <div class="stat-item">
+                <h3>4.9/5</h3>
+                <p>Officer Satisfaction Rating</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .header-banners {
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        padding: 10px 0;
+        margin-bottom: 0px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .breadcrumb-nav {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    .eligibility-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .eligibility-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-left: 4px solid #007bff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .eligibility-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.5rem;
+        color: #fff;
+    }
+
+    .basic-req .card-icon {
+        background: linear-gradient(45deg, #28a745, #20c997);
+    }
+
+    .academic-req .card-icon {
+        background: linear-gradient(45deg, #007bff, #6610f2);
+    }
+
+    .professional-req .card-icon {
+        background: linear-gradient(45deg, #fd7e14, #e83e8c);
+    }
+
+    .technical-req .card-icon {
+        background: linear-gradient(45deg, #6f42c1, #e83e8c);
+    }
+
+    .card-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+
+    .requirement-list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .requirement-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+            display: flex;
+            align-items: flex-start;
+            font-size: 1rem;
+        }
+
+            .requirement-list li:last-child {
+                border-bottom: none;
+            }
+
+            .requirement-list li::before {
+                content: "✓";
+                color: #28a745;
+                font-weight: bold;
+                margin-right: 12px;
+                margin-top: 2px;
+                font-size: 1.1rem;
+            }
+
+    .highlight-box {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 30px 0;
+    }
+
+        .highlight-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .highlight-box p {
+            color: #856404;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+    .action-buttons {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+    .btn-outline-primary {
+        border: 2px solid #007bff;
+        color: #007bff;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        margin: 0 10px;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+    .eligibility-stats {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+
+    .stat-item {
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #007bff;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        color: #6c757d;
+        margin: 0;
+    }
+
+    .contact-section {
+        background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+        text-align: center;
+    }
+
+        .contact-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+</style>
+
+
+<header class="header-banners">
+    <div class="container">
+        <div class="page-header">
+            <h1>Course Eligibility Requirements</h1>
+            <p>Comprehensive guide to qualification criteria for our Healthcare Professional Development Programs</p>
+        </div>
+    </div>
+</header>
+
+<main class="eligibility-container">
+    <div class="highlight-box">
+        <h3><i class="fa fa-info-circle"></i> Important Notice</h3>
+        <p>All eligibility conditions must be fulfilled prior to application submission. Incomplete applications or missing documentation will not be processed.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="eligibility-card basic-req">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <h2 class="card-title">Basic Requirements</h2>
+                </div>
+                <ul class="requirement-list">
+                    <li>Commissioned officer in the armed forces</li>
+                    <li>Minimum age of 25 years</li>
+                    <li>Valid service record with no disciplinary issues</li>
+                    <li>Recommendation from commanding officer</li>
+                    <li>Physically fit as per military medical standards</li>
+                    <li>Mentally and emotionally resilient</li>
+                    <li>Proficient in English communication (spoken & written)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="eligibility-card academic-req">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-graduation-cap"></i>
+                    </div>
+                    <h2 class="card-title">Academic Qualifications</h2>
+                </div>
+                <ul class="requirement-list">
+                    <li>Bachelor’s degree or equivalent military education</li>
+                    <li>Minimum performance standards in prior courses</li>
+                    <li>Completion of mandatory service-specific training modules</li>
+                    <li>Certificates from military institutions (e.g. IMA, OTA)</li>
+                    <li>Operational planning or staff college qualification (preferred)</li>
+                    <li>Professional military education (PME) documentation</li>
+                    <li>Written endorsements from senior training officers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="eligibility-card professional-req">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-briefcase"></i>
+                    </div>
+                    <h2 class="card-title">Professional Experience</h2>
+                </div>
+                <ul class="requirement-list">
+                    <li>Minimum 5 years of commissioned service</li>
+                    <li>Experience in command or staff assignments</li>
+                    <li>Demonstrated leadership in field or operational units</li>
+                    <li>Recommendation from immediate superior officer</li>
+                    <li>Performance evaluation reports from last 3 years</li>
+                    <li>Involvement in joint or inter-agency operations</li>
+                    <li>Participation in mission planning or training command roles</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="eligibility-card technical-req">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-laptop"></i>
+                    </div>
+                    <h2 class="card-title">Technical & Administrative</h2>
+                </div>
+                <ul class="requirement-list">
+                    <li>Basic computer proficiency (MS Office, email, online tools)</li>
+                    <li>Capability to attend digital sessions or hybrid modules</li>
+                    <li>Valid official email for communications</li>
+                    <li>Commitment to full course duration and assessments</li>
+                    <li>Minimum 10 hours/week availability for coursework</li>
+                    <li>Approval of training expenses from service HQ (if applicable)</li>
+                    <li>Signed code of conduct and course participation declaration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="#" class="btn btn-primary">
+            <i class="fa fa-check-circle"></i> Check Your Eligibility
+        </a>
+        <a href="#" class="btn btn-outline-primary">
+            <i class="fa fa-download"></i> Download Application Form
+        </a>
+    </div>
+
+    <div class="contact-section">
+        <h3><i class="fa fa-phone"></i> Need Help with Eligibility?</h3>
+        <p>Our training coordination cell is available to assist with eligibility and application queries.</p>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <strong>Phone:</strong><br>
+                +91-11-1234-5678
+            </div>
+            <div class="col-md-4">
+                <strong>Email:</strong><br>
+                training.admin@army.mil.in
+            </div>
+            <div class="col-md-4">
+                <strong>Office Hours:</strong><br>
+                Mon-Fri, 0900 hrs - 1700 hrs
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .header-banners {
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+        padding: 0px 0;
+        margin-bottom: 0px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .breadcrumb-nav {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    .seminar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .seminar-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-left: 4px solid #28a745;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .seminar-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.5rem;
+        color: #fff;
+    }
+
+    .upcoming .card-icon {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+    }
+
+    .workshops .card-icon {
+        background: linear-gradient(45deg, #28a745, #20c997);
+    }
+
+    .guest-lectures .card-icon {
+        background: linear-gradient(45deg, #fd7e14, #e83e8c);
+    }
+
+    .webinars .card-icon {
+        background: linear-gradient(45deg, #6f42c1, #e83e8c);
+    }
+
+    .card-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+
+    .seminar-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 3px solid #007bff;
+    }
+
+        .seminar-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .seminar-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .seminar-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+    }
+
+        .detail-item i {
+            margin-right: 5px;
+            color: #007bff;
+        }
+
+    .seminar-description {
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+
+    .seminar-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tag {
+        background: #e9ecef;
+        color: #495057;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .highlight-box {
+        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+        border: 1px solid #bee5eb;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 30px 0;
+    }
+
+        .highlight-box h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .highlight-box p {
+            color: #0c5460;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+    .action-buttons {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+    .btn-outline-success {
+        border: 2px solid #28a745;
+        color: #28a745;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        margin: 0 10px;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-success:hover {
+            background: #28a745;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+    .seminar-stats {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+
+    .stat-item {
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #28a745;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        color: #6c757d;
+        margin: 0;
+    }
+
+    .registration-form {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+</style>
+
+<header class="header-banners">
+    <div class="container">
+        <div class="page-header">
+            <h1>College Seminars & Workshops</h1>
+            <p>Engage in cutting-edge healthcare education through our comprehensive seminar programs</p>
+        </div>
+    </div>
+</header>
+
+
+<main class="seminar-container">
+    <div class="highlight-box">
+        <h3><i class="fa fa-calendar-check-o"></i> Registration Open</h3>
+        <p>Secure your place in our upcoming military training seminars. Priority slots available for early enrollees 30 days prior.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="seminar-card upcoming">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <h2 class="card-title">Upcoming Seminars</h2>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Tactical Leadership and Decision Making</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> March 15, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-map-marker"></i> Main Auditorium</div>
+                    </div>
+                    <div class="seminar-description">
+                        Intensive focus on battlefield leadership, critical decision-making under stress, and unit-level command scenarios.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Leadership</span>
+                        <span class="tag">Command Skills</span>
+                        <span class="tag">Combat Readiness</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Cyber & Electronic Warfare Fundamentals</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> March 22, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 10:00 AM - 3:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-laptop"></i> Virtual Event</div>
+                    </div>
+                    <div class="seminar-description">
+                        Understand modern battlefield disruptions, counter-electronic strategies, and cyber command integration.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Cyber Ops</span>
+                        <span class="tag">Signals</span>
+                        <span class="tag">Defense Tech</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Operational Planning & Logistics</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> April 5, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 8:30 AM - 5:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-map-marker"></i> Conference Hall B</div>
+                    </div>
+                    <div class="seminar-description">
+                        Training on integrated logistics, force deployment, and mission sustainment at battalion and brigade levels.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Logistics</span>
+                        <span class="tag">Planning</span>
+                        <span class="tag">Field Ops</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="seminar-card workshops">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-wrench"></i>
+                    </div>
+                    <h2 class="card-title">Hands-On Workshops</h2>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Infantry Combat Drills</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Weekly Sessions</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 2:00 PM - 6:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-map-marker"></i> Parade Ground</div>
+                    </div>
+                    <div class="seminar-description">
+                        Real-time drills in close-quarter battle, section attacks, movement under fire, and urban warfare.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Live Training</span>
+                        <span class="tag">Infantry</span>
+                        <span class="tag">Tactics</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Combat Medical Response</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> April 12, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 5:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-map-marker"></i> Field Training Area</div>
+                    </div>
+                    <div class="seminar-description">
+                        Instruction in battlefield first aid, casualty evacuation drills, and trauma stabilization in hostile zones.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Field Medics</span>
+                        <span class="tag">Combat Care</span>
+                        <span class="tag">Rapid Response</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Military Research & Innovation</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> April 18-19, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-map-marker"></i> War College Research Wing</div>
+                    </div>
+                    <div class="seminar-description">
+                        Learn operational research methodology, strategy development, and technological adaptation in warfare.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Doctrine</span>
+                        <span class="tag">Military Studies</span>
+                        <span class="tag">Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="seminar-card guest-lectures">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-microphone"></i>
+                    </div>
+                    <h2 class="card-title">Guest Expert Lectures</h2>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Modern Warfare Doctrine</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-user"></i> Lt Gen R.K. Menon (Retd.)</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> March 28, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM</div>
+                    </div>
+                    <div class="seminar-description">
+                        Insights into integrated battle groups, multi-domain operations, and counter-insurgency evolution.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Doctrine</span>
+                        <span class="tag">Operations</span>
+                        <span class="tag">Free Entry</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Defense Diplomacy and Military Strategy</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-user"></i> Brig. S. Kapoor</div>
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> April 8, 2025</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 6:30 PM - 8:00 PM</div>
+                    </div>
+                    <div class="seminar-description">
+                        A discussion on international military cooperation, peacekeeping operations, and strategic deterrence.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Strategy</span>
+                        <span class="tag">Diplomacy</span>
+                        <span class="tag">Seminar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="seminar-card webinars">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fa fa-desktop"></i>
+                    </div>
+                    <h2 class="card-title">Monthly Webinar Series</h2>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Doctrine Brief: Monthly Insights</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Last Friday of each month</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 12:00 PM - 1:00 PM</div>
+                        <div class="detail-item"><i class="fa fa-laptop"></i> Online Platform</div>
+                    </div>
+                    <div class="seminar-description">
+                        Monthly updates from military thinkers on evolving warfare strategies and defense trends.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Doctrine</span>
+                        <span class="tag">Online</span>
+                        <span class="tag">1 CEU</span>
+                    </div>
+                </div>
+
+                <div class="seminar-item">
+                    <div class="seminar-title">Career Progression Forum</div>
+                    <div class="seminar-details">
+                        <div class="detail-item"><i class="fa fa-calendar-o"></i> Third Wednesday monthly</div>
+                        <div class="detail-item"><i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM</div>
+                        <div class="detail-item"><i class="fa fa-laptop"></i> Interactive Session</div>
+                    </div>
+                    <div class="seminar-description">
+                        Explore Army leadership tracks, instructional command roles, and upward mobility in officer ranks.
+                    </div>
+                    <div class="seminar-tags">
+                        <span class="tag">Officer Training</span>
+                        <span class="tag">Career Path</span>
+                        <span class="tag">Forum</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="registration-form">
+        <h3 class="text-center mb-4">Quick Registration</h3>
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="profession">Profession *</label>
+                        <select class="form-control" id="profession" required>
+                            <option value="">Select your profession</option>
+                            <option value="physician">Physician</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="pharmacist">Pharmacist</option>
+                            <option value="therapist">Therapist</option>
+                            <option value="other">Other Healthcare Professional</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="seminarInterest">Seminar of Interest *</label>
+                        <select class="form-control" id="seminarInterest" required>
+                            <option value="">Select a seminar</option>
+                            <option value="patient-care">Advanced Patient Care Management</option>
+                            <option value="digital-health">Digital Health Technologies</option>
+                            <option value="leadership">Leadership in Healthcare</option>
+                            <option value="emergency">Emergency Response Training</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-user-plus"></i> Register for Seminars
+                </button>
+                <a href="#" class="btn btn-outline-success">
+                    <i class="fa fa-download"></i> Download Brochure
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .header-banners {
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+        padding: 0px 0;
+        margin-bottom: 0px;
+    }
+
+    .page-header {
+        text-align: center;
+    }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .breadcrumb-nav {
+        background: rgba(255,255,255,0.95);
+        border-radius: 10px;
+        padding: 18px;
+        margin-bottom: 35px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+        backdrop-filter: blur(10px);
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .curriculum-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 25px;
+        position: relative;
+    }
+
+    .curriculum-section {
+        background: rgba(255,255,255,0.98);
+        border-radius: 15px;
+        padding: 35px;
+        margin-bottom: 35px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        border: 1px solid rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .curriculum-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #4facfe;
+        position: relative;
+    }
+
+    .section-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        font-size: 1.8rem;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .year1 .section-icon {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .year2 .section-icon {
+        background: linear-gradient(45deg, #4facfe, #00f2fe);
+    }
+
+    .year3 .section-icon {
+        background: linear-gradient(45deg, #43e97b, #38f9d7);
+    }
+
+    .year4 .section-icon {
+        background: linear-gradient(45deg, #fa709a, #fee140);
+    }
+
+    .specialization .section-icon {
+        background: linear-gradient(45deg, #a8edea, #fed6e3);
+    }
+
+    .assessment .section-icon {
+        background: linear-gradient(45deg, #ffecd2, #fcb69f);
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+        flex-grow: 1;
+    }
+
+    .section-meta {
+        background: #f8f9ff;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #667eea;
+        font-weight: 600;
+    }
+
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .course-card {
+        background: #f8f9ff;
+        border-radius: 12px;
+        padding: 25px;
+        border-left: 5px solid #667eea;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, rgba(102,126,234,0.1), rgba(102,126,234,0.05));
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover::before {
+            transform: scale(1.2);
+        }
+
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.15);
+            border-left-color: #4facfe;
+        }
+
+    .course-title {
+        font-size: 1.3rem;
+        font-weight: 650;
+        color: #2c3e50;
+        margin-bottom: 12px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .course-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        position: relative;
+        z-index: 2;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        background: rgba(102,126,234,0.1);
+        padding: 4px 10px;
+        border-radius: 15px;
+    }
+
+        .detail-item i {
+            margin-right: 6px;
+            color: #667eea;
+        }
+
+    .course-description {
+        color: #5d6d7e;
+        font-size: 1rem;
+        margin-bottom: 18px;
+        line-height: 1.6;
+        position: relative;
+        z-index: 2;
+    }
+
+    .course-objectives {
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .objectives-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 8px;
+    }
+
+    .objectives-list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .objectives-list li {
+            padding: 3px 0 3px 20px;
+            position: relative;
+            font-size: 0.9rem;
+            color: #5d6d7e;
+        }
+
+            .objectives-list li::before {
+                content: '▸';
+                position: absolute;
+                left: 0;
+                color: #667eea;
+                font-weight: bold;
+            }
+
+    .course-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .tag {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 18px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .highlight-section {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        margin: 40px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .highlight-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+            animation: shine 3s infinite;
+        }
+
+
+
+        .highlight-section h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .highlight-section p {
+            font-size: 1.2rem;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+    .statistics-section {
+        background: rgba(255,255,255,0.98);
+        border-radius: 15px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+
+    .stat-card {
+        padding: 25px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e9ecff 100%);
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #667eea;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        color: #34495e;
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .action-section {
+        text-align: center;
+        margin: 50px 0;
+    }
+
+    .btn-military {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border: none;
+        padding: 15px 35px;
+        font-size: 1.2rem;
+        border-radius: 30px;
+        margin: 0 15px;
+        color: #fff;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+    }
+
+        .btn-military:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+    .btn-outline-military {
+        border: 3px solid #667eea;
+        color: #667eea;
+        background: transparent;
+        padding: 12px 35px;
+        font-size: 1.2rem;
+        border-radius: 30px;
+        margin: 0 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-military:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.3);
+        }
+
+</style>
+
+
+<header class="header-banners">
+    <div class="container">
+        <div class="page-header">
+            <h1>Army Training Curriculum</h1>
+            <p>Comprehensive military education program designed to develop future defense leaders</p>
+        </div>
+    </div>
+</header>
+
+
+<main class="curriculum-container">
+    <div class="highlight-section">
+        <h3><i class="fa fa-graduation-cap"></i> Elite Military Academy Program</h3>
+        <p>Four-year comprehensive curriculum combining theoretical knowledge with intensive field training and leadership development</p>
+    </div>
+
+    <!-- Year 1 -->
+    <div class="curriculum-section year1">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fa fa-flag"></i>
+            </div>
+            <h2 class="section-title">Foundation Year</h2>
+            <div class="section-meta">Year 1 • 8 Courses</div>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-title">Military History & Heritage</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                    <div class="detail-item"><i class="fa fa-users"></i> Core Course</div>
+                </div>
+                <div class="course-description">
+                    Comprehensive study of military traditions, battle history, and the evolution of warfare strategies from ancient times to modern conflicts.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Analyze historical military campaigns</li>
+                        <li>Understand strategic decision-making</li>
+                        <li>Study leadership under pressure</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">History</span>
+                    <span class="tag">Strategy</span>
+                    <span class="tag">Foundation</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Basic Military Science</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                    <div class="detail-item"><i class="fa fa-book"></i> Theory + Lab</div>
+                </div>
+                <div class="course-description">
+                    Introduction to military organization, chain of command, military law, and fundamental principles of armed forces operations.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Master military hierarchy and protocol</li>
+                        <li>Understand military justice system</li>
+                        <li>Learn basic military terminology</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Military Law</span>
+                    <span class="tag">Organization</span>
+                    <span class="tag">Protocol</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Physical Training & Conditioning</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 2 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Both Semesters</div>
+                    <div class="detail-item"><i class="fa fa-heartbeat"></i> Practical</div>
+                </div>
+                <div class="course-description">
+                    Intensive physical fitness program including endurance training, strength building, and combat-ready conditioning protocols.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Achieve military fitness standards</li>
+                        <li>Build mental resilience</li>
+                        <li>Master basic combat movements</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Fitness</span>
+                    <span class="tag">Endurance</span>
+                    <span class="tag">Combat Ready</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Leadership Fundamentals</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                    <div class="detail-item"><i class="fa fa-star"></i> Leadership Track</div>
+                </div>
+                <div class="course-description">
+                    Basic principles of military leadership, team dynamics, decision-making processes, and ethical leadership in high-stress environments.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Develop leadership philosophy</li>
+                        <li>Practice ethical decision-making</li>
+                        <li>Build team management skills</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Leadership</span>
+                    <span class="tag">Ethics</span>
+                    <span class="tag">Team Building</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Year 2 -->
+    <div class="curriculum-section year2">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fa fa-shield"></i>
+            </div>
+            <h2 class="section-title">Intermediate Development</h2>
+            <div class="section-meta">Year 2 • 10 Courses</div>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-title">Tactical Operations</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                    <div class="detail-item"><i class="fa fa-crosshairs"></i> Field Training</div>
+                </div>
+                <div class="course-description">
+                    Advanced study of small unit tactics, battlefield maneuvers, and operational planning at platoon and company levels.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Master tactical movement principles</li>
+                        <li>Plan and execute small unit operations</li>
+                        <li>Analyze terrain and enemy capabilities</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Tactics</span>
+                    <span class="tag">Operations</span>
+                    <span class="tag">Field Training</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Military Technology & Weapons Systems</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                    <div class="detail-item"><i class="fa fa-cog"></i> Technical</div>
+                </div>
+                <div class="course-description">
+                    Comprehensive training on modern military equipment, weapon systems, communication devices, and emerging battlefield technologies.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Operate advanced military equipment</li>
+                        <li>Understand weapons system capabilities</li>
+                        <li>Maintain and troubleshoot gear</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Technology</span>
+                    <span class="tag">Weapons</span>
+                    <span class="tag">Equipment</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Combat Medicine & First Aid</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Fall Semester</div>
+                    <div class="detail-item"><i class="fa fa-heartbeat"></i> Medical Training</div>
+                </div>
+                <div class="course-description">
+                    Essential battlefield medical skills including trauma care, casualty evacuation, and life-saving procedures in combat zones.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Perform emergency medical procedures</li>
+                        <li>Coordinate casualty evacuation</li>
+                        <li>Manage medical supplies under pressure</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Medical</span>
+                    <span class="tag">Emergency Care</span>
+                    <span class="tag">Combat Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Year 3 -->
+    <div class="curriculum-section year3">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fa fa-star"></i>
+            </div>
+            <h2 class="section-title">Advanced Leadership</h2>
+            <div class="section-meta">Year 3 • 12 Courses</div>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-title">Strategic Planning & Operations</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 4 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Both Semesters</div>
+                    <div class="detail-item"><i class="fa fa-chess"></i> Strategy</div>
+                </div>
+                <div class="course-description">
+                    Advanced strategic thinking, long-term operational planning, resource allocation, and multi-domain warfare concepts.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Develop strategic thinking capabilities</li>
+                        <li>Create comprehensive operation plans</li>
+                        <li>Coordinate multi-unit operations</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Strategy</span>
+                    <span class="tag">Planning</span>
+                    <span class="tag">Multi-Domain</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-title">Joint Operations & International Relations</div>
+                <div class="course-details">
+                    <div class="detail-item"><i class="fa fa-clock-o"></i> 3 Credits</div>
+                    <div class="detail-item"><i class="fa fa-calendar-o"></i> Spring Semester</div>
+                    <div class="detail-item"><i class="fa fa-globe"></i> International</div>
+                </div>
+                <div class="course-description">
+                    Study of multinational military operations, alliance structures, peacekeeping missions, and diplomatic-military coordination.
+                </div>
+                <div class="course-objectives">
+                    <div class="objectives-title">Learning Objectives:</div>
+                    <ul class="objectives-list">
+                        <li>Understand international military law</li>
+                        <li>Plan joint multinational operations</li>
+                        <li>Navigate diplomatic protocols</li>
+                    </ul>
+                </div>
+                <div class="course-tags">
+                    <span class="tag">Joint Ops</span>
+                    <span class="tag">International</span>
+                    <span class="tag">Diplomacy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-section">
+        <button class="btn-military">Enroll Now</button>
+        <button class="btn-outline-military">Learn More</button>
+    </div>
+</main>
+
+
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .header-banners {
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+        padding: 0px 0;
+        margin-bottom: 0px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .calendar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .calendar-controls {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .month-navigation {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nav-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .nav-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+    .current-month {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .view-toggles {
+        display: flex;
+        gap: 10px;
+    }
+
+    .view-btn {
+        padding: 8px 16px;
+        border: 2px solid #007bff;
+        background: transparent;
+        color: #007bff;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .view-btn.active, .view-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+
+    .calendar-main {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background-color: #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .calendar-header {
+        background: #2c3e50;
+        color: white;
+        padding: 15px 5px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .calendar-day {
+        background: white;
+        min-height: 120px;
+        padding: 10px 8px;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+        .calendar-day:hover {
+            background: #f8f9fa;
+        }
+
+        .calendar-day.other-month {
+            background: #f1f3f4;
+            color: #9aa0a6;
+        }
+
+        .calendar-day.today {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+        }
+
+    .day-number {
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
+    .day-events {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .event {
+        background: #007bff;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+        .event.seminar {
+            background: #28a745;
+        }
+
+        .event.workshop {
+            background: #fd7e14;
+        }
+
+        .event.lecture {
+            background: #6f42c1;
+        }
+
+        .event.exam {
+            background: #dc3545;
+        }
+
+        .event.holiday {
+            background: #ffc107;
+            color: #333;
+        }
+
+    .events-sidebar {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    .sidebar-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f8f9fa;
+        padding-bottom: 10px;
+    }
+
+    .event-item {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        background: #f8f9fa;
+    }
+
+        .event-item.seminar {
+            border-left-color: #28a745;
+        }
+
+        .event-item.workshop {
+            border-left-color: #fd7e14;
+        }
+
+        .event-item.lecture {
+            border-left-color: #6f42c1;
+        }
+
+        .event-item.exam {
+            border-left-color: #dc3545;
+        }
+
+        .event-item.holiday {
+            border-left-color: #ffc107;
+        }
+
+    .event-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #2c3e50;
+    }
+
+    .event-details {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .legend {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    .legend-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+    }
+
+
+
+    .college-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .college-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+</style>
+
+
+<header class="header-banners">
+    <div class="container">
+        <div class="page-header">
+            <h1>Academic Calendar</h1>
+            <p>Stay updated with all important dates, seminars, workshops, and academic events</p>
+        </div>
+    </div>
+</header>
+
+<main class="calendar-container">
+    <div class="calendar-controls">
+        <div class="month-navigation">
+            <button class="nav-btn" id="prevMonth">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <div class="current-month" id="currentMonth">March 2025</div>
+            <button class="nav-btn" id="nextMonth">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="view-toggles">
+            <button class="view-btn active" data-view="month">Month</button>
+            <button class="view-btn" data-view="week">Week</button>
+            <button class="view-btn" data-view="agenda">Agenda</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="calendar-main">
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-header">Sun</div>
+                    <div class="calendar-header">Mon</div>
+                    <div class="calendar-header">Tue</div>
+                    <div class="calendar-header">Wed</div>
+                    <div class="calendar-header">Thu</div>
+                    <div class="calendar-header">Fri</div>
+                    <div class="calendar-header">Sat</div>
+
+                    <!-- Calendar days will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="events-sidebar">
+                <h3 class="sidebar-title">
+                    <i class="fa fa-calendar-check-o"></i> Upcoming Events
+                </h3>
+
+                <div class="event-item seminar">
+                    <div class="event-title">Tactical Leadership Seminar</div>
+                    <div class="event-details">
+                        <i class="fa fa-calendar"></i> March 15, 2025<br>
+                        <i class="fa fa-clock-o"></i> 9:00 AM - 4:00 PM<br>
+                        <i class="fa fa-map-marker"></i> Main Auditorium
+                    </div>
+                </div>
+
+                <div class="event-item workshop">
+                    <div class="event-title">Infantry Combat Workshop</div>
+                    <div class="event-details">
+                        <i class="fa fa-calendar"></i> March 18, 2025<br>
+                        <i class="fa fa-clock-o"></i> 2:00 PM - 6:00 PM<br>
+                        <i class="fa fa-map-marker"></i> Training Ground
+                    </div>
+                </div>
+
+                <div class="event-item lecture">
+                    <div class="event-title">Modern Warfare Doctrine</div>
+                    <div class="event-details">
+                        <i class="fa fa-calendar"></i> March 28, 2025<br>
+                        <i class="fa fa-clock-o"></i> 7:00 PM - 8:30 PM<br>
+                        <i class="fa fa-user"></i> Lt Gen R.K. Menon (Retd.)
+                    </div>
+                </div>
+
+                <div class="event-item exam">
+                    <div class="event-title">Mid-Term Assessments</div>
+                    <div class="event-details">
+                        <i class="fa fa-calendar"></i> March 25-27, 2025<br>
+                        <i class="fa fa-clock-o"></i> Various Times<br>
+                        <i class="fa fa-map-marker"></i> Examination Halls
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <h3 class="legend-title">Event Categories</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #28a745;"></div>
+                        <span>Seminars</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fd7e14;"></div>
+                        <span>Workshops</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #6f42c1;"></div>
+                        <span>Lectures</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #dc3545;"></div>
+                        <span>Exams</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffc107;"></div>
+                        <span>Holidays</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+    // Calendar functionality
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Sample events data
+    const events = {
+        '2025-03-15': [{ title: 'Leadership Seminar', type: 'seminar' }],
+        '2025-03-18': [{ title: 'Combat Workshop', type: 'workshop' }],
+        '2025-03-22': [{ title: 'Cyber Warfare', type: 'seminar' }],
+        '2025-03-25': [{ title: 'Mid-Term Exam', type: 'exam' }],
+        '2025-03-26': [{ title: 'Mid-Term Exam', type: 'exam' }],
+        '2025-03-27': [{ title: 'Mid-Term Exam', type: 'exam' }],
+        '2025-03-28': [{ title: 'Guest Lecture', type: 'lecture' }],
+        '2025-04-05': [{ title: 'Operations Planning', type: 'seminar' }],
+        '2025-04-08': [{ title: 'Defense Strategy', type: 'lecture' }],
+        '2025-04-12': [{ title: 'Medical Response', type: 'workshop' }]
+    };
+
+    function generateCalendar(month, year) {
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+        let calendarHTML = '';
+
+        // Add day headers
+        const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        dayHeaders.forEach(day => {
+            calendarHTML += `<div class="calendar-header">${day}</div>`;
+        });
+
+        // Add empty cells for previous month
+        for (let i = firstDay - 1; i >= 0; i--) {
+            const prevDate = daysInPrevMonth - i;
+            calendarHTML += `<div class="calendar-day other-month">
+                            <div class="day-number">${prevDate}</div>
+                            <div class="day-events"></div>
+                        </div>`;
+        }
+
+        // Add days of current month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const isToday = day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear();
+
+            let dayEvents = '';
+            if (events[dateStr]) {
+                events[dateStr].forEach(event => {
+                    dayEvents += `<div class="event ${event.type}">${event.title}</div>`;
+                });
+            }
+
+            calendarHTML += `<div class="calendar-day ${isToday ? 'today' : ''}">
+                            <div class="day-number">${day}</div>
+                            <div class="day-events">${dayEvents}</div>
+                        </div>`;
+        }
+
+        // Fill remaining cells
+        const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+        const remainingCells = totalCells - (firstDay + daysInMonth);
+        for (let day = 1; day <= remainingCells; day++) {
+            calendarHTML += `<div class="calendar-day other-month">
+                            <div class="day-number">${day}</div>
+                            <div class="day-events"></div>
+                        </div>`;
+        }
+
+        document.getElementById('calendarGrid').innerHTML = calendarHTML;
+        document.getElementById('currentMonth').textContent = `${months[month]} ${year}`;
+    }
+
+    // Navigation event listeners
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    // View toggle functionality
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // Update current date and time
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // Initialize
+    generateCalendar(currentMonth, currentYear);
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+
+
+
+
+<script>
+    // Update current date and time
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>

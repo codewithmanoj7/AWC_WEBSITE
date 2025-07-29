@@ -1,0 +1,282 @@
+﻿@page "/profile"
+
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+
+<Greeting />
+
+
+<h4>Welcome</h4>
+
+
+@* @page "/profile"
+@using AWC.CQRS.Queries.User
+
+
+@inject IAuthenticationStateService AuthenticationState
+@inject IPermissionStylingService PermissionStyling
+@inject IMediator Mediator
+@inject IFileUploadService FileUpload
+
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+
+<PageTitle>User Profile</PageTitle>
+
+<EditForm Context="_" Model="@this" OnValidSubmit="UploadProfilePicture" FormName="ProfileForm">
+    <div class="container mb-4">
+        <!-- Header Card -->
+        <div class="card border-0 shadow-sm mb-4 @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState?.User?.Permissions)">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-25 p-3 rounded-circle me-3">
+                        <i class="fas fa-user-circle fs-3"></i>
+                    </div>
+                    <div>
+                        <h1 class="h3 mb-0 fw-bold">
+                            User Profile
+                        </h1>
+                        <p class="text-opacity-75 mb-0 small">
+                            View and update your profile picture
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <!-- Profile Picture Card -->
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                        <h5 class="fw-bold mb-0">Profile Picture</h5>
+                    </div>
+                    <div class="card-body px-4 pb-4 pt-2 text-center">
+                        <div class="d-flex justify-content-center align-items-center text-center mb-3">
+                            @if (_profileImageExists)
+                            {
+                                <img src="@($@"\uploads\ProfileImages\{_user?.ICnumber}.jpg?{_cacheBuster}")"
+                                     class="rounded-circle border border-2 shadow-sm" alt="Profile Image"
+                                     width="120" height="120">
+                            }
+                            else
+                            {
+                                <div class="rounded-circle border border-2 shadow-sm bg-light"
+                                     style="width: 120px; height: 120px;">
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <PrettyInputFile @ref="_inputFile" />
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" disabled="@_inAction" class="btn btn-dark w-100">
+                                    @if (_inAction)
+                                    {
+                                        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                                    }
+                                    <span>Submit</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-lg-8">
+                <!-- User Details Card -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-3">
+                        <h5 class="fw-bold mb-0 d-flex align-items-center">
+                            <i class="fas fa-user-shield text-primary me-2"></i>
+                            <span>Personal Information</span>
+                        </h5>
+                    </div>
+                    <div class="card-body px-4 pb-4 pt-0">
+                        @if (_user != null)
+                        {
+                            <div class="row g-4">
+                                <!-- Identity Column -->
+                                <div class="col-md-6">
+                                    <div class="d-flex flex-column gap-3">
+                                        <!-- IC Number -->
+                                        <div class="border-bottom pb-3">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-id-card text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">IC NUMBER</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold">@_user?.ICnumber</span>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- Full Name -->
+                                        <div class="border-bottom pb-3">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-signature text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">FULL NAME</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold">@_user?.FirstName @_user?.LastName</span>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- Gender -->
+                                        <div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-venus-mars text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">GENDER</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold">@_user?.Gender</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Column -->
+                                <div class="col-md-6">
+                                    <div class="d-flex flex-column gap-3">
+                                        <!-- Email -->
+                                        <div class="border-bottom pb-3">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-envelope text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">EMAIL</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold text-break">@_user?.Email</span>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- Phone -->
+                                        <div class="border-bottom pb-3">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-phone text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">PHONE</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold">@_user?.PhoneNumber</span>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- City -->
+                                        <div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-city text-muted me-2" style="width: 20px;"></i>
+                                                <small class="text-muted">CITY</small>
+                                            </div>
+                                            <div class="ps-3 ms-1">
+                                                <span class="fw-semibold">@_user?.City</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Permissions Section - Full Width -->
+                            <div class="mt-4 pt-3 border-top">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-key text-muted me-2"></i>
+                                            <small class="text-muted">PERMISSIONS</small>
+                                        </div>
+                                        <div class="ps-3 ms-1">
+                                            <span class="badge bg-primary bg-opacity-25 text-primary px-3 py-2 fw-normal">
+                                                <i class="fas fa-user-shield me-1"></i> @_user?.Permissions
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+<div class="row mt-2">
+	<DismissibleAlert @ref="_alert" class="m-2 shadow-sm" />
+</div>
+
+@code {
+	private DismissibleAlert? _alert;
+	private bool _inAction;
+	private UserEntity? _user;
+	private PrettyInputFile? _inputFile;
+	private bool _profileImageExists;
+	private string _cacheBuster = Guid.NewGuid().ToString();
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AuthenticationState.User?.Id != null)
+		{
+			var userQuery = new GetByIdQuery { Id = AuthenticationState.User.Id };
+			_user = await Mediator.Send(userQuery);
+
+			if (_user != null)
+			{
+				await CheckProfileImageExists();
+			}
+		}
+	}
+
+	private Task CheckProfileImageExists()
+	{
+		if (_user?.ICnumber == null) return Task.CompletedTask;
+		var imagePath = Path.Combine("wwwroot", "uploads", "ProfileImages", $"{_user.ICnumber}.jpg");
+		_profileImageExists = File.Exists(imagePath);
+
+		return Task.CompletedTask;
+	}
+
+	private async Task UploadProfilePicture()
+	{
+		if (!_inAction)
+		{
+			try
+			{
+				_inAction = true;
+				if (_inputFile?.RequestedUploadFile != null)
+				{
+					var allowedExtensions = new[] { ".jpg" };
+					var result = await FileUpload.UploadFileAsync(_inputFile.RequestedUploadFile, UploadPath.ProfileImages, 
+						allowedExtensions, _user?.ICnumber);
+
+					if (result.Success)
+					{
+						_cacheBuster = Guid.NewGuid().ToString(); // Force image reload
+						await CheckProfileImageExists();
+						_alert?.ShowSuccess(result.Message);
+						StateHasChanged();
+					}
+					else
+					{
+						_alert?.ShowError(result.Message);
+					}
+				}
+				else
+				{
+					_alert?.ShowWarning("No file selected. Please choose a profile picture to upload.");
+				}
+			}
+			catch (CreateUpdateException ex)
+			{
+				_alert?.ShowWarning(ex.Message);
+			}
+			catch
+			{
+				_alert?.ShowError("An error occurred while processing.");
+			}
+			finally
+			{
+				_inAction = false;
+			}
+		}
+	}
+} *@

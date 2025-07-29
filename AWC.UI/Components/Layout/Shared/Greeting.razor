@@ -1,0 +1,23 @@
+﻿@inject IAuthenticationStateService AuthenticationState;
+
+<h1 class="text-center mb-3 fw-light lh-sm">
+    @_dayStateGreet, 
+    <span class="fw-semibold text-primary">@AuthenticationState.User?.FirstName</span> 
+    <span class="fw-semibold text-primary">@AuthenticationState.User?.LastName</span>
+</h1>
+
+@code {
+    private string? _dayStateGreet;
+
+    protected override void OnInitialized()
+    {
+        var currentHour = DateTime.Now.Hour;
+        _dayStateGreet = currentHour switch
+        {
+            >= 23 or < 5 => "Good night",
+            >= 5 and < 12 => "Good morning",
+            >= 12 and < 17 => "Good afternoon",
+            _ => "Good evening"
+        };
+    }
+}
