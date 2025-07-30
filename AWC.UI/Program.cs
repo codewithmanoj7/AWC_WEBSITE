@@ -7,7 +7,9 @@ using AWC.UI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
-var builder = WebApplication.CreateBuilder(args);
+
+
+    var builder = WebApplication.CreateBuilder(args);
 
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
@@ -19,11 +21,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IAuthenticationStateService, AuthenticationStateService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<INavigationService, NavigationService>();
-
-builder.Services.AddScoped<ICsvExporterService, CsvExporterService>();
-builder.Services.AddScoped<ICsvImporterService, CsvImporterService>();
-
-builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+    builder.Services.AddScoped<ICsvExporterService, CsvExporterService>();
+    builder.Services.AddScoped<ICsvImporterService, CsvImporterService>();
+    builder.Services.AddScoped<IFileUploadService, FileUploadService>();
     builder.Services.AddScoped<IPermissionStylingService, PermissionStylingService>();
 
     builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
@@ -54,6 +54,7 @@ builder.Services.AddScoped<IFileUploadService, FileUploadService>();
     });
 
     builder.Services.AddAuthorization();
+ 
 
     var app = builder.Build();
 
@@ -90,4 +91,3 @@ builder.Services.AddScoped<IFileUploadService, FileUploadService>();
         .AddInteractiveServerRenderMode();
 
     app.Run();
-

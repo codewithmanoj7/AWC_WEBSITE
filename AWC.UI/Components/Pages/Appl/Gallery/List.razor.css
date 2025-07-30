@@ -1,0 +1,152 @@
+
+
+
+
+/* Responsive Grid */
+@media (min-width: 1200px) {
+    .gallery-col {
+        width: 20%;
+    }
+    /* 5 columns */
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .gallery-col {
+        width: 25%;
+    }
+    /* 4 columns */
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .gallery-col {
+        width: 33.333%;
+    }
+    /* 3 columns */
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .gallery-col {
+        width: 50%;
+    }
+    /* 2 columns */
+}
+
+@media (max-width: 479px) {
+    .gallery-col {
+        width: 100%;
+    }
+    /* 1 column */
+}
+
+.gallery-col {
+    float: left;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .gallery-container {
+        padding: 15px;
+    }
+
+    .page-header,
+    .search-filter-card {
+        padding: 20px;
+    }
+
+        .page-header h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+    .search-input {
+        margin-bottom: 15px;
+    }
+
+    .filter-content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        border-radius: 0;
+        overflow-y: auto;
+        z-index: 1050;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+        .btn:last-child {
+            margin-bottom: 0;
+        }
+}
+
+
+
+/* Modern gallery styles */
+/*.gallery-card {
+    transition: all 0.3s ease;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.gallery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.gallery-image-container {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-card:hover .gallery-image {
+    transform: scale(1.05);
+}
+
+.gallery-actions {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-card:hover .gallery-actions {
+    opacity: 1;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}*/

@@ -1,0 +1,650 @@
+@page "/site/gallery"
+@page "/site/gallery/{PageId:int}"
+
+@using AWC.CQRS.Commands.Gallery
+@using AWC.CQRS.Queries.Gallery
+@using AWC.Infra.Entities.Site
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IJSRuntime JsRuntime
+@inject IPermissionStylingService PermissionStyling
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+<PageTitle>Gallery</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+
+    <style>
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .page-header h1 {
+                margin: 0;
+                color: #333;
+                font-size: 28px;
+                font-weight: 500;
+            }
+
+            .page-header .btn {
+                margin-top: 5px;
+            }
+
+        .search-filter-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            z-index: 2;
+        }
+
+        .search-input {
+            padding-left: 35px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 40px;
+        }
+
+            .search-input:focus {
+                border-color: #337ab7;
+                box-shadow: 0 0 0 2px rgba(51, 122, 183, 0.1);
+            }
+
+        .filter-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .filter-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 300px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            z-index: 1000;
+            padding: 20px;
+            margin-top: 5px;
+        }
+
+        .filter-dropdown.open .filter-content {
+            display: block;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+            .filter-group:last-child {
+                margin-bottom: 0;
+            }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .info-alert {
+            background: #e6f3ff;
+            border: 1px solid #b3d9ff;
+            color: #0066cc;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .warning-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .gallery-grid {
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+            .gallery-item:hover {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateY(-2px);
+            }
+
+        .gallery-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+
+        .gallery-actions {
+            position: relative;
+            display: inline-block;
+        }
+
+        .actions-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .actions-btn:hover {
+                background: #fff;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
+
+        .actions-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            min-width: 150px;
+            margin-top: 5px;
+        }
+
+        .gallery-actions.open .actions-menu {
+            display: block;
+        }
+
+        .actions-menu a {
+            display: block;
+            padding: 8px 12px;
+            color: #333;
+            text-decoration: none;
+            font-size: 13px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+            .actions-menu a:last-child {
+                border-bottom: none;
+            }
+
+            .actions-menu a:hover {
+                background: #f5f5f5;
+                color: #333;
+            }
+
+        .actions-menu .text-danger:hover {
+            background: #fff5f5;
+            color: #d9534f;
+        }
+
+        .gallery-content {
+            padding: 15px;
+        }
+
+        .gallery-title {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gallery-date {
+            color: #999;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .empty-state {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+            .empty-state .fa {
+                font-size: 64px;
+                color: #ddd;
+                margin-bottom: 20px;
+            }
+
+            .empty-state h4 {
+                color: #999;
+                margin-bottom: 10px;
+            }
+
+            .empty-state p {
+                color: #bbb;
+                margin-bottom: 25px;
+            }
+
+        .pagination-wrapper {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .clear-filter-btn {
+            background: none;
+            border: none;
+            color: #d9534f;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+
+            .clear-filter-btn:hover {
+                background: #fff5f5;
+            }
+
+        /* Click outside to close dropdowns */
+        .dropdown-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 990;
+        }
+    </style>
+
+    <div class="gallery-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <h1>
+                        <i class="fa fa-picture-o"></i>
+                        Gallery Management
+                    </h1>
+                </div>
+                <div class="col-md-4 col-sm-4 text-right">
+                    <button class="btn btn-warning"
+                            @onclick="@(() => NavigationService.NavigateTo($"/site/gallery/upload"))">
+                        <i class="fa fa-cloud-upload"></i> Upload Images
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="search-filter-card">
+            <div class="row">
+                <div class="col-md-8 col-sm-7">
+                    <div class="search-wrapper">
+                        <i class="fa fa-search search-icon"></i>
+                        <input type="text" class="form-control search-input"
+                               placeholder="Search images by name..."
+                               @bind="_searchTerm" @oninput="OnSearchInputChanged" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-5">
+                    <div class="text-right">
+                        <div class="filter-dropdown" id="filterDropdown">
+                            <button class="btn btn-default" type="button" onclick="toggleFilter()">
+                                <i class="fa fa-filter"></i> Filters
+                            </button>
+                            <div class="filter-content">
+                                <div class="filter-group">
+                                    <label class="filter-label">Uploaded From</label>
+                                    <input type="date" class="form-control"
+                                           value="@(_uploadedFrom?.ToString("yyyy-MM-dd") ?? "")"
+                                           @onchange="@(e => SetUploadedFrom(e))" />
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-label">Uploaded To</label>
+                                    <input type="date" class="form-control"
+                                           value="@(_uploadedTo?.ToString("yyyy-MM-dd") ?? "")"
+                                           @onchange="@(e => SetUploadedTo(e))" />
+                                </div>
+                                <hr>
+                                <button class="btn btn-sm btn-danger btn-block" @onclick="ClearDateFilters">
+                                    <i class="fa fa-times-circle"></i> Clear Date Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        @{
+            var numFrom = (PageId - 1) * ItemsPerPage + 1;
+            var numTo = (PageId * ItemsPerPage) > _itemCount ? _itemCount : (PageId * ItemsPerPage);
+        }
+
+        <div class="info-alert">
+            <i class="fa fa-info-circle"></i>
+            Displaying <strong>@numFrom-@numTo</strong> of <strong>@_itemCount</strong> images
+        </div>
+
+        @if (_uploadedFrom.HasValue || _uploadedTo.HasValue)
+        {
+            <div class="warning-alert">
+                <i class="fa fa-filter"></i>
+                Filtering images by upload date:
+                @(_uploadedFrom.HasValue ? $"from {_uploadedFrom.Value:yyyy-MM-dd}" : "")
+                @(_uploadedTo.HasValue ? $"to {_uploadedTo.Value:yyyy-MM-dd}" : "")
+                <button class="clear-filter-btn" @onclick="ClearDateFilters">
+                    <i class="fa fa-times"></i> Clear
+                </button>
+            </div>
+        }
+
+        <!-- Alert Messages -->
+        <DismissibleAlert @ref="_alert" />
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+            @if (_galleryList.Count > 0)
+            {
+                <div class="row clearfix">
+                    @foreach (var item in _galleryList)
+                    {
+                        <div class="gallery-col">
+                            <div class="gallery-item">
+                                <img src="@item.Image" class="gallery-image" alt="@item.Name" loading="lazy" />
+
+                                <div class="gallery-overlay">
+                                    <div class="gallery-actions" id="actions_@item.Id">
+                                        <button class="actions-btn" onclick="toggleActions('@item.Id')">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="actions-menu">
+                                            <a href="@item.Image" target="_blank">
+                                                <i class="fa fa-expand text-info"></i> View Full Size
+                                            </a>
+                                            <a href="@item.Image" download>
+                                                <i class="fa fa-download text-success"></i> Download
+                                            </a>
+                                            <a href="javascript:void(0)" class="text-danger" @onclick="() => DeleteImage(item.Id)">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gallery-content">
+                                    <h6 class="gallery-title">@item.Name</h6>
+                                    <p class="gallery-date">
+                                        <i class="fa fa-calendar"></i>
+                                        @item.CreatedAt.ToString("MMM dd, yyyy")
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fa fa-picture-o"></i>
+                    <h4>No images found</h4>
+                    <p>Upload your first image to get started</p>
+                    <button class="btn btn-primary"
+                            @onclick="@(() => NavigationService.NavigateTo($"/site/gallery/upload"))">
+                        <i class="fa fa-cloud-upload"></i> Upload Images
+                    </button>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (_galleryList.Count > 0)
+        {
+            <div class="pagination-wrapper">
+                <Pagination @ref="_pagination" UrlPagination="/site/gallery/"
+                            PagesBufferRange="@PagesBufferRange" CurrentPage="PageId"
+                            CurrentPagesCount="_pagesCount" />
+            </div>
+        }
+    </div>
+
+    <script>
+        function toggleFilter() {
+            var dropdown = document.getElementById('filterDropdown');
+            var isOpen = dropdown.classList.contains('open');
+
+            // Close all dropdowns first
+            closeAllDropdowns();
+
+            if (!isOpen) {
+                dropdown.classList.add('open');
+                addBackdrop('filterDropdown');
+            }
+        }
+
+        function toggleActions(itemId) {
+            var dropdown = document.getElementById('actions_' + itemId);
+            var isOpen = dropdown.classList.contains('open');
+
+            // Close all dropdowns first
+            closeAllDropdowns();
+
+            if (!isOpen) {
+                dropdown.classList.add('open');
+                addBackdrop('actions_' + itemId);
+            }
+        }
+
+        function closeAllDropdowns() {
+            var dropdowns = document.querySelectorAll('.filter-dropdown, .gallery-actions');
+            dropdowns.forEach(function(dropdown) {
+                dropdown.classList.remove('open');
+            });
+
+            var backdrop = document.querySelector('.dropdown-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        }
+
+        function addBackdrop(targetId) {
+            var backdrop = document.createElement('div');
+            backdrop.className = 'dropdown-backdrop';
+            backdrop.onclick = function() {
+                closeAllDropdowns();
+            };
+            document.body.appendChild(backdrop);
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.filter-dropdown') && !e.target.closest('.gallery-actions')) {
+                closeAllDropdowns();
+            }
+        });
+    </script>
+
+</RenderPermission>
+@code {
+    [Parameter] public int PageId { get; set; } = 1;
+    private string _searchTerm = string.Empty;
+    
+    private DateTime? _uploadedFrom;
+    private DateTime? _uploadedTo;
+
+    private async Task SetUploadedFrom(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            _uploadedFrom = date;
+        }
+        else
+        {
+            _uploadedFrom = null;
+        }
+        await FetchGalleryItems();
+    }
+
+    private async Task SetUploadedTo(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            _uploadedTo = date;
+        }
+        else
+        {
+            _uploadedTo = null;
+        }
+        await FetchGalleryItems();
+    }
+
+    private async Task ClearDateFilters()
+    {
+        _uploadedFrom = null;
+        _uploadedTo = null;
+        await FetchGalleryItems();
+    }
+
+    private IList<GalleryEntity> _galleryList = new List<GalleryEntity>();
+    private Pagination? _pagination;
+    private DismissibleAlert? _alert;
+
+    private const int ItemsPerPage = 15;
+    private const int PagesBufferRange = 5;
+
+    private long _pagesCount;
+    private long _itemCount;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            PageId = PageId <= 0 ? 1 : PageId;
+            _pagination?.SetCurrentPage(PageId);
+            await FetchGalleryItems();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error in OnParametersSetAsync: " + ex.Message);
+        }
+    }
+
+
+    private async Task DeleteImage(Guid imageId)
+    {
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm",
+            ["Are you sure you want to delete this image?"]);
+    
+        if (!confirmed) return;
+
+        var result = await Mediator.Send(new DeleteCommand
+            { Id = imageId, DeletedBy = AuthenticationState.User?.Id });
+
+        switch (result.Result)
+        {
+            case 1:
+                _alert?.ShowSuccess("Image deleted successfully.");
+                var imageIndex = _galleryList.ToList().FindIndex(c => c.Id == imageId);
+                if (imageIndex >= 0) _galleryList.RemoveAt(imageIndex);
+                break;
+            case -1:
+                _alert?.ShowError("Failed to delete image.");
+                break;
+            default:
+                _alert?.ShowError("An error occurred while deleting the image.");
+                break;
+        }
+    }
+
+    private async Task OnSearchInputChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value?.ToString() ?? string.Empty;
+        PageId = 1;
+        await FetchGalleryItems();
+    }
+
+    private async Task FetchGalleryItems()
+    {
+        try
+        {
+            if (AuthenticationState.User?.Id == null)
+            {
+                Console.WriteLine("User not authenticated yet.");
+                return;
+            }
+
+            var result = await Mediator.Send(new GetPagedQuery
+            {
+                PageNumber = PageId,
+                PageSize = ItemsPerPage,
+                SearchTerm = _searchTerm,
+                CreatedFrom = _uploadedFrom,
+                CreatedTo = _uploadedTo
+            });
+
+            if (result.Items != null)
+            {
+                _galleryList = result.Items;
+                _itemCount = result.TotalCount;
+            }
+
+            _pagesCount = Convert.ToInt64(Math.Ceiling((double)_itemCount / ItemsPerPage));
+            _pagination?.SetPagesCount(_pagesCount);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error in FetchGalleryItems: " + ex.Message);
+        }
+    }
+}

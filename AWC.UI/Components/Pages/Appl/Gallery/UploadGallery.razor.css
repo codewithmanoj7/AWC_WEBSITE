@@ -1,0 +1,60 @@
+﻿
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.alert {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .upload-container {
+        padding: 15px;
+    }
+
+    .page-header,
+    .upload-section {
+        padding: 20px;
+    }
+
+        .page-header h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+    .upload-zone {
+        padding: 30px 15px;
+    }
+
+        .upload-zone .fa {
+            font-size: 36px;
+        }
+
+    .form-actions {
+        padding: 20px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+        .btn:last-child {
+            margin-bottom: 0;
+        }
+}
+
+@media (min-width: 769px) {
+    .form-actions .btn {
+        min-width: 100px;
+    }
+}

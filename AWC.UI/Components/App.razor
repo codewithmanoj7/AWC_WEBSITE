@@ -4,10 +4,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
-@*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<base href="/" />
+	@*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="AWC.UI.styles.css" /> *@
 	<link rel="icon" type="image/png" href="assets/images/favicon.ico" />
@@ -40,7 +40,16 @@
 	<CascadingAuthenticationState>
 		<Router AppAssembly="@typeof(App).Assembly">
 			<Found Context="routeData">
-				<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+				<AuthorizeView>
+					<Authorized>
+						<AuthorizeRouteView RouteData="@routeData"
+											DefaultLayout="@typeof(AuthorizedLayout)" />
+					</Authorized>
+					<NotAuthorized>
+						<RouteView RouteData="@routeData"
+								   DefaultLayout="@typeof(MainLayout)" />
+					</NotAuthorized>
+				</AuthorizeView>
 				<FocusOnNavigate RouteData="@routeData" Selector="h1" />
 			</Found>
 			<NotFound>
@@ -48,6 +57,7 @@
 			</NotFound>
 		</Router>
 	</CascadingAuthenticationState>
+
 	<script src="_framework/blazor.web.js"></script>
 
 
@@ -69,3 +79,5 @@
 </body>
 
 </html>
+
+

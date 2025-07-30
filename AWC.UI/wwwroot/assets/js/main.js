@@ -230,3 +230,48 @@ window.initializeFeatherlight = function () {
 		$('a[data-featherlight]').featherlight();
 	});
 };
+
+window.tooltipHandler = {
+	showTooltip: (content, left, top) => {
+		let tooltip = document.getElementById("tooltip");
+		let tooltipContent = document.getElementById("tooltip-content");
+
+		if (tooltip && tooltipContent) {
+			tooltipContent.innerHTML = content;
+			tooltip.style.display = "block";
+			tooltip.style.left = left + "px";
+			tooltip.style.top = top + "px";
+		}
+	},
+
+	hideTooltip: () => {
+		let tooltip = document.getElementById("tooltip");
+		if (tooltip) {
+			tooltip.style.display = "none";
+		}
+	}
+};
+
+// Print specific element
+function printElement(elementId) {
+	const printContent = document.getElementById(elementId);
+	const originalContents = document.body.innerHTML;
+
+	document.body.innerHTML = printContent.innerHTML;
+	window.print();
+	document.body.innerHTML = originalContents;
+}
+
+function downloadFile(filename, contentType, content) {
+	const blob = new Blob([content], { type: contentType });
+	const url = URL.createObjectURL(blob);
+
+	const link = document.createElement("a");
+	link.href = url;
+	link.download = filename;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+
+	URL.revokeObjectURL(url);
+}

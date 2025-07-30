@@ -1,0 +1,464 @@
+﻿@page "/site/gallery/upload"
+
+@using AWC.CQRS.Commands.Gallery
+@using AWC.Infra.Entities.Site
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@inject IFileUploadService FileUploadService
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+<PageTitle>Upload Gallery Images</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+
+    <style>
+
+        .upload-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+        }
+
+            .page-header h1 {
+                margin: 0;
+                font-size: 30px;
+                font-weight: 600;
+                color: #222;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .page-header h1 i {
+                    font-size: 28px;
+                    color: #666;
+                }
+
+            .page-header .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+                background-color: #eee;
+                color: #333;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                transition: background 0.3s ease;
+            }
+
+                .page-header .btn:hover {
+                    background-color: #ddd;
+                }
+
+        .upload-card {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-section {
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+            .section-header h3 {
+                margin: 0;
+                color: #333;
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+        .upload-zone {
+            border: 2px dashed #bbb;
+            border-radius: 6px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fdfdfd;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+            .upload-zone:hover {
+                border-color: #999;
+            }
+
+            .upload-zone .fa {
+                font-size: 48px;
+                color: #888;
+                margin-bottom: 15px;
+            }
+
+        .upload-instructions {
+            margin: 10px 0;
+            color: #444;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .upload-help {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .file-selected {
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .preview-grid {
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .preview-content {
+            padding: 10px;
+        }
+
+        .preview-title {
+            margin-bottom: 5px;
+        }
+
+        .preview-info {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+            .remove-btn:hover {
+                background: #c9302c;
+            }
+
+        .form-actions {
+            padding: 25px 30px;
+            background: #f7f7f7;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .btn-upload {
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            min-width: 140px;
+        }
+
+        .upload-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 5px;
+        }
+    </style>
+
+    <div class="upload-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <h1>
+                        <i class="fa fa-picture-o"></i>
+                        Upload Gallery Images
+                    </h1>
+                </div>
+                <div class="col-md-4 col-sm-4 text-right">
+                    <button class="btn btn-default"
+                            @onclick="@(() => NavigationService.NavigateTo($"/site/gallery"))">
+                        <i class="fa fa-arrow-left"></i> Back to Gallery
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Form -->
+        <div class="upload-card">
+            <EditForm Context="_" OnValidSubmit="@OnSubmitAsync" Model="_entity" FormName="GalleryUploadForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="alert alert-danger" />
+
+                <!-- File Selection Section -->
+                <div class="upload-section">
+                    <div class="section-header">
+                        <h3>
+                            <i class="fa fa-cloud-upload"></i>
+                            Select Images
+                        </h3>
+                    </div>
+
+                    <div class="upload-zone" onclick="document.getElementById('fileUpload').click();">
+                        <InputFile OnChange="OnInputFileChange" multiple
+                                   accept=".jpg,.jpeg,.png,.gif,.webp"
+                                   class="hidden" id="fileUpload" style="display: none;" />
+
+                        <div>
+                            <i class="fa fa-cloud-upload"></i>
+                        </div>
+                        <div class="upload-instructions">
+                            Click here to browse files or drag & drop images
+                        </div>
+                        <div class="upload-help">
+                            Supported formats: JPG, PNG, GIF, WEBP (Max 5MB each)
+                        </div>
+
+                        @if (_uploadedFiles.Count > 0)
+                        {
+                            <div class="file-selected">
+                                <i class="fa fa-check-circle"></i>
+                                @_uploadedFiles.Count @(_uploadedFiles.Count == 1 ? "image" : "images") selected
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Image Previews Section -->
+                @if (_uploadedFiles.Count > 0)
+                {
+                    <div class="upload-section" style="border-top: 1px solid #eee; margin-top: 0;">
+                        <div class="section-header">
+                            <h3>
+                                <i class="fa fa-eye"></i>
+                                Image Previews (@_uploadedFiles.Count)
+                            </h3>
+                        </div>
+
+                        <div class="preview-grid">
+                            <div class="row">
+                                @foreach (var file in _uploadedFiles)
+                                {
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="preview-item">
+                                            <img src="@GetImagePreview(file)"
+                                                 class="preview-image"
+                                                 alt="@file.Name" />
+
+                                            <button type="button" class="remove-btn"
+                                                    @onclick="() => RemoveFile(file)"
+                                                    title="Remove image">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+
+                                            <div class="preview-content">
+                                                <input type="text" class="form-control preview-title"
+                                                       placeholder="Enter image title"
+                                                       @bind="@_fileNames[file.Name]" />
+                                                <div class="preview-info">
+                                                    @file.Name (@(file.Size / 1024) KB)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <button type="button" class="btn btn-default"
+                                    @onclick="@(() => NavigationService.NavigateTo($"/site/gallery"))">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-6 col-sm-6 text-right">
+                            <button type="submit" disabled="@(_inAction || _uploadedFiles.Count == 0)"
+                                    class="btn @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState?.User?.Permissions) btn-upload">
+                                @if (_inAction)
+                                {
+                                    <span class="upload-spinner"></span>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-upload"></i>
+                                }
+                                Upload @(_uploadedFiles.Count > 0 ? $"({_uploadedFiles.Count})" : "")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+
+            <!-- Alert for status messages -->
+            <div style="padding: 0 30px 30px 30px;">
+                <DismissibleAlert @ref="_alert" />
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+@code {
+    private List<IBrowserFile> _uploadedFiles = [];
+    private Dictionary<string, string> _fileNames = new();
+    private Dictionary<string, string> _imagePreviews = new();
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+    private GalleryEntity _entity = new();
+
+    private string GetImagePreview(IBrowserFile file)
+    {
+        return _imagePreviews.TryGetValue(file.Name, out var preview) ? preview : string.Empty;
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        _uploadedFiles.Clear();
+        _fileNames.Clear();
+        _imagePreviews.Clear();
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            // Validate file type
+            var extension = Path.GetExtension(file.Name).ToLower();
+            if (!new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" }.Contains(extension))
+            {
+                _alert?.ShowError($"Invalid file type: {file.Name}. Only images are allowed.");
+                continue;
+            }
+
+            // Validate file size (5MB limit)
+            if (file.Size > 5 * 1024 * 1024)
+            {
+                _alert?.ShowError($"File too large: {file.Name} (Max 5MB allowed)");
+                continue;
+            }
+
+            _uploadedFiles.Add(file);
+            _fileNames[file.Name] = Path.GetFileNameWithoutExtension(file.Name);
+
+            var preview = await GeneratePreviewAsync(file);
+            _imagePreviews[file.Name] = preview;
+        }
+    }
+
+    private void RemoveFile(IBrowserFile file)
+    {
+        _uploadedFiles.Remove(file);
+        _fileNames.Remove(file.Name);
+        _imagePreviews.Remove(file.Name);
+    }
+
+    private async Task<string> GeneratePreviewAsync(IBrowserFile file)
+    {
+        try
+        {
+            var resizedImage = await file.RequestImageFileAsync(file.ContentType, 800, 800);
+            using var memoryStream = new MemoryStream();
+            await resizedImage.OpenReadStream().CopyToAsync(memoryStream);
+            return $"data:{file.ContentType};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error generating preview: {ex.Message}");
+            return string.Empty;
+        }
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction && _uploadedFiles.Count > 0)
+        {
+            try
+            {
+                _inAction = true;
+                var successCount = 0;
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+
+                foreach (var file in _uploadedFiles)
+                {
+                    try
+                    {
+                        var uploadResult = await FileUploadService.UploadFileAsync(
+                            file,
+                            UploadPath.GalleryImages,
+                            allowedExtensions);
+
+                        if (!uploadResult.Success) continue;
+
+                        var command = new UpsertCommand
+                        {
+                            Name = _fileNames.TryGetValue(file.Name, out var name) ? name : file.Name,
+                            Image = uploadResult.FilePath,
+                            CreatedBy = AuthenticationState.User?.Id
+                        };
+
+                        var result = await Mediator.Send(command);
+                        if (result.Result == 1) successCount++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error uploading {file.Name}: {ex.Message}");
+                    }
+                }
+
+                _alert?.ShowAlert(
+                    successCount > 0 ? "success" : "error",
+                    successCount > 0
+                        ? $"Successfully uploaded {successCount} of {_uploadedFiles.Count} images"
+                        : "Failed to upload images"
+                );
+
+                if (successCount > 0)
+                {
+                    _uploadedFiles.Clear();
+                    _fileNames.Clear();
+                    _imagePreviews.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+}

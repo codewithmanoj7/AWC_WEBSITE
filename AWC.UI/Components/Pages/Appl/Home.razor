@@ -1,8 +1,410 @@
 ﻿@page "/home"
 @using Microsoft.AspNetCore.Authorization
-
-
+@inject IAuthenticationStateService AuthenticationState
 @layout AuthorizedLayout
 @rendermode InteractiveServer
 
+<PageTitle>Home</PageTitle>
+
+<style>
+    .dashboard-wrapper {
+        padding: 20px 0;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .dashboard-title {
+        color: #2c3e50;
+        font-size: 2.8rem;
+        font-weight: 300;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .stats-card {
+        background: #ffffff;
+        border: 1px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 20px 15px;
+        margin-bottom: 20px;
+        min-height: 260px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+    .card-icon-wrapper {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .card-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        color: #ffffff;
+        margin-bottom: 10px;
+    }
+
+    .users-card .card-icon {
+        background-color: #3498db;
+    }
+
+    .sessions-card .card-icon {
+        background-color: #27ae60;
+    }
+
+    .approvals-card .card-icon {
+        background-color: #f39c12;
+    }
+
+    .inactive-card .card-icon {
+        background-color: #e74c3c;
+    }
+
+    .news-card .card-icon {
+        background-color: #9b59b6;
+    }
+
+    .gallery-card .card-icon {
+        background-color: #1abc9c;
+    }
+
+    .events-card .card-icon {
+        background-color: #e67e22;
+    }
+
+    .reports-card .card-icon {
+        background-color: #34495e;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 12px;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .card-number {
+        font-size: 3.2rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 1;
+    }
+
+    .users-card .card-number {
+        color: #3498db;
+    }
+
+    .sessions-card .card-number {
+        color: #27ae60;
+    }
+
+    .approvals-card .card-number {
+        color: #f39c12;
+    }
+
+    .inactive-card .card-number {
+        color: #e74c3c;
+    }
+
+    .news-card .card-number {
+        color: #9b59b6;
+    }
+
+    .gallery-card .card-number {
+        color: #1abc9c;
+    }
+
+    .events-card .card-number {
+        color: #e67e22;
+    }
+
+    .reports-card .card-number {
+        color: #34495e;
+    }
+
+    .card-subtitle {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+    .card-action {
+        margin-top: auto;
+        text-align: center;
+    }
+
+    .action-btn {
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        color: #ffffff;
+        border: none;
+        min-width: 120px;
+    }
+
+    .users-card .action-btn {
+        background-color: #3498db;
+    }
+
+        .users-card .action-btn:hover {
+            background-color: #2980b9;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .sessions-card .action-btn {
+        background-color: #27ae60;
+    }
+
+        .sessions-card .action-btn:hover {
+            background-color: #229954;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .approvals-card .action-btn {
+        background-color: #f39c12;
+    }
+
+        .approvals-card .action-btn:hover {
+            background-color: #d68910;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .inactive-card .action-btn {
+        background-color: #e74c3c;
+    }
+
+        .inactive-card .action-btn:hover {
+            background-color: #c0392b;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .news-card .action-btn {
+        background-color: #9b59b6;
+    }
+
+        .news-card .action-btn:hover {
+            background-color: #8e44ad;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .gallery-card .action-btn {
+        background-color: #1abc9c;
+    }
+
+        .gallery-card .action-btn:hover {
+            background-color: #16a085;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .events-card .action-btn {
+        background-color: #e67e22;
+    }
+
+        .events-card .action-btn:hover {
+            background-color: #d35400;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .reports-card .action-btn {
+        background-color: #34495e;
+    }
+
+        .reports-card .action-btn:hover {
+            background-color: #2c3e50;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    .row {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .col-md-3 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+</style>
+
 <Greeting />
+
+@switch (AuthenticationState?.User?.Permissions)
+{
+    case UserPermissionsEnum.Administrator:
+        <div class="dashboard-wrapper">
+            <div class="container">
+                <h1 class="dashboard-title">Administrator Dashboard</h1>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stats-card users-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">Total Users</h3>
+                            <div class="card-number">120</div>
+                            <p class="card-subtitle">Registered accounts</p>
+                            <div class="card-action">
+                                <a href="/manage/users" class="action-btn">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card sessions-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">Course Calendar</h3>
+                            <div class="card-number">42</div>
+                            <p class="card-subtitle">Scheduled events</p>
+                            <div class="card-action">
+                                <a href="/calendar" class="action-btn">View</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card approvals-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">Pending Approvals</h3>
+                            <div class="card-number">8</div>
+                            <p class="card-subtitle">Awaiting review</p>
+                            <div class="card-action">
+                                <a href="/approvals" class="action-btn">Review</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card inactive-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-bell"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">College Notifications</h3>
+                            <div class="card-number">7</div>
+                            <p class="card-subtitle">New notifications</p>
+                            <div class="card-action">
+                                <a href="/notifications" class="action-btn">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stats-card news-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-newspaper-o"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">College News</h3>
+                            <div class="card-number">15</div>
+                            <p class="card-subtitle">Latest updates</p>
+                            <div class="card-action">
+                                <a href="/news" class="action-btn">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card gallery-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-picture-o"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">Manage Gallery</h3>
+                            <div class="card-number">128</div>
+                            <p class="card-subtitle">Total images</p>
+                            <div class="card-action">
+                                <a href="/gallery" class="action-btn">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card events-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-calendar-plus-o"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">College Events</h3>
+                            <div class="card-number">24</div>
+                            <p class="card-subtitle">Upcoming events</p>
+                            <div class="card-action">
+                                <a href="/events" class="action-btn">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card reports-card">
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fa fa-bar-chart"></i>
+                                </div>
+                            </div>
+                            <h3 class="card-title">Reports</h3>
+                            <div class="card-number">52</div>
+                            <p class="card-subtitle">Analytics data</p>
+                            <div class="card-action">
+                                <a href="/reports" class="action-btn">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        break;
+}
+
+@code {
+    private string? _dayStateGreet;
+}
+
+
+
+

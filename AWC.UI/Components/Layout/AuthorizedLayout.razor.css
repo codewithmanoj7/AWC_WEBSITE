@@ -1,4 +1,246 @@
-﻿/* Mobile Styles */
+﻿
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .topbar-title {
+        font-size: 1.3rem;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        padding: 15px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+}
+
+/* Mobile Styles (768px and below) */
+@media (max-width: 768px) {
+    .topbar {
+        padding: 10px 15px;
+        height: 60px;
+    }
+
+    .topbar-logo {
+        height: 40px;
+        margin-right: 8px;
+    }
+
+    .topbar-title {
+        font-size: 1.1rem;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .layout-container {
+        padding-top: 60px;
+    }
+
+    .sidebar {
+        width: 280px;
+        top: 60px;
+        height: calc(100vh - 60px);
+        transform: translateX(-100%);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px 10px;
+    }
+
+    .content {
+        padding: 15px;
+        border-radius: 4px;
+        min-height: calc(100vh - 120px);
+    }
+
+    .user-action-box {
+        gap: 10px;
+    }
+
+    .role-badge {
+        display: none; /* Hide role badge on mobile to save space */
+    }
+
+    .user-initials-circle {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* Small Mobile Styles (480px and below) */
+@media (max-width: 480px) {
+    .topbar {
+        padding: 8px 10px;
+        height: 55px;
+    }
+
+    .topbar-logo {
+        height: 35px;
+        margin-right: 5px;
+    }
+
+    .topbar-title {
+        font-size: 0.95rem;
+    }
+
+    .topbar-left {
+        gap: 8px;
+    }
+
+    .layout-container {
+        padding-top: 55px;
+    }
+
+    .sidebar {
+        width: 260px;
+        top: 55px;
+        height: calc(100vh - 55px);
+        padding: 20px 10px;
+    }
+
+        .sidebar a {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+    .main-content {
+        padding: 10px 8px;
+    }
+
+    .content {
+        padding: 12px;
+        min-height: calc(100vh - 100px);
+    }
+
+    .user-initials-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+
+    .user-action-box {
+        gap: 8px;
+    }
+}
+
+/* Extra Small Mobile Styles (360px and below) */
+@media (max-width: 360px) {
+    .topbar-title {
+        font-size: 0.85rem;
+    }
+
+    .topbar-logo {
+        height: 30px;
+    }
+
+    .sidebar {
+        width: 240px;
+    }
+
+        .sidebar a {
+            font-size: 13px;
+            padding: 8px 10px;
+        }
+
+    .content {
+        padding: 10px;
+    }
+}
+
+/* Landscape Phone Styles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .topbar {
+        height: 50px;
+        padding: 5px 15px;
+    }
+
+    .topbar-logo {
+        height: 35px;
+    }
+
+    .layout-container {
+        padding-top: 50px;
+    }
+
+    .sidebar {
+        top: 50px;
+        height: calc(100vh - 50px);
+        padding: 15px 10px;
+    }
+
+        .sidebar a {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+        }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .content {
+        padding: 15px;
+        min-height: calc(100vh - 80px);
+    }
+}
+
+/* High DPI / Retina Display Adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .topbar-logo {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .topbar, .sidebar, .sidebar-overlay {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .content {
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .layout-container {
+        padding-top: 0 !important;
+    }
+}
+
+/* Focus and Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar, .main-content, .sidebar-overlay {
+        transition: none !important;
+    }
+}
+
+/* Dark Mode Support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    /* Dark mode styles can be added here */
+}
+
+
+
+/* Mobile Styles */
 @media (max-width: 768px) {
     .topbar {
         padding: 15px 20px;
