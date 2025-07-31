@@ -1,0 +1,787 @@
+@page "/site/events/create"
+@page "/site/events/{Id:guid}/edit"
+
+@using AWC.CQRS.Commands.Event
+@using AWC.CQRS.Queries.Event
+@using AWC.Infra.Entities.Site
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@inject IFileUploadService FileUpload
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+<PageTitle>@(IsEdit ? "Edit Event" : "Create Event")</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+    <div class="container event-form-container">
+        <!-- Header Section -->
+        <div class="page-header-wrapper">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-title">
+                        <div class="title-icon">
+                            <i class="fa @(IsEdit ? "fa-edit" : "fa-calendar-plus-o") fa-2x"></i>
+                        </div>
+                        <div class="title-content">
+                            <h2 class="title-main">@(IsEdit ? "Edit Event" : "Create New Event")</h2>
+                            <p class="title-subtitle">@(IsEdit ? "Update event details and settings" : "Add a new event to your calendar")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-default btn-back" @onclick="@(() => NavigationService.NavigateTo($"/site/events"))">
+                        <i class="fa fa-arrow-left"></i> Back to Events
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="form-card">
+            <EditForm OnValidSubmit="@OnSubmitAsync" Model="_entity">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="validation-summary" />
+
+                <div class="row">
+                    <!-- Basic Information Panel -->
+                    <div class="col-md-6">
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-info-circle"></i>
+                                </div>
+                                <h4 class="panel-title">Basic Information</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="NameInput" class="control-label">
+                                        <i class="fa fa-tag input-icon"></i>
+                                        Event Name <span class="required">*</span>
+                                    </label>
+                                    <InputText class="form-control input-enhanced"
+                                               @bind-Value="_entity.Name"
+                                               id="NameInput"
+                                               required
+                                               minlength="2"
+                                               maxlength="255"
+                                               placeholder="Enter a descriptive event name" />
+                                    <small class="help-text">2-255 characters</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="LocationInput" class="control-label">
+                                        <i class="fa fa-map-marker input-icon"></i>
+                                        Location
+                                    </label>
+                                    <InputText class="form-control input-enhanced"
+                                               @bind-Value="_entity.Location"
+                                               id="LocationInput"
+                                               maxlength="255"
+                                               placeholder="Where will this event take place?" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DescriptionInput" class="control-label">
+                                        <i class="fa fa-file-text-o input-icon"></i>
+                                        Description
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced"
+                                                   @bind-Value="_entity.Description"
+                                                   id="DescriptionInput"
+                                                   rows="4"
+                                                   maxlength="1000"
+                                                   placeholder="Provide details about the event..." />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time Panel -->
+                    <div class="col-md-6">
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <h4 class="panel-title">Date & Time</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="DateInput" class="control-label">
+                                                <i class="fa fa-calendar input-icon"></i>
+                                                Start Date <span class="required">*</span>
+                                            </label>
+                                            <InputDate class="form-control input-enhanced"
+                                                       @bind-Value="_entity.Date"
+                                                       id="DateInput"
+                                                       required />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EndDateInput" class="control-label">
+                                                <i class="fa fa-calendar-o input-icon"></i>
+                                                End Date
+                                            </label>
+                                            <InputDate class="form-control input-enhanced"
+                                                       @bind-Value="_entity.EndDate"
+                                                       id="EndDateInput" />
+                                            <small class="help-text">Leave empty for single-day event</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="StartTimeInput" class="control-label">
+                                                <i class="fa fa-clock-o input-icon"></i>
+                                                Start Time
+                                            </label>
+                                            <InputText class="form-control input-enhanced"
+                                                       type="time"
+                                                       @bind-Value="_entity.StartTimeString"
+                                                       id="StartTimeInput" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EndTimeInput" class="control-label">
+                                                <i class="fa fa-clock-o input-icon"></i>
+                                                End Time
+                                            </label>
+                                            <InputText class="form-control input-enhanced"
+                                                       type="time"
+                                                       @bind-Value="_entity.EndTimeString"
+                                                       id="EndTimeInput" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Event Settings Panel -->
+                    <div class="col-md-6">
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <h4 class="panel-title">Event Settings</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="MaxAttendeesInput" class="control-label">
+                                        <i class="fa fa-users input-icon"></i>
+                                        Maximum Attendees
+                                    </label>
+                                    <InputNumber class="form-control input-enhanced"
+                                                 @bind-Value="_entity.MaxAttendees"
+                                                 id="MaxAttendeesInput"
+                                                 placeholder="0" />
+                                    <small class="help-text">Enter 0 for unlimited attendees</small>
+                                </div>
+
+                                <div class="settings-checkboxes">
+                                    <div class="checkbox-enhanced">
+                                        <label class="checkbox-label">
+                                            <InputCheckbox @bind-Value="_entity.RegistrationRequired" />
+                                            <span class="checkbox-text">
+                                                <i class="fa fa-user-plus checkbox-icon"></i>
+                                                Registration Required
+                                            </span>
+                                        </label>
+                                        <small class="checkbox-help">Require users to register before attending</small>
+                                    </div>
+
+                                    <div class="checkbox-enhanced">
+                                        <label class="checkbox-label">
+                                            <InputCheckbox @bind-Value="_entity.IsActive" />
+                                            <span class="checkbox-text">
+                                                <i class="fa fa-check-circle checkbox-icon"></i>
+                                                Active Event
+                                            </span>
+                                        </label>
+                                        <small class="checkbox-help">Make this event visible and accessible</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media & Links Panel -->
+                    <div class="col-md-6">
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-picture-o"></i>
+                                </div>
+                                <h4 class="panel-title">Media & Links</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="ImageInput" class="control-label">
+                                        <i class="fa fa-image input-icon"></i>
+                                        Event Image
+                                    </label>
+                                    <InputFile class="form-control file-input"
+                                               id="ImageInput"
+                                               OnChange="HandleImageSelected"
+                                               accept="image/*" />
+
+                                    @if (!string.IsNullOrEmpty(_entity.ImageUrl))
+                                    {
+                                        <div class="image-preview">
+                                            <div class="preview-wrapper">
+                                                <img src="@_entity.ImageUrl" alt="Current news image"
+                                                     class="preview-image" />
+                                                <div class="image-overlay">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-image"
+                                                            @onclick="() => _entity.ImageUrl = null">
+                                                        <i class="fa fa-trash"></i>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <ValidationMessage For="@(() => _imageFile)" class="field-validation-error" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ExternalUrlInput" class="control-label">
+                                        <i class="fa fa-external-link input-icon"></i>
+                                        External URL
+                                    </label>
+                                    <InputText class="form-control input-enhanced"
+                                               id="ExternalUrlInput"
+                                               @bind-Value="_entity.ExternalUrl"
+                                               maxlength="500"
+                                               placeholder="https://example.com/event-details" />
+                                    <small class="help-text">Link to additional event information</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-default btn-cancel" @onclick="@(() => NavigationService.NavigateTo($"/site/events"))">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-submit" disabled="@_inAction">
+                                @if (_inAction)
+                                {
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                    <span>Processing...</span>
+                                }
+                                else
+                                {
+                                    <i class="fa @(IsEdit ? "fa-save" : "fa-plus-circle")"></i>
+                                    <span>@(IsEdit ? "Save Changes" : "Create Event")</span>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+
+            <!-- Alert Section -->
+            <div class="alert-section">
+                <DismissibleAlert @ref="_alert" />
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+
+<style>
+    /* Container and Layout */
+    .event-form-container {
+        padding: 30px 15px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+        min-height: 100vh;
+    }
+
+    /* Page Header */
+    .page-header-wrapper {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .title-icon {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .title-content h2.title-main {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 28px;
+    }
+
+    .title-content .title-subtitle {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 16px;
+    }
+
+    .btn-back {
+        border: 2px solid #dee2e6;
+        background: white;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+    /* Main Form Card */
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        margin-bottom: 30px;
+    }
+
+    /* Info Panels */
+    .info-panel {
+        background: #ffffff;
+        border: 1px solid #e3f2fd;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .info-panel:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid #e1f5fe;
+    }
+
+    .panel-icon {
+        background: #007bff;
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .panel-title {
+        margin: 0;
+        color: #1976d2;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    /* Form Controls */
+    .control-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .input-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .input-enhanced, .textarea-enhanced {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fdfdfd;
+    }
+
+        .input-enhanced:focus, .textarea-enhanced:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            background: white;
+            outline: none;
+        }
+
+    .textarea-enhanced {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .help-text {
+        color: #6c757d;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* File Input */
+    .file-input {
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .file-input:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+    /* Image Preview */
+    .image-preview {
+        position: relative;
+        margin-top: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-image {
+        max-height: 200px;
+        max-width: 100%;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 123, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        color: white;
+        font-size: 24px;
+    }
+
+    .image-preview:hover .image-overlay {
+        opacity: 1;
+    }
+
+    /* Enhanced Checkboxes */
+    .settings-checkboxes {
+        margin-top: 20px;
+    }
+
+    .checkbox-enhanced {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9ff;
+        border: 1px solid #e3f2fd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+        .checkbox-enhanced:hover {
+            background: #e3f2fd;
+            border-color: #007bff;
+        }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        font-weight: 500;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+
+    .checkbox-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .checkbox-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .checkbox-help {
+        color: #6c757d;
+        font-size: 12px;
+        margin: 5px 0 0 30px;
+        display: block;
+    }
+
+    /* Action Buttons */
+    .form-actions {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #f1f3f4;
+    }
+
+    .btn-cancel {
+        background: white;
+        border: 2px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 12px 25px;
+        font-weight: 500;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            background: #f8f9fa;
+            border-color: #dc3545;
+            color: #dc3545;
+            transform: translateY(-2px);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        color: white;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-submit span {
+            margin-left: 5px;
+        }
+
+    /* Validation */
+    .validation-summary {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Alert Section */
+    .alert-section {
+        margin-top: 20px;
+    }
+
+    /* Responsive Design */
+
+    /* Animation for form loading */
+    .info-panel {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+</style>
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private bool IsEdit => Id != Guid.Empty;
+
+    private EventEntity _entity = new();
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+    private IBrowserFile? _imageFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var result = await Mediator.Send(new GetByIdQuery { Id = Id });
+            _entity = result;
+        }
+        else
+        {
+            _entity.Date = DateTime.Today;
+            _entity.IsActive = true; // Default to active when creating
+            _entity.StartTime = TimeSpan.FromHours(18); // Default start time 6 PM
+            _entity.EndTime = TimeSpan.FromHours(21); // Default end time 9 PM
+        }
+    }
+
+    private async Task HandleImageSelected(InputFileChangeEventArgs e)
+    {
+        _imageFile = e.File;
+
+        if (!_imageFile.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+        {
+            _alert?.ShowError("Please upload a valid image file.");
+            _imageFile = null;
+            return;
+        }
+
+        if (_imageFile.Size > 2 * 1024 * 1024)
+        {
+            _alert?.ShowError("Image size exceeds the 2MB limit.");
+            _imageFile = null;
+            return;
+        }
+
+        // Load image as preview using base64
+        try
+        {
+            using var stream = _imageFile.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            var base64 = Convert.ToBase64String(ms.ToArray());
+            _entity.ImageUrl = $"data:{_imageFile.ContentType};base64,{base64}";
+        }
+        catch (Exception ex)
+        {
+            _alert?.ShowError($"Error loading image: {ex.Message}");
+        }
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+                var imageUrl = _entity.ImageUrl;
+
+                if (_imageFile != null)
+                {
+                    // Define allowed extensions
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+
+                    var uploadResult = await FileUpload.UploadFileAsync(
+                        _imageFile,
+                        UploadPath.EventImages, // Make sure this constant exists
+                        allowedExtensions);
+
+                    if (uploadResult.Success)
+                    {
+                        imageUrl = uploadResult.FilePath ?? string.Empty;
+                    }
+                    else
+                    {
+                        _alert?.ShowError(uploadResult.Message);
+                        return;
+                    }
+                }
+
+                var command = new UpsertCommand
+                {
+                    Id = IsEdit ? Id : Guid.Empty,
+                    Date = _entity.Date,
+                    EndDate = _entity.EndDate,
+                    Name = _entity.Name,
+                    Location = _entity.Location,
+                    Description = _entity.Description,
+                    StartTime = _entity.StartTime,
+                    EndTime = _entity.EndTime,
+                    MaxAttendees = _entity.MaxAttendees,
+                    RegistrationRequired = _entity.RegistrationRequired,
+                    IsActive = _entity.IsActive,
+                    ImageUrl = imageUrl,
+                    ExternalUrl = _entity.ExternalUrl,
+                    CreatedBy = IsEdit ? null : AuthenticationState.User?.Id,
+                    UpdatedBy = IsEdit ? AuthenticationState.User?.Id : null
+                };
+
+                var result = await Mediator.Send(command);
+                _alert?.ShowAlert(result.Result == 1 ? "success" : "error",
+                    result.Result == 1 ?
+                        IsEdit ? "Event updated successfully!" : "Event created successfully!" :
+                        "Failed to save event.");
+
+                if (result.Result == 1 && !IsEdit)
+                {
+                    _entity = new();
+                    _imageFile = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+}

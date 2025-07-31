@@ -1,0 +1,90 @@
+﻿
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .events-management-container {
+        padding: 15px 10px;
+    }
+
+    .page-title {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .title-content h2.title-main {
+        font-size: 24px;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn-export, .btn-add {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-content {
+        padding: 20px 15px;
+    }
+
+    .search-wrapper, .filter-dropdown {
+        margin-bottom: 15px;
+    }
+
+    .col-md-4.text-right {
+        text-align: left !important;
+    }
+
+    .filter-menu {
+        width: 100%;
+        left: 0 !important;
+        right: 0 !important;
+    }
+
+    .event-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .event-date-badge {
+        align-self: flex-end;
+    }
+
+    .event-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .empty-state {
+        padding: 40px 20px;
+    }
+
+    .empty-icon {
+        font-size: 60px;
+    }
+}

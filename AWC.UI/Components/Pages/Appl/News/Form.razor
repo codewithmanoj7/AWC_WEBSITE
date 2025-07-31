@@ -1,0 +1,674 @@
+@page "/site/news/create"
+@page "/site/news/{Id:guid}/edit"
+
+@using AWC.CQRS.Commands.News
+@using AWC.CQRS.Queries.News
+@using AWC.Infra.Entities.Site
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@inject IFileUploadService FileUpload
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+<PageTitle>@(IsEdit ? "Edit News" : "Create News")</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+    <div class="container news-form-container">
+
+        <!-- Header Section -->
+        <div class="page-header-wrapper">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-title">
+                        <div class="title-icon">
+                            <i class="fa @(IsEdit ? "fa-edit" : "fa-plus-circle") fa-2x"></i>
+                        </div>
+                        <div class="title-content">
+                            <h2 class="title-main">@(IsEdit ? "Edit News Article" : "Create News Article")</h2>
+                            <p class="title-subtitle">@(IsEdit ? "Update your news article details" : "Create and publish a new news article")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <div class="header-actions">
+                        <button class="btn btn-default btn-back" @onclick="@(() => NavigationService.NavigateTo($"/site/news"))">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>Back to News</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="form-card">
+            <div class="form-content">
+                <EditForm Context="_" OnValidSubmit="@OnSubmitAsync" Model="_entity" FormName="NewsForm">
+                    <DataAnnotationsValidator />
+
+                    <!-- Validation Summary -->
+                    <div class="validation-wrapper">
+                        <ValidationSummary class="validation-summary" />
+                    </div>
+
+                    <div class="row">
+                        <!-- Content Column -->
+                        <div class="col-lg-8">
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <div class="section-icon">
+                                        <i class="fa fa-newspaper-o"></i>
+                                    </div>
+                                    <div class="section-title">
+                                        <h4>News Content</h4>
+                                        <p>Enter the main content of your news article</p>
+                                    </div>
+                                </div>
+
+                                <div class="section-content">
+                                    <div class="form-group">
+                                        <label for="NameInput" class="control-label">
+                                            <i class="fa fa-pencil"></i>
+                                            Title <span class="required">*</span>
+                                        </label>
+                                        <InputText class="form-control input-lg" @bind-Value="_entity.Name" id="NameInput"
+                                                   placeholder="Enter a compelling news title..."
+                                                   minlength="5" maxlength="200" required />
+                                        <div class="form-help">
+                                            <i class="fa fa-info-circle"></i>
+                                            A compelling headline for your news (5-200 characters)
+                                        </div>
+                                        <ValidationMessage For="@(() => _entity.Name)" class="validation-message" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="DescriptionInput" class="control-label">
+                                            <i class="fa fa-align-left"></i>
+                                            Content <span class="required">*</span>
+                                        </label>
+                                        <InputTextArea class="form-control content-textarea" @bind-Value="_entity.Description"
+                                                       id="DescriptionInput" rows="12"
+                                                       placeholder="Write your detailed news content here..."
+                                                       required />
+                                        <div class="form-help">
+                                            <i class="fa fa-info-circle"></i>
+                                            Detailed content of the news article
+                                        </div>
+                                        <ValidationMessage For="@(() => _entity.Description)" class="validation-message" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Media & Settings Column -->
+                        <div class="col-lg-4">
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <div class="section-icon media">
+                                        <i class="fa fa-image"></i>
+                                    </div>
+                                    <div class="section-title">
+                                        <h4>Featured Image</h4>
+                                        <p>Upload an image for your article</p>
+                                    </div>
+                                </div>
+
+                                <div class="section-content">
+                                    <div class="form-group">
+                                        <label for="ImageInput" class="control-label">
+                                            <i class="fa fa-upload"></i>
+                                            Upload Image
+                                        </label>
+                                        <InputFile id="ImageInput" class="form-control file-input" OnChange="HandleImageSelected"
+                                                   accept="image/*" />
+                                        <ValidationMessage For="@(() => _imageFile)" class="validation-message" />
+
+                                        @if (!string.IsNullOrEmpty(_entity.Image))
+                                        {
+                                            <div class="image-preview">
+                                                <div class="preview-wrapper">
+                                                    <img src="@_entity.Image" alt="Current news image"
+                                                         class="preview-image" />
+                                                    <div class="image-overlay">
+                                                        <button type="button" class="btn btn-danger btn-sm remove-image"
+                                                                @onclick="() => _entity.Image = null">
+                                                            <i class="fa fa-trash"></i>
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="form-help">
+                                            <i class="fa fa-info-circle"></i>
+                                            Recommended size: 1200×630 pixels (max 2MB)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <div class="actions-left">
+                            <button type="button" class="btn btn-default btn-cancel"
+                                    @onclick="@(() => NavigationService.NavigateTo($"/site/news"))">
+                                <i class="fa fa-times"></i>
+                                <span>Cancel</span>
+                            </button>
+                        </div>
+
+                        <div class="actions-right">
+                            <button type="submit" disabled="@_inAction" class="btn btn-primary btn-submit">
+                                @if (_inAction)
+                                {
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                    <span>Processing...</span>
+                                }
+                                else
+                                {
+                                    <i class="fa @(IsEdit ? "fa-save" : "fa-plus-circle")"></i>
+                                    <span>@(IsEdit ? "Update News" : "Publish News")</span>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </EditForm>
+
+                <!-- Alert for status messages -->
+                <div class="alert-wrapper">
+                    <DismissibleAlert @ref="_alert" />
+                </div>
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+
+<style>
+    .news-form-container {
+        padding: 30px 15px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+        min-height: 100vh;
+    }
+
+    /* Page Header */
+    .page-header-wrapper {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .title-icon {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .title-content h2.title-main {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 28px;
+    }
+
+    .title-content .title-subtitle {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 16px;
+    }
+
+    /* Header Actions */
+    .header-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-back {
+        background: white;
+        border: 2px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back:hover {
+            border-color: #007bff;
+            color: #007bff;
+            background: #f8f9ff;
+        }
+
+        .btn-back span {
+            margin-left: 8px;
+        }
+
+    /* Main Form Card */
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .form-content {
+        padding: 40px;
+    }
+
+    /* Validation Summary */
+    .validation-wrapper {
+        margin-bottom: 30px;
+    }
+
+    .validation-summary {
+        background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+        border: 1px solid #f1aeb5;
+        border-radius: 8px;
+        padding: 15px 20px;
+        color: #721c24;
+        display: none;
+    }
+
+        .validation-summary:not(:empty) {
+            display: block;
+        }
+
+        .validation-summary ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+    /* Form Sections */
+    .form-section {
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-header {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        padding: 20px 25px;
+        border-bottom: 1px solid #e1f5fe;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .section-icon {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+        .section-icon.media {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+        }
+
+    .section-title h4 {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .section-title p {
+        margin: 2px 0 0 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .section-content {
+        padding: 25px;
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+    .control-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    /* Form Controls */
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            outline: none;
+            background: white;
+        }
+
+    .input-lg {
+        padding: 15px 18px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .content-textarea {
+        resize: vertical;
+        min-height: 200px;
+        font-family: inherit;
+        line-height: 1.6;
+    }
+
+    .file-input {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        .file-input:hover {
+            border-color: #007bff;
+        }
+
+    /* Form Help Text */
+    .form-help {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 5px;
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+    /* Validation Messages */
+    .validation-message {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .validation-message:before {
+            content: "\f071";
+            font-family: FontAwesome;
+            font-size: 12px;
+        }
+
+    /* Image Preview */
+    .image-preview {
+        margin-top: 15px;
+    }
+
+    .preview-wrapper {
+        position: relative;
+        display: inline-block;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-image {
+        max-width: 100%;
+        max-height: 200px;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .preview-wrapper:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .remove-image {
+        background: #dc3545;
+        border: none;
+        color: white;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .remove-image:hover {
+            background: #c82333;
+            transform: scale(1.05);
+        }
+
+        .remove-image i {
+            margin-right: 5px;
+        }
+
+    /* Form Actions */
+    .form-actions {
+        background: #f8f9fa;
+        margin: 40px -40px -40px -40px;
+        padding: 25px 40px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .actions-left,
+    .actions-right {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-cancel {
+        background: white;
+        border: 2px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 12px 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+            background: #fff5f5;
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        color: white;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        min-width: 150px;
+    }
+
+        .btn-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-cancel span,
+        .btn-submit span {
+            margin-left: 8px;
+        }
+
+    .fa-spin {
+        animation: fa-spin 1s infinite linear;
+    }
+</style>
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private bool IsEdit => Id != Guid.Empty;
+
+    private NewsEntity _entity = new();
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+    private IBrowserFile? _imageFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var result = await Mediator.Send(new GetByIdQuery { Id = Id });
+            _entity = result;
+        }
+    }
+
+    private async Task HandleImageSelected(InputFileChangeEventArgs e)
+    {
+        _imageFile = e.File;
+
+        if (!_imageFile.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+        {
+            _alert?.ShowError("Please upload a valid image file.");
+            _imageFile = null;
+            return;
+        }
+
+        if (_imageFile.Size > 2 * 1024 * 1024)
+        {
+            _alert?.ShowError("Image size exceeds the 2MB limit.");
+            _imageFile = null;
+            return;
+        }
+
+        // Load image as preview using base64
+        try
+        {
+            using var stream = _imageFile.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            var base64 = Convert.ToBase64String(ms.ToArray());
+            _entity.Image = $"data:{_imageFile.ContentType};base64,{base64}";
+        }
+        catch (Exception ex)
+        {
+            _alert?.ShowError($"Error loading image: {ex.Message}");
+        }
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+                var imagePath = _entity.Image;
+
+                if (_imageFile != null)
+                {
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                    var uploadResult = await FileUpload.UploadFileAsync(
+                        _imageFile,
+                        UploadPath.NewsImages,
+                        allowedExtensions);
+
+                    if (uploadResult.Success)
+                    {
+                        imagePath = uploadResult.FilePath ?? string.Empty;
+                    }
+                    else
+                    {
+                        _alert?.ShowError(uploadResult.Message);
+                        return;
+                    }
+                }
+
+                var command = new UpsertCommand
+                {
+                    Id = IsEdit ? Id : Guid.Empty,
+                    Name = _entity.Name,
+                    Description = _entity.Description,
+                    Image = imagePath,
+                    CreatedBy = IsEdit ? null : AuthenticationState.User?.Id,
+                    UpdatedBy = IsEdit ? AuthenticationState.User?.Id : null
+                };
+
+                var result = await Mediator.Send(command);
+                _alert?.ShowAlert(result.Result == 1 ? "success" : "error",
+                    result.Result == 1 ?
+                        IsEdit ? "News updated successfully!" : "News published successfully!" :
+                        "Failed to save news article.");
+
+                if (result.Result == 1 && !IsEdit)
+                {
+                    _entity = new();
+                    _imageFile = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+}
