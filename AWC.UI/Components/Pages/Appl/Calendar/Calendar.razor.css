@@ -1,0 +1,93 @@
+﻿.dashboard-wrapper {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    color: #2c3e50;
+    font-size: 2.8rem;
+    font-weight: 300;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.stats-card {
+    background: #ffffff;
+    border: 1px solid #e3e6f0;
+    border-radius: 12px;
+    padding: 20px 15px;
+    margin-bottom: 20px;
+    min-height: 260px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+.card-icon-wrapper {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.users-card .card-icon {
+    background-color: #3498db;
+}
+
+.sessions-card .card-icon {
+    background-color: #27ae60;
+}
+
+.approvals-card .card-icon {
+    background-color: #f39c12;
+}
+
+.inactive-card .card-icon {
+    background-color: #e74c3c;
+}
+
+.news-card .card-icon {
+    background-color: #9b59b6;
+}
+
+.gallery-card .card-icon {
+    background-color: #1abc9c;
+}
+
+.events-card .card-icon {
+    background-color: #e67e22;
+}
+
+.reports-card .card-icon {
+    background-color: #34495e;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 12px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+
+

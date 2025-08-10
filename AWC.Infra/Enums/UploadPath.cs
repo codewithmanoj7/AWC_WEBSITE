@@ -8,6 +8,7 @@
         NewsImages,
         GalleryImages,
         EventImages,
-        SpeakerPhotos
+        SpeakerPhotos,
+        NotificationImages,
     }
 }

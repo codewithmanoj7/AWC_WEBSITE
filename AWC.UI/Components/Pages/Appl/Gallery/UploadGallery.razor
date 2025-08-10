@@ -239,6 +239,12 @@
             height: 180px;
             object-fit: cover;
             transition: all 0.3s ease;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 14px;
         }
 
         .preview-item:hover .preview-image {
@@ -361,6 +367,7 @@
             margin-right: 8px;
         }
 
+
         /* Alert Styling */
         .alert {
             border-radius: 15px !important;
@@ -374,14 +381,13 @@
             color: #721c24 !important;
         }
 
-    
         /* Animation for preview items */
         .preview-item {
             animation: slideInUp 0.5s ease forwards;
             opacity: 0;
         }
 
-     
+        
         /* Stagger animation for multiple items */
         .preview-item:nth-child(1) {
             animation-delay: 0.1s;
@@ -405,6 +411,16 @@
 
         .preview-item:nth-child(6) {
             animation-delay: 0.6s;
+        }
+
+        /* Loading state for preview images */
+        .preview-loading {
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 14px;
         }
     </style>
 
@@ -483,9 +499,22 @@
                                 {
                                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                         <div class="preview-item">
-                                            <img src="@GetImagePreview(file)"
-                                                 class="preview-image"
-                                                 alt="@file.Name" />
+                                            @{
+                                                var preview = GetImagePreview(file);
+                                            }
+                                            @if (!string.IsNullOrEmpty(preview))
+                                            {
+                                                <img src="@preview"
+                                                     class="preview-image"
+                                                     alt="@file.Name"
+                                                     style="object-fit: cover;" />
+                                            }
+                                            else
+                                            {
+                                                <div class="preview-image preview-loading">
+                                                    <i class="fa fa-spinner fa-spin"></i> Loading preview...
+                                                </div>
+                                            }
 
                                             <button type="button" class="remove-btn"
                                                     @onclick="() => RemoveFile(file)"
@@ -499,7 +528,7 @@
                                                        @bind="@_fileNames[file.Name]" />
                                                 <div class="preview-info">
                                                     <i class="fa fa-file-image-o"></i>
-                                                    @file.Name (@(file.Size / 1024) KB)
+                                                    @file.Name (@FormatFileSize(file.Size))
                                                 </div>
                                             </div>
                                         </div>
@@ -546,6 +575,7 @@
     </div>
 
 </RenderPermission>
+
 @code {
     private List<IBrowserFile> _uploadedFiles = [];
     private Dictionary<string, string> _fileNames = new();
@@ -559,11 +589,20 @@
         return _imagePreviews.TryGetValue(file.Name, out var preview) ? preview : string.Empty;
     }
 
+    private string FormatFileSize(long bytes)
+    {
+        if (bytes < 1024) return $"{bytes} B";
+        if (bytes < 1024 * 1024) return $"{bytes / 1024} KB";
+        return $"{bytes / (1024 * 1024)} MB";
+    }
+
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
         _uploadedFiles.Clear();
         _fileNames.Clear();
         _imagePreviews.Clear();
+
+        var validFiles = new List<IBrowserFile>();
 
         foreach (var file in e.GetMultipleFiles())
         {
@@ -582,11 +621,29 @@
                 continue;
             }
 
-            _uploadedFiles.Add(file);
+            validFiles.Add(file);
             _fileNames[file.Name] = Path.GetFileNameWithoutExtension(file.Name);
+        }
 
-            var preview = await GeneratePreviewAsync(file);
-            _imagePreviews[file.Name] = preview;
+        _uploadedFiles.AddRange(validFiles);
+
+        // Force UI update to show files before generating previews
+        StateHasChanged();
+
+        // Generate previews asynchronously
+        foreach (var file in validFiles)
+        {
+            try
+            {
+                var preview = await GeneratePreviewAsync(file);
+                _imagePreviews[file.Name] = preview;
+                StateHasChanged(); // Update UI as each preview is ready
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error generating preview for {file.Name}: {ex.Message}");
+                // You might want to show a placeholder or error state for this file
+            }
         }
     }
 
@@ -595,20 +652,29 @@
         _uploadedFiles.Remove(file);
         _fileNames.Remove(file.Name);
         _imagePreviews.Remove(file.Name);
+        StateHasChanged();
     }
 
     private async Task<string> GeneratePreviewAsync(IBrowserFile file)
     {
         try
         {
-            var resizedImage = await file.RequestImageFileAsync(file.ContentType, 800, 800);
+            // Limit the file size for preview generation (1MB max for preview)
+            var maxAllowedSize = Math.Min(file.Size, 1024 * 1024);
+
+            // Request a resized image for preview
+            var resizedImage = await file.RequestImageFileAsync(file.ContentType, 400, 400);
+
+            using var stream = resizedImage.OpenReadStream(maxAllowedSize);
             using var memoryStream = new MemoryStream();
-            await resizedImage.OpenReadStream().CopyToAsync(memoryStream);
-            return $"data:{file.ContentType};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+            await stream.CopyToAsync(memoryStream);
+
+            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+            return $"data:{file.ContentType};base64,{base64String}";
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error generating preview: {ex.Message}");
+            Console.WriteLine($"Error generating preview for {file.Name}: {ex.Message}");
             return string.Empty;
         }
     }
@@ -620,6 +686,8 @@
             try
             {
                 _inAction = true;
+                StateHasChanged();
+
                 var successCount = 0;
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
 
@@ -671,6 +739,7 @@
             finally
             {
                 _inAction = false;
+                StateHasChanged();
             }
         }
     }

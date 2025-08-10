@@ -9,82 +9,7 @@
         background-color: #f4f6f9;
     }
 
-    .topbar {
-        background-color: #c40000;
-        color: white;
-        padding: 15px 20px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        height: 70px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-
-    .topbar-left {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        flex: 1;
-        min-width: 0; /* Allow text truncation */
-    }
-
-    .mobile-menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 5px;
-        flex-shrink: 0;
-    }
-
-    .topbar-logo {
-        height: 50px;
-        margin-right: 10px;
-        flex-shrink: 0;
-    }
-
-    .topbar-title {
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-    }
-
-    .user-info {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 30px;
-        padding: 5px 12px;
-        font-size: 14px;
-    }
-
-    .topbar .btn-outline-light {
-        color: #fff;
-        border-color: #fff;
-        transition: all 0.2s ease;
-        font-size: 14px;
-    }
-
-        .topbar .btn-outline-light:hover {
-            background-color: #fff;
-            color: #c40000;
-        }
-
-    .fa-sign-out {
-        font-size: 16px;
-    }
-
+  
     .layout-container {
         display: flex;
         height: 100vh;
@@ -229,40 +154,8 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="topbar">
-            <div class="topbar-left">
-                <button class="mobile-menu-toggle" @onclick="ToggleSidebar" aria-label="Toggle menu">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <img src="/assets/images/logo.png" alt="Army War College Logo" class="topbar-logo" />
-                <span class="topbar-title">Army War College, Mhow</span>
-            </div>
-            <div class="user-action-box">
-                <!-- Profile Dropdown -->
-                <div class="dropdown">
-                    <button class="btn user-initials-circle dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
-                        @((AuthenticationState.User?.FirstName?[0].ToString() ?? "") + (AuthenticationState.User?.LastName?[0].ToString() ?? ""))
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="/profile"><i class="fa fa-user"></i>&nbsp; My Profile</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li class="text-center">
-                            <button class="dropdown-item logout-button" @onclick="HandleLogout">
-                                <i class="fa fa-sign-out"></i> Logout
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Role Badge -->
-                @if (AuthenticationState.User?.Permissions != null)
-                {
-                    <span class="badge role-badge @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState.User.Permissions)">
-                        @PermissionStyling.GetDisplayTextForPermission(AuthenticationState.User.Permissions)
-                    </span>
-                }
-            </div>
-        </div>
 
+        <AuthTopbar />
         <!-- Sidebar Overlay for mobile -->
         <div class="sidebar-overlay @(isSidebarOpen ? "show" : "")" @onclick="CloseSidebar"></div>
 
@@ -274,7 +167,7 @@
                 <a href="/manage/users" @onclick="CloseSidebar">
                     <i class="fa fa-users" aria-hidden="true"></i> Users
                 </a>
-                <a href="/manage-media" @onclick="CloseSidebar">
+                <a href="/site/media" @onclick="CloseSidebar">
                     <i class="fa fa-photo" aria-hidden="true"></i> College Media
                 </a>
                 <a href="/site/events" @onclick="CloseSidebar">
@@ -283,11 +176,14 @@
                 <a href="/site/news" @onclick="CloseSidebar">
                     <i class="fa fa-newspaper-o" aria-hidden="true"></i> College News
                 </a>
-                <a href="/notifications" @onclick="CloseSidebar">
+                <a href="/site/notification" @onclick="CloseSidebar">
                     <i class="fa fa-bullhorn" aria-hidden="true"></i> Site Notifications
                 </a>
                 <a href="/site/gallery" @onclick="CloseSidebar">
                     <i class="fa fa-picture-o" aria-hidden="true"></i> Gallery
+                </a>
+                <a href="/site/pages" @onclick="CloseSidebar">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i> Pages
                 </a>
             </nav>
 

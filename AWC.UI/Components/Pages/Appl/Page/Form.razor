@@ -1,0 +1,245 @@
+﻿@page "/site/pages/create"
+@page "/site/pages/{Id:guid}/edit"
+
+@using AWC.CQRS.Commands.Page
+@using AWC.CQRS.Queries.Page
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@inject IFileUploadService FileUpload
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+
+<PageTitle>@(IsEdit ? "Edit Page" : "Create Page")</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+    <div class="container">
+        <!-- Header -->
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">
+                    <i class="fa @(IsEdit ? "fa-edit" : "fa-file-text")"></i>
+                    @(IsEdit ? "Edit Website Page" : "Create New Page")
+                </h3>
+                <button class="btn btn-default btn-sm pull-right"
+                        @onclick="@(() => NavigationService.NavigateTo($"/site/pages"))">
+                    <i class="fa fa-arrow-left"></i> Back to Pages
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Form Panel -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <EditForm Context="_" OnValidSubmit="@OnSubmitAsync" Model="_entity">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="alert alert-danger" />
+
+                    <div class="row">
+                        <!-- Page Info -->
+                        <div class="col-md-8">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong><i class="fa fa-info-circle text-primary"></i> Page Information</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="UrlInput">URL Path *</label>
+                                        <InputText class="form-control" @bind-Value="_entity.Url" id="UrlInput"
+                                                   placeholder="about-us"
+                                                   minlength="2" maxlength="255" required />
+                                        <p class="help-block">The URL-friendly path for this page (e.g., 'about-us')</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="NameInput">Page Title *</label>
+                                        <InputText class="form-control" @bind-Value="_entity.Name" id="NameInput"
+                                                   placeholder="About Our Company"
+                                                   minlength="2" maxlength="255" required />
+                                        <p class="help-block">The display title for the page</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="DescriptionInput">Description</label>
+                                        <InputTextArea class="form-control" @bind-Value="_entity.Description"
+                                                       id="DescriptionInput" rows="5"
+                                                       placeholder="Enter a brief description..."
+                                                       maxlength="500" />
+                                        <p class="help-block">Optional meta description for SEO (max 500 characters)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PDF Upload -->
+                        <div class="col-md-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong><i class="fa fa-file-pdf-o text-danger"></i> PDF Attachment</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="PdfInput">Upload PDF</label>
+                                        <InputFile id="PdfInput" class="form-control" OnChange="HandleFileSelected" accept=".pdf" />
+                                        <ValidationMessage For="@(() => _pdfFile)" />
+                                        @if (!string.IsNullOrEmpty(_entity.Pdf))
+                                        {
+                                            <div class="well well-sm">
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <i class="fa fa-file-pdf-o text-danger fa-2x"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <a href="@_entity.Pdf" target="_blank">
+                                                            View Current PDF
+                                                        </a>
+                                                        <p class="text-muted small">@((new FileInfo(_entity.Pdf)).Name)</p>
+                                                        <button type="button" class="btn btn-xs btn-danger"
+                                                                @onclick="() => _entity.Pdf = null">
+                                                            <i class="fa fa-trash"></i> Remove PDF
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <p class="help-block">Max file size: 2MB (PDF only)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-default"
+                                @onclick="@(() => NavigationService.NavigateTo($"/site/pages"))">
+                            <i class="fa fa-times"></i> Cancel
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" disabled="@_inAction">
+                            @if (_inAction)
+                            {
+                                <i class="fa fa-spinner fa-spin"></i>
+                            }
+                            else
+                            {
+                                <i class="fa @(IsEdit ? "fa-save" : "fa-upload")"></i>
+                            }
+                            @(IsEdit ? " Update Page" : " Create Page")
+                        </button>
+                    </div>
+                </EditForm>
+
+                <!-- Alerts -->
+                <DismissibleAlert @ref="_alert" class="alert alert-info" />
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+    
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private bool IsEdit => Id != Guid.Empty;
+
+    private PageEntity _entity = new();
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+    private IBrowserFile? _pdfFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var result = await Mediator.Send(new GetByIdQuery { Id = Id });
+            _entity = result;
+        }
+    }
+
+    private Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        _pdfFile = e.File;
+
+        // Validate file type
+        if (!_pdfFile.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase) &&
+            !Path.GetExtension(_pdfFile.Name).Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+        {
+            _alert?.ShowError("Please upload a valid PDF file.");
+            _pdfFile = null;
+            return Task.CompletedTask;
+        }
+
+        // Validate file size (2MB limit)
+        if (_pdfFile.Size > 2 * 1024 * 1024)
+        {
+            _alert?.ShowError("File size exceeds the 2MB limit.");
+            _pdfFile = null;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+                var pdfPath = _entity.Pdf;
+
+                if (_pdfFile != null)
+                {
+                    var allowedExtensions = new[] { ".pdf" };
+                    var uploadResult = await FileUpload.UploadFileAsync(
+                        _pdfFile,
+                        UploadPath.Pages,
+                        allowedExtensions);
+
+                    if (uploadResult.Success)
+                    {
+                        pdfPath = uploadResult.FilePath ?? string.Empty;
+                    }
+                    else
+                    {
+                        _alert?.ShowError(uploadResult.Message);
+                        return;
+                    }
+                }
+
+                var command = new UpsertCommand
+                {
+                    Id = IsEdit ? Id : Guid.Empty,
+                    Url = _entity.Url,
+                    Name = _entity.Name,
+                    Description = _entity.Description,
+                    Pdf = pdfPath,
+                    CreatedBy = IsEdit ? null : AuthenticationState.User?.Id,
+                    UpdatedBy = IsEdit ? AuthenticationState.User?.Id : null
+                };
+
+                var result = await Mediator.Send(command);
+                _alert?.ShowAlert(result.Result == 1 ? "success" : "error",
+                    result.Result == 1 ?
+                        IsEdit ? "Page updated successfully!" : "Page created successfully!" :
+                        "Failed to save page.");
+
+                if (result.Result == 1 && !IsEdit)
+                {
+                    _entity = new();
+                    _pdfFile = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+}

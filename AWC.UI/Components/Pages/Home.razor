@@ -2,6 +2,8 @@
 
 @inject IAuthenticationStateService AuthenticationState
 @inject INavigationService NavigationService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 
 <!DOCTYPE html>
 <html lang="en">
@@ -2445,3 +2447,16 @@
 </body>
 
 </html>
+
+@code{
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity?.IsAuthenticated == true)
+		{
+			Navigation.NavigateTo("/home", true);
+		}
+	}
+}
