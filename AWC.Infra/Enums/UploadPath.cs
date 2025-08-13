@@ -4,11 +4,13 @@
     {
         ProfileImages,
         Pages,
-        EditorImages,
+        CarouselImages,
         NewsImages,
         GalleryImages,
         EventImages,
         SpeakerPhotos,
         NotificationImages,
+        PageContentImages,
+        PageContentDocs
     }
 }

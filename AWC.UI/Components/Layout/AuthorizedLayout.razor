@@ -161,29 +161,37 @@
 
         <div class="layout-container">
             <nav class="sidebar @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState.User.Permissions) @(isSidebarOpen ? "open" : "")" role="navigation" aria-label="Main navigation">
+
                 <a href="/home" @onclick="CloseSidebar">
-                    <i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard
+                    <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
                 </a>
+
                 <a href="/manage/users" @onclick="CloseSidebar">
                     <i class="fa fa-users" aria-hidden="true"></i> Users
                 </a>
+
                 <a href="/site/media" @onclick="CloseSidebar">
-                    <i class="fa fa-photo" aria-hidden="true"></i> College Media
+                    <i class="fa fa-film" aria-hidden="true"></i> College Media
                 </a>
+
                 <a href="/site/events" @onclick="CloseSidebar">
-                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i> College Events
+                    <i class="fa fa-calendar" aria-hidden="true"></i> College Events
                 </a>
+
                 <a href="/site/news" @onclick="CloseSidebar">
                     <i class="fa fa-newspaper-o" aria-hidden="true"></i> College News
                 </a>
+
                 <a href="/site/notification" @onclick="CloseSidebar">
                     <i class="fa fa-bullhorn" aria-hidden="true"></i> Site Notifications
                 </a>
+
                 <a href="/site/gallery" @onclick="CloseSidebar">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i> Gallery
+                    <i class="fa fa-camera-retro" aria-hidden="true"></i> Gallery
                 </a>
-                <a href="/site/pages" @onclick="CloseSidebar">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i> Pages
+
+                <a href="/site/navigation-menus" @onclick="CloseSidebar">
+                    <i class="fa fa-sitemap" aria-hidden="true"></i> Pages
                 </a>
             </nav>
 

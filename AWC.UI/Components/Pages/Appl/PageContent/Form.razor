@@ -1,0 +1,1464 @@
+﻿@page "/site/page-contents/create"
+@page "/site/page-contents/{Id:guid}/edit"
+
+@using AWC.CQRS.Commands.PageContent
+@using AWC.CQRS.Queries.PageContent
+@using AWC.CQRS.Queries.NavigationMenu
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@inject IFileUploadService FileUpload
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+
+<PageTitle>@(IsEdit ? "Edit Page Content" : "Create Page Content")</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+    <div class="container-fluid page-content-container" style="margin:0; padding:0;">
+        <!-- Header Section -->
+        <div class="page-header-wrapper">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-title">
+                        <div class="title-icon">
+                            <i class="fa @(IsEdit ? "fa-edit" : "fa-file-text") fa-2x"></i>
+                        </div>
+                        <div class="title-content">
+                            <h2 class="title-main">@(IsEdit ? "Edit Page Content" : "Create New Page Content")</h2>
+                            <p class="title-subtitle">@(IsEdit ? "Update page content and settings" : "Add new content to your website")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-default btn-back"
+                            @onclick="@(() => NavigationService.NavigateTo($"/site/page-contents"))">
+                        <i class="fa fa-arrow-left"></i> Back to Contents
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Main Form -->
+            <div class="col-md-8">
+                <div class="form-card">
+                    <EditForm Context="_" OnValidSubmit="@OnSubmitAsync" Model="_entity">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="validation-summary" />
+
+                        <!-- Navigation Menu Selection -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-sitemap"></i>
+                                </div>
+                                <h4 class="panel-title">Navigation Menu Assignment</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="NavigationMenuSelect" class="control-label">
+                                        <i class="fa fa-link input-icon"></i>
+                                        Select Navigation Menu <span class="required">*</span>
+                                    </label>
+                                    <select class="form-control input-enhanced" id="NavigationMenuSelect"
+                                            @bind="_selectedNavigationMenuId"
+                                            @bind:after="OnNavigationMenuChangedAsync"
+                                            required>
+                                        <option value="">-- Select Navigation Menu --</option>
+                                        @foreach (var menu in _navigationMenus)
+                                        {
+                                            <option value="@menu.Id">@GetMenuHierarchy(menu)</option>
+                                        }
+                                    </select>
+                                    <small class="help-text">Choose the navigation menu this content belongs to</small>
+
+                                    @if (_selectedMenu != null)
+                                    {
+                                        <div class="menu-preview">
+                                            <div class="menu-info">
+                                                <div class="menu-icon">
+                                                    <i class="fa @(!string.IsNullOrEmpty(_selectedMenu.Icon) ? _selectedMenu.Icon : "fa-file")"></i>
+                                                </div>
+                                                <div class="menu-details">
+                                                    <h5 class="menu-name">@_selectedMenu.Name</h5>
+                                                    @if (!string.IsNullOrEmpty(_selectedMenu.Url))
+                                                    {
+                                                        <p class="menu-url">URL: /@_selectedMenu.Url</p>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(_selectedMenu.Description))
+                                                    {
+                                                        <p class="menu-description">@_selectedMenu.Description</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Page Headers -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-header"></i>
+                                </div>
+                                <h4 class="panel-title">Page Headers</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="HeaderInput" class="control-label">
+                                        <i class="fa fa-font input-icon"></i>
+                                        Page Header
+                                    </label>
+                                    <InputText class="form-control input-enhanced" @bind-Value="_entity.Header" id="HeaderInput"
+                                               placeholder="Main page heading..."
+                                               maxlength="200" />
+                                    <small class="help-text">Main heading displayed on the page (max 200 characters)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="SubHeaderInput" class="control-label">
+                                        <i class="fa fa-text-width input-icon"></i>
+                                        Sub Header
+                                    </label>
+                                    <InputText class="form-control input-enhanced" @bind-Value="_entity.SubHeader" id="SubHeaderInput"
+                                               placeholder="Subtitle or tagline..."
+                                               maxlength="200" />
+                                    <small class="help-text">Optional subtitle displayed below the main header</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEO Information -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <h4 class="panel-title">SEO Information</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="MetaDescriptionInput" class="control-label">
+                                        <i class="fa fa-file-text-o input-icon"></i>
+                                        Meta Description
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced"
+                                                   @bind-Value="_entity.MetaDescription"
+                                                   id="MetaDescriptionInput" rows="3"
+                                                   placeholder="Brief description for search engines..."
+                                                   maxlength="300" />
+                                    <small class="help-text">
+                                        SEO meta description - <span class="char-counter">@(_entity.MetaDescription?.Length ?? 0)/300 characters</span>
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="MetaKeywordsInput" class="control-label">
+                                        <i class="fa fa-tags input-icon"></i>
+                                        Meta Keywords
+                                    </label>
+                                    <InputText class="form-control input-enhanced" @bind-Value="_entity.MetaKeywords" id="MetaKeywordsInput"
+                                               placeholder="keyword1, keyword2, keyword3..."
+                                               maxlength="300" />
+                                    <small class="help-text">SEO keywords separated by commas</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-edit"></i>
+                                </div>
+                                <h4 class="panel-title">Page Content</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                    <label for="ParagraphInput" class="control-label">
+                                        <i class="fa fa-paragraph input-icon"></i>
+                                        Main Content
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced content-editor"
+                                                   @bind-Value="_entity.Paragraph"
+                                                   id="ParagraphInput" rows="8"
+                                                   placeholder="Enter your main page content here. You can use HTML tags for formatting..." />
+                                    <small class="help-text">
+                                        <i class="fa fa-info-circle"></i>
+                                        Main content of the page. HTML formatting is supported.
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="SecondaryContentInput" class="control-label">
+                                        <i class="fa fa-align-left input-icon"></i>
+                                        Secondary Content
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced content-editor"
+                                                   @bind-Value="_entity.SecondaryContent"
+                                                   id="SecondaryContentInput" rows="6"
+                                                   placeholder="Additional content section..." />
+                                    <small class="help-text">Optional additional content section</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ContactInfoInput" class="control-label">
+                                        <i class="fa fa-phone input-icon"></i>
+                                        Contact Information (JSON)
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced json-editor"
+                                                   @bind-Value="_entity.ContactInfo"
+                                                   id="ContactInfoInput" rows="4"
+                                                   placeholder='{"address": "Street Address", "phone": "+91-XXXX-XXXXXX", "email": "contact@example.com"}' />
+                                    <small class="help-text">Contact information in JSON format (for contact pages)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Media Uploads -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-image"></i>
+                                </div>
+                                <h4 class="panel-title">Media Content</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="media-grid">
+                                    <!-- Hero Banner -->
+                                    <div class="form-group">
+                                        <label for="HeroBannerInput" class="control-label">
+                                            <i class="fa fa-picture-o input-icon"></i>
+                                            Hero Banner Image
+                                        </label>
+                                        <InputFile id="HeroBannerInput" class="form-control file-input"
+                                                   OnChange="@((args) => HandleFileSelected(args, "HeroBanner"))"
+                                                   accept="image/*" />
+                                        @if (!string.IsNullOrEmpty(_entity.HeroBanner))
+                                        {
+                                            <div class="image-preview">
+                                                <div class="preview-wrapper">
+                                                    <img src="@_entity.HeroBanner" alt="Hero Banner" class="preview-image" />
+                                                    <div class="image-overlay">
+                                                        <button type="button" class="btn btn-danger btn-sm remove-image"
+                                                                @onclick="() => _entity.HeroBanner = string.Empty">
+                                                            <i class="fa fa-trash"></i> Remove
+                                                        </button>
+                                                    </div>
+                                                    <div class="image-info">
+                                                        <strong>Current Hero Banner</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <small class="help-text">Large banner image for the top of the page (1920x600px recommended)</small>
+                                    </div>
+
+                                    <!-- Main Image -->
+                                    <div class="form-group">
+                                        <label for="ImageInput" class="control-label">
+                                            <i class="fa fa-photo input-icon"></i>
+                                            Main Image
+                                        </label>
+                                        <InputFile id="ImageInput" class="form-control file-input"
+                                                   OnChange="@((args) => HandleFileSelected(args, "Image"))"
+                                                   accept="image/*" />
+                                        @if (!string.IsNullOrEmpty(_entity.Image))
+                                        {
+                                            <div class="image-preview">
+                                                <div class="preview-wrapper">
+                                                    <img src="@_entity.Image" alt="Main Image" class="preview-image" />
+                                                    <div class="image-overlay">
+                                                        <button type="button" class="btn btn-danger btn-sm remove-image"
+                                                                @onclick="() => _entity.Image = string.Empty">
+                                                            <i class="fa fa-trash"></i> Remove
+                                                        </button>
+                                                    </div>
+                                                    <div class="image-info">
+                                                        <strong>Current Main Image</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <small class="help-text">Main content image (800x600px recommended)</small>
+                                    </div>
+
+                                    <!-- PDF Upload -->
+                                    <div class="form-group">
+                                        <label for="PdfInput" class="control-label">
+                                            <i class="fa fa-file-pdf-o input-icon"></i>
+                                            PDF Document
+                                        </label>
+                                        <InputFile id="PdfInput" class="form-control file-input"
+                                                   OnChange="@((args) => HandleFileSelected(args, "Pdf"))"
+                                                   accept=".pdf" />
+                                        @if (!string.IsNullOrEmpty(_entity.Pdf))
+                                        {
+                                            <div class="file-preview">
+                                                <div class="file-info">
+                                                    <div class="file-icon">
+                                                        <i class="fa fa-file-pdf-o text-danger"></i>
+                                                    </div>
+                                                    <div class="file-details">
+                                                        <strong>PDF Document Attached</strong>
+                                                        <div class="file-actions">
+                                                            <a href="@_entity.Pdf" target="_blank" class="btn btn-sm btn-primary">
+                                                                <i class="fa fa-download"></i> View PDF
+                                                            </a>
+                                                            <button type="button" class="btn btn-sm btn-danger"
+                                                                    @onclick="() => _entity.Pdf = string.Empty">
+                                                                <i class="fa fa-trash"></i> Remove
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <small class="help-text">PDF document for download (max 10MB)</small>
+                                    </div>
+
+                                    <!-- Video URL -->
+                                    <div class="form-group">
+                                        <label for="VideoUrlInput" class="control-label">
+                                            <i class="fa fa-video-camera input-icon"></i>
+                                            Video URL
+                                        </label>
+                                        <InputText class="form-control input-enhanced" @bind-Value="_entity.VideoUrl" id="VideoUrlInput"
+                                                   placeholder="https://www.youtube.com/watch?v=..."
+                                                   maxlength="500" />
+                                        <small class="help-text">YouTube, Vimeo, or other video URL</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Display Settings -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <h4 class="panel-title">Display Settings</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="SortOrderInput" class="control-label">
+                                                <i class="fa fa-sort-numeric-asc input-icon"></i>
+                                                Sort Order
+                                            </label>
+                                            <InputNumber class="form-control input-enhanced" @bind-Value="_entity.SortOrder"
+                                                         id="SortOrderInput" min="0" max="999" />
+                                            <small class="help-text">Display order (lower numbers first)</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="checkbox-enhanced">
+                                            <label class="checkbox-label">
+                                                <InputCheckbox @bind-Value="_entity.IsActive" />
+                                                <span class="checkbox-text">
+                                                    <i class="fa fa-check-circle checkbox-icon"></i>
+                                                    Active Content
+                                                </span>
+                                            </label>
+                                            <small class="checkbox-help">Show/hide this content on the website</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="checkbox-enhanced">
+                                            <label class="checkbox-label">
+                                                <InputCheckbox @bind-Value="_entity.ShowInBreadcrumb" />
+                                                <span class="checkbox-text">
+                                                    <i class="fa fa-list checkbox-icon"></i>
+                                                    Show in Breadcrumb
+                                                </span>
+                                            </label>
+                                            <small class="checkbox-help">Include in breadcrumb navigation</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-default btn-cancel"
+                                        @onclick="@(() => NavigationService.NavigateTo($"/site/page-contents"))">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+
+                                <button type="submit" class="btn btn-primary btn-submit" disabled="@_inAction">
+                                    @if (_inAction)
+                                    {
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                        <span>Processing...</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa @(IsEdit ? "fa-save" : "fa-plus-circle")"></i>
+                                        <span>@(IsEdit ? "Update Content" : "Create Content")</span>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </EditForm>
+
+                    <!-- Alert Section -->
+                    <div class="alert-section">
+                        <DismissibleAlert @ref="_alert" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <!-- Content Preview -->
+                @if (_selectedMenu != null)
+                {
+                    <div class="sidebar-panel preview-panel">
+                        <div class="panel-header">
+                            <div class="panel-icon">
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            <h4 class="panel-title">Content Preview</h4>
+                        </div>
+                        <div class="panel-content">
+                            @if (!string.IsNullOrEmpty(_entity.HeroBanner))
+                            {
+                                <div class="preview-hero">
+                                    <img src="@_entity.HeroBanner" alt="Hero Banner" class="preview-hero-image" />
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(_entity.Header))
+                            {
+                                <h4 class="preview-header">@_entity.Header</h4>
+                            }
+
+                            @if (!string.IsNullOrEmpty(_entity.SubHeader))
+                            {
+                                <p class="preview-subheader">@_entity.SubHeader</p>
+                            }
+
+                            @if (!string.IsNullOrEmpty(_entity.Paragraph))
+                            {
+                                <div class="preview-content">
+                                    @((_entity.Paragraph.Length > 200) ? _entity.Paragraph.Substring(0, 200) + "..." : _entity.Paragraph)
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(_entity.Image))
+                            {
+                                <div class="preview-image">
+                                    <img src="@_entity.Image" alt="Main Image" class="img-responsive" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Guidelines -->
+                <div class="sidebar-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fa fa-lightbulb-o"></i>
+                        </div>
+                        <h4 class="panel-title">Content Guidelines</h4>
+                    </div>
+                    <div class="panel-content">
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">Content Best Practices:</h5>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Write clear, engaging headers
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Use proper HTML formatting
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Optimize images for web
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Write SEO-friendly descriptions
+                            </div>
+                        </div>
+
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">Image Guidelines:</h5>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Hero Banner: 1920x600px recommended
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Main Image: 800x600px recommended
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Use JPG for photos, PNG for graphics
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Keep file sizes under 2MB
+                            </div>
+                        </div>
+
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">SEO Tips:</h5>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Meta description: 150-160 characters
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Use relevant keywords naturally
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Write for users, not search engines
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HTML Reference -->
+                <div class="sidebar-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fa fa-code"></i>
+                        </div>
+                        <h4 class="panel-title">HTML Reference</h4>
+                    </div>
+                    <div class="panel-content">
+                        <div class="html-reference">
+                            <div class="html-tag">
+                                <code>&lt;p&gt;</code> <span>Paragraph</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;h3&gt;</code> <span>Heading</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;strong&gt;</code> <span>Bold text</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;em&gt;</code> <span>Italic text</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;ul&gt;&lt;li&gt;</code> <span>Bullet list</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;ol&gt;&lt;li&gt;</code> <span>Numbered list</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;a href=""&gt;</code> <span>Link</span>
+                            </div>
+                            <div class="html-tag">
+                                <code>&lt;br&gt;</code> <span>Line break</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+
+<style>
+
+    /* Page Header */
+    .page-header-wrapper {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .title-icon {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .title-content h2.title-main {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 28px;
+    }
+
+    .title-content .title-subtitle {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 16px;
+    }
+
+    .btn-back {
+        border: 2px solid #dee2e6;
+        background: white;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+    /* Main Form Card */
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        margin-bottom: 30px;
+    }
+
+    /* Info Panels */
+    .info-panel, .sidebar-panel {
+        background: #ffffff;
+        border: 1px solid #e3f2fd;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .info-panel:hover, .sidebar-panel:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid #e1f5fe;
+    }
+
+    .panel-icon {
+        background: #007bff;
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .panel-title {
+        margin: 0;
+        color: #1976d2;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    /* Form Controls */
+    .control-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .input-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .input-enhanced, .textarea-enhanced {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fdfdfd;
+    }
+
+        .input-enhanced:focus, .textarea-enhanced:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            background: white;
+            outline: none;
+        }
+
+    .textarea-enhanced {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .content-editor {
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .json-editor {
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        background: #f8f9fa;
+    }
+
+    .help-text {
+        color: #6c757d;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .char-counter {
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    /* Menu Preview */
+    .menu-preview {
+        margin-top: 15px;
+        background: #f8f9ff;
+        border: 1px solid #e3f2fd;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .menu-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .menu-icon {
+        background: #007bff;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 16px;
+    }
+
+    .menu-details h5.menu-name {
+        margin: 0 0 5px 0;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    .menu-url, .menu-description {
+        margin: 3px 0;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .menu-url {
+        font-family: 'Courier New', monospace;
+        background: #e3f2fd;
+        padding: 2px 6px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    /* File Input */
+    .file-input {
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .file-input:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+    /* Image Preview */
+    .image-preview {
+        margin-top: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .preview-wrapper {
+        position: relative;
+    }
+
+    .preview-image {
+        max-height: 150px;
+        max-width: 200px;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 123, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        color: white;
+    }
+
+    .image-preview:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .image-info {
+        background: #f8f9fa;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: #495057;
+        border-top: 1px solid #dee2e6;
+    }
+
+    /* File Preview */
+    .file-preview {
+        margin-top: 15px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .file-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .file-icon {
+        font-size: 36px;
+        color: #dc3545;
+    }
+
+    .file-details strong {
+        color: #2c3e50;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .file-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+        .file-actions .btn {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+
+    /* Enhanced Checkboxes */
+    .checkbox-enhanced {
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #f8f9ff;
+        border: 1px solid #e3f2fd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+        .checkbox-enhanced:hover {
+            background: #e3f2fd;
+            border-color: #007bff;
+        }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        font-weight: 500;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+
+    .checkbox-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .checkbox-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .checkbox-help {
+        color: #6c757d;
+        font-size: 12px;
+        margin: 5px 0 0 30px;
+        display: block;
+    }
+
+    /* Action Buttons */
+    .form-actions {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #f1f3f4;
+    }
+
+    .btn-cancel {
+        background: white;
+        border: 2px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 12px 25px;
+        font-weight: 500;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            background: #f8f9fa;
+            border-color: #dc3545;
+            color: #dc3545;
+            transform: translateY(-2px);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        color: white;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-submit span {
+            margin-left: 5px;
+        }
+
+    /* Content Preview */
+    .preview-panel .panel-content {
+        padding: 20px;
+    }
+
+    .preview-hero {
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .preview-hero-image {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .preview-header {
+        color: #2c3e50;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        line-height: 1.3;
+    }
+
+    .preview-subheader {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 14px;
+        margin: 0 0 15px 0;
+    }
+
+    .preview-content {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #495057;
+        margin-bottom: 15px;
+    }
+
+    .preview-image {
+        margin-top: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .preview-image img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+
+    /* Guidelines */
+    .guideline-section {
+        margin-bottom: 25px;
+    }
+
+    .guideline-title {
+        color: #2c3e50;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .guideline-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: #495057;
+        padding: 5px 0;
+    }
+
+        .guideline-item i {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+    /* HTML Reference */
+    .html-reference {
+        font-size: 12px;
+    }
+
+    .html-tag {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 5px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+        .html-tag:hover {
+            background: #f8f9fa;
+        }
+
+        .html-tag code {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            margin-right: 10px;
+            min-width: 80px;
+            display: inline-block;
+        }
+
+        .html-tag span {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+    /* Validation */
+    .validation-summary {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Alert Section */
+    .alert-section {
+        margin-top: 20px;
+    }
+
+
+
+    /* Animation for form loading */
+    .info-panel, .sidebar-panel {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+
+    /* Professional Government Styling Overrides */
+    .text-primary {
+        color: #1976d2 !important;
+    }
+
+    .text-success {
+        color: #2e7d32 !important;
+    }
+
+    .text-warning {
+        color: #f57c00 !important;
+    }
+
+    .text-info {
+        color: #0288d1 !important;
+    }
+
+    .text-danger {
+        color: #d32f2f !important;
+    }
+
+    /* Focus states for accessibility */
+    .btn:focus, .form-control:focus, select:focus, input[type="file"]:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+
+    /* Media Grid Layout */
+    .media-grid .form-group {
+        margin-bottom: 25px;
+    }
+
+    /* Enhanced upload area styling */
+    .file-input {
+        position: relative;
+    }
+
+        .file-input::after {
+            content: '\f093';
+            font-family: 'FontAwesome';
+            font-size: 24px;
+            color: #007bff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .file-input input[type="file"] {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+
+    /* Loading states */
+    .input-enhanced:disabled {
+        background-color: #f8f9fa;
+        opacity: 0.65;
+    }
+
+    /* Better focus indicators for government accessibility standards */
+    *:focus-visible {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+</style>
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter, SupplyParameterFromQuery] public Guid? MenuId { get; set; }
+    
+    private bool IsEdit => Id != Guid.Empty;
+
+    private PageContentEntity _entity = new();
+    private NavigationMenuEntity? _selectedMenu;
+    private string _selectedNavigationMenuId = "";
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+
+    private IList<NavigationMenuEntity> _navigationMenus = new List<NavigationMenuEntity>();
+    private Dictionary<string, IBrowserFile?> _uploadedFiles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNavigationMenus();
+        
+        if (IsEdit)
+        {
+            var result = await Mediator.Send(new AWC.CQRS.Queries.PageContent.GetByIdQuery { Id = Id });
+            if (result != null)
+            {
+                _entity = result;
+                _selectedNavigationMenuId = _entity.NavigationMenuId.ToString();
+                _selectedMenu = _navigationMenus.FirstOrDefault(m => m.Id == _entity.NavigationMenuId);
+            }
+        }
+        else if (MenuId.HasValue)
+        {
+            _selectedNavigationMenuId = MenuId.Value.ToString();
+            _selectedMenu = _navigationMenus.FirstOrDefault(m => m.Id == MenuId.Value);
+            _entity.NavigationMenuId = MenuId.Value;
+        }
+    }
+
+    private async Task LoadNavigationMenus()
+    {
+        var result = await Mediator.Send(new AWC.CQRS.Queries.NavigationMenu.GetAllQuery());
+        _navigationMenus = result ?? new List<NavigationMenuEntity>();
+    }
+
+    private async void OnNavigationMenuChangedAsync()
+    {
+        if (!string.IsNullOrEmpty(_selectedNavigationMenuId) && Guid.TryParse(_selectedNavigationMenuId, out var menuId))
+        {
+            _selectedMenu = _navigationMenus.FirstOrDefault(m => m.Id == menuId);
+            _entity.NavigationMenuId = menuId;
+        }
+        else
+        {
+            _selectedMenu = null;
+            _entity.NavigationMenuId = Guid.Empty;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    private string GetMenuHierarchy(NavigationMenuEntity menu)
+    {
+        var prefix = new string('→', menu.Level - 1);
+        return $"{prefix} {menu.Name} (Level {menu.Level}) - {(!string.IsNullOrEmpty(menu.Url) ? "/" + menu.Url : "No URL")}";
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e, string fileType)
+    {
+        var file = e.File;
+        if (file == null) return;
+
+        try
+        {
+            // Validate file based on type
+            if (fileType == "Pdf")
+            {
+                if (!file.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase) &&
+                    !Path.GetExtension(file.Name).Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    _alert?.ShowError("Please upload a valid PDF file.");
+                    return;
+                }
+                
+                if (file.Size > 5 * 1024 * 1024) // 5MB limit for PDFs
+                {
+                    _alert?.ShowError("PDF file size exceeds the 5MB limit.");
+                    return;
+                }
+            }
+            else // Image files
+            {
+                if (!file.ContentType.StartsWith("image/"))
+                {
+                    _alert?.ShowError("Please upload a valid image file.");
+                    return;
+                }
+                
+                if (file.Size > 2 * 1024 * 1024) // 2MB limit for images
+                {
+                    _alert?.ShowError("Image file size exceeds the 2MB limit.");
+                    return;
+                }
+            }
+
+            _uploadedFiles[fileType] = file;
+            _alert?.ShowSuccess($"{fileType} file selected successfully. It will be uploaded when you save the content.");
+        }
+        catch (Exception ex)
+        {
+            _alert?.ShowError($"Error selecting file: {ex.Message}");
+        }
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+
+                // Validate required fields
+                if (_entity.NavigationMenuId == Guid.Empty)
+                {
+                    _alert?.ShowError("Please select a navigation menu.");
+                    return;
+                }
+
+                // Upload files if any
+                var uploadTasks = new List<Task<string>>();
+                
+                foreach (var kvp in _uploadedFiles)
+                {
+                    if (kvp.Value != null)
+                    {
+                        uploadTasks.Add(UploadFileAsync(kvp.Value, kvp.Key));
+                    }
+                }
+
+                if (uploadTasks.Any())
+                {
+                    _alert?.ShowAlert("info", "Uploading files...");
+                    var uploadResults = await Task.WhenAll(uploadTasks);
+                    
+                    // Update entity with uploaded file paths
+                    for (int i = 0; i < uploadTasks.Count; i++)
+                    {
+                        var fileType = _uploadedFiles.Keys.ElementAt(i);
+                        var filePath = uploadResults[i];
+                        
+                        if (!string.IsNullOrEmpty(filePath))
+                        {
+                            switch (fileType)
+                            {
+                                case "HeroBanner":
+                                    _entity.HeroBanner = filePath;
+                                    break;
+                                case "Image":
+                                    _entity.Image = filePath;
+                                    break;
+                                case "Pdf":
+                                    _entity.Pdf = filePath;
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                var command = new UpsertCommand
+                {
+                    Id = IsEdit ? Id : Guid.NewGuid(),
+                    NavigationMenuId = _entity.NavigationMenuId,
+                    Header = string.IsNullOrWhiteSpace(_entity.Header) ? null : _entity.Header.Trim(),
+                    SubHeader = string.IsNullOrWhiteSpace(_entity.SubHeader) ? null : _entity.SubHeader.Trim(),
+                    MetaDescription = string.IsNullOrWhiteSpace(_entity.MetaDescription) ? null : _entity.MetaDescription.Trim(),
+                    MetaKeywords = string.IsNullOrWhiteSpace(_entity.MetaKeywords) ? null : _entity.MetaKeywords.Trim(),
+                    HeroBanner = string.IsNullOrWhiteSpace(_entity.HeroBanner) ? null : _entity.HeroBanner.Trim(),
+                    Paragraph = string.IsNullOrWhiteSpace(_entity.Paragraph) ? null : _entity.Paragraph.Trim(),
+                    SecondaryContent = string.IsNullOrWhiteSpace(_entity.SecondaryContent) ? null : _entity.SecondaryContent.Trim(),
+                    Pdf = string.IsNullOrWhiteSpace(_entity.Pdf) ? null : _entity.Pdf.Trim(),
+                    Image = string.IsNullOrWhiteSpace(_entity.Image) ? null : _entity.Image.Trim(),
+                    Gallery = string.IsNullOrWhiteSpace(_entity.Gallery) ? null : _entity.Gallery.Trim(),
+                    VideoUrl = string.IsNullOrWhiteSpace(_entity.VideoUrl) ? null : _entity.VideoUrl.Trim(),
+                    ContactInfo = string.IsNullOrWhiteSpace(_entity.ContactInfo) ? null : _entity.ContactInfo.Trim(),
+                    SortOrder = _entity.SortOrder,
+                    IsActive = _entity.IsActive,
+                    ShowInBreadcrumb = _entity.ShowInBreadcrumb,
+                    CreatedBy = IsEdit ? _entity.CreatedBy : AuthenticationState.User?.Id,
+                    UpdatedBy = IsEdit ? AuthenticationState.User?.Id : _entity.UpdatedBy
+                };
+
+                var result = await Mediator.Send(command);
+                
+                if (result.Result == 1)
+                {
+                    _alert?.ShowSuccess(IsEdit ? "Page content updated successfully!" : "Page content created successfully!");
+                    
+                    if (!IsEdit)
+                    {
+                        // Reset form for new entry
+                        _entity = new PageContentEntity 
+                        { 
+                            NavigationMenuId = _entity.NavigationMenuId,
+                            IsActive = true,
+                            ShowInBreadcrumb = true
+                        };
+                        _uploadedFiles.Clear();
+                    }
+                }
+                else
+                {
+                    _alert?.ShowError("Failed to save page content. Please check all required fields.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+
+    private async Task<string> UploadFileAsync(IBrowserFile file, string fileType)
+    {
+        try
+        {
+            var allowedExtensions = fileType == "Pdf" ? new[] { ".pdf" } : new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+            var uploadPath = fileType == "Pdf" ? UploadPath.PageContentDocs : UploadPath.PageContentImages;
+            
+            var uploadResult = await FileUpload.UploadFileAsync(file, uploadPath, allowedExtensions);
+            
+            if (uploadResult.Success)
+            {
+                return uploadResult.FilePath ?? string.Empty;
+            }
+            else
+            {
+                _alert?.ShowError($"Failed to upload {fileType}: {uploadResult.Message}");
+                return string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            _alert?.ShowError($"Error uploading {fileType}: {ex.Message}");
+            return string.Empty;
+        }
+    }
+}

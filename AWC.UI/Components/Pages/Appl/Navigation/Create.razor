@@ -1,0 +1,1143 @@
+﻿@page "/site/navigation-menus/create"
+@page "/site/navigation-menus/{Id:guid}/edit"
+
+@using AWC.CQRS.Commands.NavigationMenu
+@using AWC.CQRS.Queries.NavigationMenu
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject IPermissionStylingService PermissionStyling
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+
+<PageTitle>@(IsEdit ? "Edit Navigation Menu" : "Create Navigation Menu")</PageTitle>
+
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator, UserPermissionsEnum.ContentManager }"
+                  RedirectIfInvalid="true">
+    <div class="container navigation-form-container">
+        <!-- Header Section -->
+        <div class="page-header-wrapper">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-title">
+                        <div class="title-icon">
+                            <i class="fa @(IsEdit ? "fa-edit" : "fa-sitemap") fa-2x"></i>
+                        </div>
+                        <div class="title-content">
+                            <h2 class="title-main">@(IsEdit ? "Edit Navigation Menu" : "Create New Navigation Menu")</h2>
+                            <p class="title-subtitle">@(IsEdit ? "Update menu structure and settings" : "Add a new menu item to your navigation")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-default btn-back"
+                            @onclick="@(() => NavigationService.NavigateTo($"/site/navigation-menus"))">
+                        <i class="fa fa-arrow-left"></i> Back to Navigation
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row">
+            <!-- Form Panel -->
+            <div class="col-md-8">
+                <div class="form-card">
+                    <EditForm Context="_" OnValidSubmit="@OnSubmitAsync" Model="_entity">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="validation-summary" />
+
+                        <!-- Menu Information Panel -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-info-circle"></i>
+                                </div>
+                                <h4 class="panel-title">Menu Information</h4>
+                            </div>
+                            <div class="panel-content">
+                                <!-- Parent Menu Selection -->
+                                @if (!IsEdit || _entity.Level > 1)
+                                {
+                                    <div class="form-group">
+                                        <label for="ParentSelect" class="control-label">
+                                            <i class="fa fa-sitemap input-icon"></i>
+                                            Parent Menu
+                                        </label>
+                                        <select class="form-control input-enhanced" id="ParentSelect"
+                                                @onchange="OnParentChanged">
+                                            <option value="">-- Select Parent Menu (Optional for Main Menu) --</option>
+                                            @foreach (var parent in _availableParents)
+                                            {
+                                                <option value="@parent.Id">@GetHierarchyDisplay(parent)</option>
+                                            }
+                                        </select>
+                                        <small class="help-text">
+                                            @if (_entity.Level == 1)
+                                            {
+                                                <i class="fa fa-info-circle"></i>
+                                                <span class="text-info">Leave empty for main menu item</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-warning text-warning"></i>
+                                                <span class="text-warning">This will be a Level @_entity.Level menu item</span>
+                                           }
+                                        </small>
+                                    </div>
+                                }
+
+                                <!-- Menu Name -->
+                                <div class="form-group">
+                                    <label for="NameInput" class="control-label">
+                                        <i class="fa fa-tag input-icon"></i>
+                                        Menu Name <span class="required">*</span>
+                                    </label>
+                                    <InputText class="form-control input-enhanced" @bind-Value="_entity.Name" id="NameInput"
+                                               placeholder="e.g., About Us, Services, Contact"
+                                               minlength="2" maxlength="100" required />
+
+                                    <i class="fa fa-warning"></i>
+                                    <span class="text-warning">Display name for the navigation menu (2-100 characters)</span>
+                                </div>
+
+                                <!-- URL -->
+                                <div class="form-group">
+                                    <label for="UrlInput" class="control-label">
+                                        <i class="fa fa-link input-icon"></i>
+                                        URL Path
+                                        @if (_entity.Level > 1 && string.IsNullOrEmpty(_entity.Url))
+                                        {
+                                            <span class="text-muted">(Optional for dropdown headers)</span>
+                                        }
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon url-prefix">/</span>
+                                        <InputText class="form-control input-enhanced" @bind-Value="_entity.Url" id="UrlInput"
+                                                   placeholder="about-us, services/web-development"
+                                                   maxlength="255" />
+                                    </div>
+                                    <small class="help-text">
+                                        <i class="fa fa-lightbulb-o"></i>
+                                        <span class="text-warning">
+                                            Leave empty for dropdown-only menu items. Use "/" for homepage.
+                                        </span>
+
+                                        @if (_entity.Level > 1)
+                                        {
+                                            <br>
+                                        
+                                            <span class="text-primary">Tip: Use hierarchical URLs like "about/team" for better SEO</span>
+                                        }
+                                    </small>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label for="DescriptionInput" class="control-label">
+                                        <i class="fa fa-file-text-o input-icon"></i>
+                                        Description
+                                    </label>
+                                    <InputTextArea class="form-control input-enhanced textarea-enhanced"
+                                                   @bind-Value="_entity.Description"
+                                                   id="DescriptionInput" rows="3"
+                                                   placeholder="Brief description for SEO and tooltips..."
+                                                   maxlength="500" />
+                                    <i class="fa fa-info-circle"></i>
+                                    <span class="text-info">Optional description for SEO and accessibility (max 500 characters)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Display Settings Panel -->
+                        <div class="info-panel">
+                            <div class="panel-header">
+                                <div class="panel-icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <h4 class="panel-title">Display Settings</h4>
+                            </div>
+                            <div class="panel-content">
+                                <div class="row">
+                                    <!-- Sort Order -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="SortOrderInput" class="control-label">
+                                                <i class="fa fa-sort-numeric-asc input-icon"></i>
+                                                Sort Order
+                                            </label>
+                                            <InputNumber class="form-control input-enhanced"
+                                                         @bind-Value="_entity.SortOrder"
+                                                         id="SortOrderInput" min="0" max="999" />
+                                            <small class="help-text">Lower numbers appear first</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Icon -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="IconSelect" class="control-label">
+                                                <i class="fa fa-picture-o input-icon"></i>
+                                                Icon (Font Awesome)
+                                            </label>
+                                            <div class="input-group">
+                                                <select class="form-control input-enhanced" id="IconSelect" @bind="_entity.Icon">
+                                                    <option value="">-- Select an icon --</option>
+                                                    @foreach (var icon in FontAwesomeIcons)
+                                                    {
+                                                        <option value="@icon">@icon</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <small class="help-text">Choose a Font Awesome icon</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- CSS Class -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="CssClassSelect" class="control-label">
+                                                <i class="fa fa-css3 input-icon"></i>
+                                                CSS Class
+                                            </label>
+                                            <select id="CssClassSelect" class="form-control input-enhanced" @bind="_entity.CssClass">
+                                                <option value="">-- Select CSS Class --</option>
+                                                <option value="custom-menu-class">Custom Menu Class</option>
+                                                <option value="highlight-menu">Highlight Menu</option>
+                                                <option value="disabled-menu">Disabled Menu</option>
+                                                <option value="text-primary">Text Primary</option>
+                                                <option value="text-danger">Text Danger</option>
+                                                <option value="text-success">Text Success</option>
+                                                <option value="bg-primary">Background Primary</option>
+                                                <option value="bg-light">Background Light</option>
+                                            </select>
+                                            <small class="help-text">Optional custom CSS classes</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Status Toggles -->
+                                <div class="settings-checkboxes">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="checkbox-enhanced">
+                                                <label class="checkbox-label">
+                                                    <InputCheckbox @bind-Value="_entity.IsActive" />
+                                                    <span class="checkbox-text">
+                                                        <i class="fa fa-check-circle checkbox-icon"></i>
+                                                        Active Menu
+                                                    </span>
+                                                </label>
+                                                <small class="checkbox-help">Uncheck to hide from navigation</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="checkbox-enhanced">
+                                                <label class="checkbox-label">
+                                                    <InputCheckbox @bind-Value="_entity.IsExternal" />
+                                                    <span class="checkbox-text">
+                                                        <i class="fa fa-external-link checkbox-icon"></i>
+                                                        External Link
+                                                    </span>
+                                                </label>
+                                                <small class="checkbox-help">Check if URL points to external website</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-default btn-cancel"
+                                        @onclick="@(() => NavigationService.NavigateTo($"/site/navigation-menus"))">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+
+                                <button type="submit" class="btn btn-primary btn-submit" disabled="@_inAction">
+                                    @if (_inAction)
+                                    {
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                        <span>Processing...</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa @(IsEdit ? "fa-save" : "fa-plus-circle")"></i>
+                                        <span>@(IsEdit ? "Update Menu" : "Create Menu")</span>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </EditForm>
+
+                    <!-- Alert Section -->
+                    <div class="alert-section">
+                        <DismissibleAlert @ref="_alert" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <!-- Hierarchy Preview -->
+                <div class="sidebar-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fa fa-sitemap"></i>
+                        </div>
+                        <h4 class="panel-title">Menu Hierarchy Preview</h4>
+                    </div>
+                    <div class="panel-content">
+                        @if (_entity.Level == 1)
+                        {
+                            <div class="hierarchy-preview">
+                                <div class="level-1">
+                                    <i class="fa @(!string.IsNullOrEmpty(_entity.Icon) ? _entity.Icon : "fa-home") text-primary"></i>
+                                    <strong>@(!string.IsNullOrEmpty(_entity.Name) ? _entity.Name : "Menu Name")</strong>
+                                    <span class="level-badge main-menu">Main Menu</span>
+                                </div>
+                            </div>
+                        }
+                        else if (_entity.Level == 2 && _selectedParent != null)
+                        {
+                            <div class="hierarchy-preview">
+                                <div class="level-1">
+                                    <i class="fa @(!string.IsNullOrEmpty(_selectedParent.Icon) ? _selectedParent.Icon : "fa-home") text-primary"></i>
+                                    <strong>@_selectedParent.Name</strong>
+                                </div>
+                                <div class="level-2">
+                                    <i class="fa fa-angle-right text-muted hierarchy-arrow"></i>
+                                    <i class="fa @(!string.IsNullOrEmpty(_entity.Icon) ? _entity.Icon : "fa-folder") text-info"></i>
+                                    <strong>@(!string.IsNullOrEmpty(_entity.Name) ? _entity.Name : "Submenu Name")</strong>
+                                    <span class="level-badge submenu">Submenu</span>
+                                </div>
+                            </div>
+                        }
+                        else if (_entity.Level == 3 && _selectedParent != null)
+                        {
+                            <div class="hierarchy-preview">
+                                <div class="level-1">
+                                    <i class="fa @(!string.IsNullOrEmpty(_grandParent?.Icon) ? _grandParent.Icon : "fa-home") text-primary"></i>
+                                    <strong>@(_grandParent?.Name ?? "Main Menu")</strong>
+                                </div>
+                                <div class="level-2">
+                                    <i class="fa fa-angle-right text-muted hierarchy-arrow"></i>
+                                    <i class="fa @(!string.IsNullOrEmpty(_selectedParent.Icon) ? _selectedParent.Icon : "fa-folder") text-info"></i>
+                                    <strong>@_selectedParent.Name</strong>
+                                </div>
+                                <div class="level-3">
+                                    <i class="fa fa-angle-right text-muted hierarchy-arrow"></i>
+                                    <i class="fa fa-angle-right text-muted hierarchy-arrow"></i>
+                                    <i class="fa @(!string.IsNullOrEmpty(_entity.Icon) ? _entity.Icon : "fa-file") text-warning"></i>
+                                    <strong>@(!string.IsNullOrEmpty(_entity.Name) ? _entity.Name : "Sub-submenu Name")</strong>
+                                    <span class="level-badge sub-submenu">Sub-submenu</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Guidelines -->
+                <div class="sidebar-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fa fa-lightbulb-o"></i>
+                        </div>
+                        <h4 class="panel-title">Navigation Guidelines</h4>
+                    </div>
+                    <div class="panel-content">
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">Menu Structure:</h5>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                <strong>Level 1:</strong> Main navigation items
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                <strong>Level 2:</strong> Dropdown submenus
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                <strong>Level 3:</strong> Sub-dropdown items
+                            </div>
+                        </div>
+
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">Best Practices:</h5>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Use clear, descriptive names
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Keep URL paths SEO-friendly
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Order items logically
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Test on mobile devices
+                            </div>
+                        </div>
+
+                        <div class="guideline-section">
+                            <h5 class="guideline-title">URL Examples:</h5>
+                            <div class="url-examples">
+                                <code>/</code> <span>Homepage</span><br>
+                                <code>about</code> <span>About page</span><br>
+                                <code>services/web-design</code> <span>Nested page</span><br>
+                                <code>https://external.com</code> <span>External link</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icon Reference -->
+                <div class="sidebar-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fa fa-picture-o"></i>
+                        </div>
+                        <h4 class="panel-title">Common Icons</h4>
+                    </div>
+                    <div class="panel-content">
+                        <div class="icon-grid">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="icon-item">
+                                        <i class="fa fa-home"></i> fa-home
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-info-circle"></i> fa-info-circle
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-cogs"></i> fa-cogs
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-phone"></i> fa-phone
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-envelope"></i> fa-envelope
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="icon-item">
+                                        <i class="fa fa-graduation-cap"></i> fa-graduation-cap
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-users"></i> fa-users
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-newspaper-o"></i> fa-newspaper-o
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-building"></i> fa-building
+                                    </div>
+                                    <div class="icon-item">
+                                        <i class="fa fa-file-text"></i> fa-file-text
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</RenderPermission>
+
+<style>
+    /* Container and Layout */
+/*     .navigation-form-container {
+        padding: 30px 15px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+        min-height: 100vh;
+    }
+ */
+    /* Page Header */
+    .page-header-wrapper {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .title-icon {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .title-content h2.title-main {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 28px;
+    }
+
+    .title-content .title-subtitle {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 16px;
+    }
+
+    .btn-back {
+        border: 2px solid #dee2e6;
+        background: white;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+    /* Main Form Card */
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        margin-bottom: 30px;
+    }
+
+    /* Info Panels */
+    .info-panel, .sidebar-panel {
+        background: #ffffff;
+        border: 1px solid #e3f2fd;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .info-panel:hover, .sidebar-panel:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid #e1f5fe;
+    }
+
+    .panel-icon {
+        background: #007bff;
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .panel-title {
+        margin: 0;
+        color: #1976d2;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    /* Form Controls */
+    .control-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .input-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .input-enhanced, .textarea-enhanced {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fdfdfd;
+    }
+
+        .input-enhanced:focus, .textarea-enhanced:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            background: white;
+            outline: none;
+        }
+
+    .textarea-enhanced {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .help-text {
+        color: #6c757d;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Input Group Styling */
+    .url-prefix {
+        background: #e3f2fd;
+        border-color: #e9ecef;
+        color: #1976d2;
+        font-weight: 600;
+    }
+
+    .icon-preview {
+        background: #f8f9fa;
+        border-color: #e9ecef;
+        color: #007bff;
+        width: 45px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Enhanced Checkboxes */
+    .settings-checkboxes {
+        margin-top: 20px;
+    }
+
+    .checkbox-enhanced {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9ff;
+        border: 1px solid #e3f2fd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+        .checkbox-enhanced:hover {
+            background: #e3f2fd;
+            border-color: #007bff;
+        }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        font-weight: 500;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+
+    .checkbox-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .checkbox-icon {
+        color: #007bff;
+        width: 16px;
+    }
+
+    .checkbox-help {
+        color: #6c757d;
+        font-size: 12px;
+        margin: 5px 0 0 30px;
+        display: block;
+    }
+
+    /* Action Buttons */
+    .form-actions {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #f1f3f4;
+    }
+
+    .btn-cancel {
+        background: white;
+        border: 2px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 25px;
+        padding: 12px 25px;
+        font-weight: 500;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            background: #f8f9fa;
+            border-color: #dc3545;
+            color: #dc3545;
+            transform: translateY(-2px);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        color: white;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-submit span {
+            margin-left: 5px;
+        }
+
+    /* Hierarchy Preview */
+    .hierarchy-preview {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #007bff;
+    }
+
+        .hierarchy-preview div {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .hierarchy-preview .level-2 {
+            margin-left: 25px;
+        }
+
+        .hierarchy-preview .level-3 {
+            margin-left: 50px;
+        }
+
+    .hierarchy-arrow {
+        font-size: 16px;
+    }
+
+    .level-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-left: auto;
+    }
+
+    .main-menu {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .submenu {
+        background: #e8f5e8;
+        color: #2e7d32;
+    }
+
+    .sub-submenu {
+        background: #fff3e0;
+        color: #f57c00;
+    }
+
+    /* Guidelines */
+    .guideline-section {
+        margin-bottom: 25px;
+    }
+
+    .guideline-title {
+        color: #2c3e50;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .guideline-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: #495057;
+        padding: 5px 0;
+    }
+
+        .guideline-item i {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+    /* URL Examples */
+    .url-examples {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+        .url-examples code {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            margin-right: 10px;
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .url-examples span {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+    /* Icon Grid */
+    .icon-grid {
+        font-size: 12px;
+    }
+
+    .icon-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        padding: 5px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+        .icon-item:hover {
+            background: #f8f9fa;
+        }
+
+        .icon-item i {
+            color: #007bff;
+            width: 16px;
+            text-align: center;
+        }
+
+    /* Validation */
+    .validation-summary {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Alert Section */
+    .alert-section {
+        margin-top: 20px;
+    }
+
+
+    /* Animation for form loading */
+    .info-panel, .sidebar-panel {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+
+    /* Enhanced Input Group */
+    .input-group .input-enhanced {
+        border-left: none;
+    }
+
+    .input-group-addon {
+        border: 2px solid #e9ecef;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+    }
+
+    .input-group .input-enhanced:focus {
+        border-left: 2px solid #007bff;
+    }
+
+        .input-group .input-enhanced:focus + .input-group-addon,
+        .input-enhanced:focus ~ .input-group-addon {
+            border-color: #007bff;
+        }
+
+    /* Professional Government Styling Overrides */
+    .text-primary {
+        color: #1976d2 !important;
+    }
+
+    .text-success {
+        color: #2e7d32 !important;
+    }
+
+    .text-warning {
+        color: #f57c00 !important;
+    }
+
+    .text-info {
+        color: #0288d1 !important;
+    }
+
+    /* Focus states for accessibility */
+    .btn:focus, .form-control:focus, select:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+
+
+</style>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter, SupplyParameterFromQuery] public Guid? ParentId { get; set; }
+    
+    private bool IsEdit => Id != Guid.Empty;
+
+    private NavigationMenuEntity _entity = new();
+    private NavigationMenuEntity? _selectedParent;
+    private NavigationMenuEntity? _grandParent;
+    private string _selectedParentId = "";
+    private DismissibleAlert? _alert;
+    private bool _inAction;
+
+    private IList<NavigationMenuEntity> _allMenus = new List<NavigationMenuEntity>();
+    private IList<NavigationMenuEntity> _availableParents = new List<NavigationMenuEntity>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAllMenus();
+        
+        if (IsEdit)
+        {
+            var result = await Mediator.Send(new GetByIdQuery { Id = Id });
+            if (result != null)
+            {
+                _entity = result;
+                _selectedParentId = _entity.ParentId?.ToString() ?? "";
+                await LoadSelectedParent();
+            }
+        }
+        else if (ParentId.HasValue)
+        {
+            _selectedParentId = ParentId.Value.ToString();
+            await LoadSelectedParent();
+        }
+        
+        UpdateAvailableParents();
+    }
+
+    private List<string> FontAwesomeIcons = new()
+    {
+        "fa-home",
+        "fa-info-circle",
+        "fa-user",
+        "fa-cog",
+        "fa-envelope",
+        "fa-phone",
+        "fa-star",
+        "fa-heart",
+        "fa-calendar",
+        "fa-shopping-cart"
+    };
+
+    private async Task LoadAllMenus()
+    {
+        var result = await Mediator.Send(new GetAllQuery());
+        _allMenus = result ?? new List<NavigationMenuEntity>();
+    }
+
+    private async Task LoadSelectedParent()
+    {
+        if (!string.IsNullOrEmpty(_selectedParentId) && Guid.TryParse(_selectedParentId, out var parentId))
+        {
+            _selectedParent = _allMenus.FirstOrDefault(m => m.Id == parentId);
+            if (_selectedParent != null)
+            {
+                _entity.Level = (byte)(_selectedParent.Level + 1);
+                _entity.ParentId = parentId;
+                
+                // Load grandparent for level 3 items
+                if (_selectedParent.ParentId.HasValue)
+                {
+                    _grandParent = _allMenus.FirstOrDefault(m => m.Id == _selectedParent.ParentId.Value);
+                }
+            }
+        }
+        else
+        {
+            _selectedParent = null;
+            _grandParent = null;
+            _entity.Level = 1;
+            _entity.ParentId = null;
+        }
+    }
+
+    private void UpdateAvailableParents()
+    {
+        if (IsEdit)
+        {
+            // For editing, exclude self and descendants
+            _availableParents = _allMenus.Where(m => 
+                m.Id != _entity.Id && 
+                !IsDescendant(m.Id, _entity.Id) &&
+                m.Level < 3).ToList(); // Can't add children to level 3 items
+        }
+        else
+        {
+            // For creation, exclude level 3 items as they can't have children
+            _availableParents = _allMenus.Where(m => m.Level < 3).ToList();
+        }
+    }
+
+    private bool IsDescendant(Guid menuId, Guid ancestorId)
+    {
+        var menu = _allMenus.FirstOrDefault(m => m.Id == menuId);
+        while (menu?.ParentId != null)
+        {
+            if (menu.ParentId == ancestorId)
+                return true;
+            menu = _allMenus.FirstOrDefault(m => m.Id == menu.ParentId);
+        }
+        return false;
+    }
+
+    private async Task OnParentChanged(ChangeEventArgs e)
+    {
+        _selectedParentId = e.Value?.ToString() ?? "";
+        await LoadSelectedParent();
+    }
+
+
+    private string GetHierarchyDisplay(NavigationMenuEntity menu)
+    {
+        var prefix = new string('→', menu.Level - 1);
+        return $"{prefix} {menu.Name} (Level {menu.Level})";
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (!_inAction)
+        {
+            try
+            {
+                _inAction = true;
+
+                var currentUserId = AuthenticationState.User?.Id;
+
+                // Validate that we have a current user
+                if (currentUserId == null || currentUserId == Guid.Empty)
+                {
+                    _alert?.ShowError("Unable to identify current user. Please refresh the page and try again.");
+                    return;
+                }
+
+                var command = new UpsertCommand
+                {
+                    Id = IsEdit ? Id : Guid.NewGuid(),
+                    ParentId = _entity.ParentId,
+                    Url = string.IsNullOrWhiteSpace(_entity.Url) ? null : _entity.Url.Trim(),
+                    Name = _entity.Name?.Trim() ?? "",
+                    Description = string.IsNullOrWhiteSpace(_entity.Description) ? null : _entity.Description.Trim(),
+                    SortOrder = _entity.SortOrder,
+                    Level = _entity.Level,
+                    IsActive = _entity.IsActive,
+                    IsExternal = _entity.IsExternal,
+                    Icon = string.IsNullOrWhiteSpace(_entity.Icon) ? null : _entity.Icon.Trim(),
+                    CssClass = string.IsNullOrWhiteSpace(_entity.CssClass) ? null : _entity.CssClass.Trim(),
+
+                    // Fixed: Correct assignment of CreatedBy and UpdatedBy
+                    CreatedBy = IsEdit ? _entity.CreatedBy : currentUserId.Value,
+                    UpdatedBy = IsEdit ? currentUserId.Value : currentUserId.Value
+                };
+
+                var result = await Mediator.Send(command);
+
+                if (result.Result == 1)
+                {
+                    _alert?.ShowSuccess(IsEdit ? "Navigation menu updated successfully!" : "Navigation menu created successfully!");
+
+                    if (!IsEdit)
+                    {
+                        // Reset form for new entry
+                        _entity = new NavigationMenuEntity { Level = _entity.Level, ParentId = _entity.ParentId };
+                        await LoadAllMenus();
+                        UpdateAvailableParents();
+                    }
+                    else
+                    {
+                        NavigationService.NavigateTo($"/site/navigation-menus");
+                    }
+                }
+                else
+                {
+                    _alert?.ShowError("Failed to save navigation menu. Please check all required fields.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _alert?.ShowError($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                _inAction = false;
+            }
+        }
+    }
+
+
+}

@@ -1,0 +1,94 @@
+﻿/* Print styles for government documentation */
+@media print {
+    .navigation-form-container {
+        background: white;
+        padding: 20px;
+    }
+
+    .btn-back, .btn-cancel, .btn-submit {
+        display: none;
+    }
+
+    .form-card, .sidebar-panel {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .panel-header {
+        background: #f5f5f5 !important;
+        color: #333 !important;
+    }
+}
+
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@media (max-width: 576px) {
+    .form-card {
+        padding: 20px 15px;
+    }
+
+    .btn-cancel, .btn-submit {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    .checkbox-help {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navigation-form-container {
+        padding: 20px 10px;
+    }
+
+    .title-content h2.title-main {
+        font-size: 22px;
+    }
+
+    .title-content .title-subtitle {
+        font-size: 14px;
+    }
+
+    .form-card, .sidebar-panel {
+        padding: 25px 20px;
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .page-title {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .btn-back {
+        margin-top: 15px;
+    }
+
+    .hierarchy-preview .level-2 {
+        margin-left: 15px;
+    }
+
+    .hierarchy-preview .level-3 {
+        margin-left: 30px;
+    }
+}

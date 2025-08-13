@@ -1,0 +1,20 @@
+﻿/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dl-horizontal dt {
+        width: auto;
+        float: none;
+        text-align: left;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 0;
+    }
+
+    .panel-heading .row [class*="col-"] {
+        margin-bottom: 10px;
+    }
+
+    .panel-heading .text-right {
+        text-align: left;
+    }
+}

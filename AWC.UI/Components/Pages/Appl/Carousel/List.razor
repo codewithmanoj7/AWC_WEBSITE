@@ -1,0 +1,380 @@
+@page "/site/carousel"
+@page "/site/carousel/{PageId:int}"
+
+@using AWC.CQRS.Commands.Carousel
+@using AWC.CQRS.Queries.Carousel
+@using AWC.Infra.Entities.Site
+
+@inject IAuthenticationStateService AuthenticationState
+@inject INavigationService NavigationService
+@inject IMediator Mediator
+@inject ICsvExporterService CsvExporter
+@inject IPermissionStylingService PermissionStyling
+@layout AuthorizedLayout
+@rendermode InteractiveServer
+<PageTitle>Carousel</PageTitle>
+<RenderPermission Permissions="new[] { UserPermissionsEnum.Administrator }"
+                  RedirectIfInvalid="true">
+    <div class="container mb-20">
+        <!-- Header -->
+        <div class="panel @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState?.User?.Permissions) text-black mb-20" style="border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <div class="panel-body bg-info" style="padding:20px; color: white;">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2 style="margin:0;">
+                            <i class="fa fa-newspaper-o" style="margin-right:8px;"></i>
+                            Carousel Management
+                        </h2>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-default" style="margin-right:5px;" @onclick="ExportToCsv">
+                            <i class="fa fa-file-excel-o" style="margin-right:5px;"></i> Export CSV
+                        </button>
+                        <button class="btn btn-info"
+                                @onclick="@(() => NavigationService.NavigateTo($"/site/carousel/create"))">
+                            <i class="fa fa-plus-circle" style="margin-right:5px;"></i> Add Carousel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="panel" style="border:none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom:20px;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background:#f5f5f5;">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control"
+                                   placeholder="Search carousel by title or description..."
+                                   @bind="_searchTerm" @oninput="OnSearchInputChanged" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-filter" style="margin-right:5px;"></i> Filters
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" style="padding:15px; width:300px;">
+                                <li>
+                                    <div class="form-group">
+                                        <label class="small">Published From</label>
+                                        <input type="date" class="form-control input-sm"
+                                               value="@(_publishedFrom?.ToString("yyyy-MM-dd") ?? "")"
+                                               @onchange="@(e => SetPublishedFrom(e))" />
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <label class="small">Published To</label>
+                                        <input type="date" class="form-control input-sm"
+                                               value="@(_publishedTo?.ToString("yyyy-MM-dd") ?? "")"
+                                               @onchange="@(e => SetPublishedTo(e))" />
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <button class="btn btn-link text-danger" style="padding:0;" @onclick="ClearDateFilters">
+                                        <i class="fa fa-times-circle" style="margin-right:5px;"></i> Clear Date Filters
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        @{
+            var numFrom = (PageId - 1) * ItemsPerPage + 1;
+            var numTo = (PageId * ItemsPerPage) > _itemCount ? _itemCount : (PageId * ItemsPerPage);
+
+            <div class="alert alert-info" style="margin-bottom:20px;">
+                <i class="fa fa-info-circle" style="margin-right:5px;"></i> Displaying <strong>@numFrom-@numTo</strong> of <strong>@_itemCount</strong> Carousel articles
+            </div>
+        }
+
+        @if (_publishedFrom.HasValue || _publishedTo.HasValue)
+        {
+            <div class="alert alert-warning" style="margin-bottom:20px;">
+                <i class="fa fa-filter" style="margin-right:5px;"></i>
+                Filtering carousel by publish date:
+                @(_publishedFrom.HasValue ? $"from {_publishedFrom.Value:yyyy-MM-dd}" : "")
+                @(_publishedTo.HasValue ? $" to {_publishedTo.Value:yyyy-MM-dd}" : "")
+                <button class="btn btn-xs btn-warning" style="margin-left:10px;" @onclick="ClearDateFilters">
+                    <i class="fa fa-times"></i> Clear
+                </button>
+            </div>
+        }
+
+        <!-- Carousel Grid -->
+        <div class="row">
+            <div class="col-xs-12">
+                <DismissibleAlert @ref="_alert" class="mb-20" />
+
+                @if (_carouselList.Count > 0)
+                {
+                    <div class="row">
+                        @foreach (var item in _carouselList)
+                        {
+                            <div class="col-sm-6 col-md-4">
+                                <div class="panel panel-default" style="border:none; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                                    @if (!string.IsNullOrEmpty(item.Image))
+                                    {
+                                        <img src="@item.Image" class="img-responsive" style="height:180px; object-fit:cover;" alt="@item.Name">
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center" style="height:180px; background:#f9f9f9; display:flex; align-items:center; justify-content:center;">
+                                            <i class="fa fa-newspaper-o fa-3x text-muted"></i>
+                                        </div>
+                                    }
+                                    <div class="panel-heading @PermissionStyling.GetBootstrapClassesForPermission(AuthenticationState?.User?.Permissions)">
+                                        <div class="row">
+                                            <div class="col-xs-8">
+                                                <h5 class="panel-title">@item.Name</h5>
+                                            </div>
+                                            <div class="col-xs-4 text-right">
+                                                <span class="label label-primary">@item.CreatedAt.ToString("MMM dd")</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        @if (!string.IsNullOrEmpty(item.Description))
+                                        {
+                                            <p class="text-muted">
+                                                @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
+                                            </p>
+                                        }
+                                        <div>
+                                            <i class="fa fa-user text-info" style="margin-right:5px;"></i>
+                                            <small class="text-muted">By @item.CreatedByName</small>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer clearfix">
+                                        <small class="text-muted pull-left">
+                                            Published: @item.CreatedAt.ToString("MMM dd, yyyy")
+                                            @(item.UpdatedAt != item.CreatedAt ? $" • Updated: {item.UpdatedAt:MMM dd}" : "")
+                                        </small>
+                                        <div class="dropdown pull-right">
+                                            <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="@($"/site/carousel/{item.Id}/edit")">
+                                                        <i class="fa fa-edit text-primary" style="margin-right:5px;"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@item.Image" download>
+                                                        <i class="fa fa-download text-success" style="margin-right:5px;"></i> Download Image
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="text-danger" @onclick="() => DeleteCarouselItem(item.Id)">
+                                                        <i class="fa fa-trash" style="margin-right:5px;"></i> Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="panel panel-default" style="border:none; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                        <div class="panel-body text-center" style="padding:40px;">
+                            <i class="fa fa-newspaper-o text-muted" style="font-size:36px; margin-bottom:10px;"></i>
+                            <h4 class="text-muted">No carousel articles found</h4>
+                            <p class="text-muted">Try adjusting your search or add a new article</p>
+                            <button class="btn btn-primary"
+                                    @onclick="@(() => NavigationService.NavigateTo($"/site/carousel/create"))">
+                                <i class="fa fa-plus" style="margin-right:5px;"></i> Create First Article
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (_carouselList.Count > 0)
+        {
+            <nav class="text-center" style="margin-top:30px;">
+                <Pagination @ref="_pagination" UrlPagination="/site/carousel/"
+                            PagesBufferRange="@PagesBufferRange" CurrentPage="PageId"
+                            CurrentPagesCount="_pagesCount" />
+            </nav>
+        }
+    </div>
+</RenderPermission>
+
+@code {
+    [Parameter] public int PageId { get; set; } = 1;
+    private string _searchTerm = string.Empty;
+    
+    private DateTime? _publishedFrom;
+    private DateTime? _publishedTo;
+
+    private async Task SetPublishedFrom(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            _publishedFrom = date;
+        }
+        else
+        {
+            _publishedFrom = null;
+        }
+        await FetchCarousel();
+    }
+
+    private async Task SetPublishedTo(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            _publishedTo = date;
+        }
+        else
+        {
+            _publishedTo = null;
+        }
+        await FetchCarousel();
+    }
+
+    private async Task ClearDateFilters()
+    {
+        _publishedFrom = null;
+        _publishedTo = null;
+        await FetchCarousel();
+    }
+
+    private IList<CarouselEntity> _carouselList = new List<CarouselEntity>();
+    private Pagination? _pagination;
+    private DismissibleAlert? _alert;
+
+    private const int ItemsPerPage = 9;
+    private const int PagesBufferRange = 5;
+
+    private long _pagesCount;
+    private long _itemCount;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            PageId = PageId <= 0 ? 1 : PageId;
+            _pagination?.SetCurrentPage(PageId);
+            await FetchCarousel();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error in OnParametersSetAsync: " + ex.Message);
+        }
+    }
+
+
+    // protected override async Task OnParametersSetAsync()
+    // {
+    //     PageId = PageId <= 0 ? 1 : PageId;
+    //     _pagination?.SetCurrentPage(PageId);
+    //     await FetchCarousel();
+    // }
+
+    private async Task DeleteCarouselItem(Guid newsId)
+    {
+        var result = await Mediator.Send(new DeleteCommand
+            { Id = newsId, DeletedBy = AuthenticationState.User?.Id });
+
+        switch (result.Result)
+        {
+            case 1:
+                _alert?.ShowSuccess("Carousel article deleted successfully.");
+                var newsIndex = _carouselList.ToList().FindIndex(c => c.Id == newsId);
+                if (newsIndex >= 0) _carouselList.RemoveAt(newsIndex);
+                break;
+            case -1:
+                _alert?.ShowError("Failed to delete Carousel article.");
+                break;
+            default:
+                _alert?.ShowError("An error occurred while deleting the Carousel article.");
+                break;
+        }
+    }
+
+    private async Task OnSearchInputChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value?.ToString() ?? string.Empty;
+        PageId = 1;
+        await FetchCarousel();
+    }
+
+    private async Task FetchCarousel()
+    {
+        try
+        {
+            if (AuthenticationState.User?.Id == null)
+            {
+                Console.WriteLine("User not authenticated yet.");
+                return;
+            }
+
+            var result = await Mediator.Send(new GetPagedQuery
+            {
+                PageNumber = PageId,
+                PageSize = ItemsPerPage,
+                SearchTerm = _searchTerm,
+                CreatedFrom = _publishedFrom,
+                CreatedTo = _publishedTo
+            });
+
+            if (result.Items != null)
+            {
+                _carouselList = result.Items;
+                _itemCount = result.TotalCount;
+            }
+            _pagesCount = Convert.ToInt64(Math.Ceiling((double)_itemCount / ItemsPerPage));
+            _pagination?.SetPagesCount(_pagesCount);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error in Fetching Items: " + ex.Message);
+        }
+    }
+
+
+
+
+    private async Task ExportToCsv()
+    {
+        if (!_carouselList.Any())
+        {
+            _alert?.ShowError("No data available to export.");
+            return;
+        }
+
+        const string header = "Title,Description,Image,Created At,Created By,Updated At,Updated By";
+
+        await CsvExporter.ExportListToCSV(_carouselList, "Carousel", header, Func);
+        return;
+
+        string Func(CarouselEntity data) => 
+            $"{data.Description}," +
+            $"{data.Image}," +
+            $"{data.CreatedAt:yyyy-MM-dd HH:mm:ss}," +
+            $"{data.CreatedByName}," +
+            $"{data.UpdatedAt:yyyy-MM-dd HH:mm:ss}," +
+            $"{data.UpdatedByName}";
+    }
+}
