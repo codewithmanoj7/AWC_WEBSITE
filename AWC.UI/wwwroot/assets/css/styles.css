@@ -1,0 +1,475 @@
+/* General Styles */
+body {
+    font-size: 16px; /* Default font size */
+    padding-top: 60px; /* Automatically push content below the topbar */
+}
+
+/* Remove padding on mobile view */
+@media (max-width: 767.98px) {
+    body {
+        padding-top: 0;
+    }
+}
+
+/* Header Section */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: #f8f9fa;
+    padding: 5px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.img-fluid {
+    max-width: 100%;
+    margin-left: 38px;
+    height: auto;
+    margin-right: 36px;
+}
+
+.button-small {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 12px; /* Adjust text size for better fit */
+    margin-right:32px;
+}
+
+
+
+/* Navbar Section */
+.navbar {
+    background-color: #004080;
+    padding: 10px 20px;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: #c0d5e5 !important;
+    }
+
+.auth-buttons {
+    margin-left: auto; /* Push buttons to the right */
+}
+
+    .auth-buttons .btn {
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+.btn-login {
+    background-color: #91b8ce;
+    color: white;
+}
+
+    .btn-login:hover {
+        background-color: #78a5bd;
+    }
+
+.btn-register {
+    background-color: #6194aa;
+    color: white;
+}
+
+    .btn-register:hover {
+        background-color: #4e7e90;
+    }
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+}
+
+.carousel-caption {
+    bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #000;
+    font-weight: bold;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #000;
+}
+
+.carousel-indicators .active {
+    background-color: #fff;
+}
+
+.side-notification {
+    position: fixed;
+    top: 30%;
+    right: 10px;
+    background-color: #ffc107;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+}
+
+/* About Section */
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 8px 20px;
+    font-size: 1rem;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+/* Latest Announcement Section */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #007bff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.badge {
+    font-size: 0.8rem;
+    background-color: #28a745;
+    color: white;
+}
+
+/* Blog Section */
+.blog-section {
+    background-image: url('../img/blog/blog-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 50px 0;
+    color: #000;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* News Updates Section */
+img {
+    border-radius: 8px;
+}
+
+.small {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.update-img {
+    width: 100%; /* Dynamically adjusts to container width */
+    max-width: 252px; /* Ensures it doesn’t exceed 252px */
+    height: auto; /* Maintains the aspect ratio */
+    object-fit: cover; /* Ensures content fits nicely within the size */
+}
+
+
+
+/* Gallery Section */
+.section.gallery {
+    padding: 50px 0;
+    background-color: #EDF5FA; /* Remove white background */
+}
+
+.gallery h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Gallery Item */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-img {
+    width: 85%;
+    object-fit: cover; /* Ensures the image covers its container */
+    border-radius: 10px; /* Optional: add rounded corners */
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.05); /* Add hover zoom effect */
+}
+
+/* Gallery Caption (Button Above Image) */
+.gallery-caption {
+    position: absolute;
+    top: 92%;
+    left: 22%;
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Ensure it appears above the image */
+}
+
+    .gallery-caption .btn {
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+        .gallery-caption .btn:hover {
+            background-color: #0056b3;
+        }
+
+/* Collaborations Section */
+.collaborations-section {
+    padding: 50px 0;
+    height: 300px;
+    background-color: #f9f9f9;
+}
+
+    .collaborations-section h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+/* Collaborations Carousel Container */
+.collaborations-carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+}
+
+.collaborations-carousel {
+    display: flex;
+    overflow: hidden;
+    width: 90%;
+    scroll-behavior: smooth;
+    justify-content: center; /* Center align the carousel */
+}
+
+/* Collaborations Carousel Items */
+.collaborations-carousel-item {
+    flex: 0 0 auto;
+    width: 200px; /* Set consistent logo width */
+    height: 100px; /* Set consistent logo height */
+    display: flex;
+    align-items: center; /* Center align vertically */
+    justify-content: center; /* Center align horizontally */
+    margin: 0 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .collaborations-carousel-item img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+/* Collaborations Carousel Buttons */
+.collaborations-carousel-btn {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+    width: 50px;
+    height: 50px;
+}
+
+.collaborations-prev-btn {
+    left: -30px;
+}
+
+.collaborations-next-btn {
+    right: -30px;
+}
+
+.collaborations-btn-icon {
+    width: 100%;
+    height: auto;
+}
+
+
+.footer-section {
+    background-color: #003b6f; /* Dark Blue */
+    color: white;
+    padding: 40px 0;
+}
+
+    .footer-section h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .footer-section ul {
+        padding: 0;
+        list-style: none;
+    }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+            .footer-section ul li a {
+                color: #cfd9e5;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .footer-section ul li a:hover {
+                    color: #fff;
+                }
+
+.social-icons {
+    margin-top: 10px;
+}
+
+    .social-icons a {
+        color: #cfd9e5;
+        font-size: 1.2rem;
+        margin-right: 8px;
+        transition: color 0.3s;
+    }
+
+        .social-icons a:hover {
+            color: #fff;
+        }
+
+.footer-partner-logo {
+    height: auto;
+    background-color: #fff;
+    padding: 4px;
+    width: 70px;
+    object-fit: contain;
+}
+
+.footer-bottom {
+    border-top: 1px solid #007bff;
+    margin-top: 20px;
+    padding-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .footer-section {
+        padding: 30px 15px;
+    }
+
+        .footer-section h5 {
+            font-size: 1rem;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 6px;
+        }
+
+    .footer-partner-logo {
+        width: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-partner-logo {
+        width: 50px;
+        margin-bottom: 10px;
+    }
+
+    .social-icons a {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-section h5 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .footer-bottom {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar .auth-buttons {
+        position: absolute;
+        right: 15px;
+    }
+
+    .navbar-collapse {
+        margin-left: 15px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar .auth-buttons {
+        order: 2; /* Always display the buttons after the toggle */
+    }
+
+    .navbar-toggler {
+        order: 1; /* Always display the toggle first */
+    }
+}
+
+
+
+
+/* LogIN CSS*/
+
+.log-card {
+    border-radius: 10px;
+    background-color: #D3E6F2;
+}
+
+

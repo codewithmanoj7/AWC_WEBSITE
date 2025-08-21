@@ -1,0 +1,131 @@
+/* Carousel Wrapper */
+.carousel {
+    position: relative;
+}
+
+
+.hero-mini-carousel {
+    position: absolute;
+    bottom: 40px;
+    right: 0px;
+    width: 420px; /* increased from 240px */
+    height: 270px; /* increased from 160px */
+    z-index: 3;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    background: #000; /* fallback background */
+}
+
+    .hero-mini-carousel .carousel-inner {
+        height: 100%;
+    }
+
+    .hero-mini-carousel .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0; /* remove inner rounding if any */
+    }
+
+
+.book-carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    perspective: 1600px;
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+/* Each Slide */
+.book-carousel .carousel-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.9);
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* Active Slide */
+    .book-carousel .carousel-item.active {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+        z-index: 2;
+    }
+
+    /* Slide Image */
+    .book-carousel .carousel-item img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        box-shadow: -20px 0 30px -10px rgba(0,0,0,0.3), 0 0 15px rgba(0,0,0,0.2) inset;
+        transition: box-shadow 0.5s ease;
+        margin:10px;
+    }
+
+/* Make all other slides go behind */
+.book-carousel .carousel-inner .carousel-item:not(.active) {
+    z-index: 1;
+}
+
+/* Controls */
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    color: #fff;
+    text-align: center;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        opacity: 0.9;
+    }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background: no-repeat 50% / 100% 100%;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg fill='%23fff' viewBox='0 0 16 16'%3E%3Cpath d='M11 1L3 8l8 7'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg fill='%23fff' viewBox='0 0 16 16'%3E%3Cpath d='M5 1l8 7-8 7'/%3E%3C/svg%3E");
+}
+
+/* Optional fade for right text */
+.hero-caption h2, .hero-caption p {
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
